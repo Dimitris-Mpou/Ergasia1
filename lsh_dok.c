@@ -5,6 +5,7 @@ int main (int argc, char *argv[]){
 	FILE *fp;
 
 	fp = fopen("/siftsmall/input_small_id","r");
+	i++;
 
 	return 0;
 }
