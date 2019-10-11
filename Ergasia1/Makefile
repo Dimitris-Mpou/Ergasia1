@@ -14,5 +14,6 @@ lsh.o: lsh.c
 input.o: input.c
 	$(CC) $(FLAG) input.c
 
+
 clean:
 	rm -f $(OBJS) $(OUT)
