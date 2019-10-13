@@ -3,10 +3,10 @@ SOURCE = lsh.c
 HEADER = headers.h functions.h
 OUT = lsh
 CC = gcc
-FLAG = -c
+FLAG = -c 
 
 all: $(OBJS)
-	$(CC) $(OBJS) -o $(OUT)
+	$(CC) $(OBJS) -o $(OUT) -lm
 
 lsh.o: lsh.c
 	$(CC) $(FLAG) lsh.c
