@@ -14,7 +14,7 @@ int main (int argc, char *argv[]){
 
 	k=4;
 	L=5;
-	w=4*880;															// Na kanoume dokimes!!!!
+	w=4*880;														// Na kanoume dokimes!!!!
 //	printf("Give the path to the data set:\n");
 //	scanf("%s", path);
 	strcpy(path, "siftsmall/input_small_id");
@@ -37,7 +37,7 @@ int main (int argc, char *argv[]){
 	}
 	for(i=0; i<L; i++){
 		for(j=0; j<k; j++){
-			h[i][j].s=malloc(coords&sizeof(int));
+			h[i][j].s=malloc(coords*sizeof(int));
 		}
 	}
 	srand(time(0));													// Dinw tuxaies times sta s sto diastima [0,w)

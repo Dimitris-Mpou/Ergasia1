@@ -12,7 +12,7 @@ float average_dist(int vec_sum, int coords, struct vec **vectors){
 			for(j=0; j<coords; j++){
 				dist+=abs((*vectors)[z].coord[j]-(*vectors)[i].coord[j]);
 			}
-			if(min>dist && dist!=0){min=dist;}
+			if(min>dist && z!=i){min=dist;}
 			dist=0;
 		}
 		aver+=min;
