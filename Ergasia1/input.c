@@ -55,7 +55,7 @@ void save_input(char path[256], struct vec **vectors){
 			}
 		}else{
 			num[z++]=ch;
-			num[z]='\n';
+			num[z]='\0';
 		}	
 	}
 }
