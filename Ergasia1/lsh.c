@@ -26,7 +26,7 @@ int main (int argc, char *argv[]){
 			printf("%d ", vectors[i].coord[j]);
 		}
 		printf("\n\n");
-	}	Dokimiii
+	}
 */
 
 	return 0;
