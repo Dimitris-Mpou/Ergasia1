@@ -14,7 +14,7 @@ int main (int argc, char *argv[]){
 
 	k=4;
 	L=5;
-	w=4;															// Na kanoume dokimes!!!!
+	w=4*880;															// Na kanoume dokimes!!!!
 //	printf("Give the path to the data set:\n");
 //	scanf("%s", path);
 	strcpy(path, "siftsmall/input_small_id");
@@ -26,6 +26,10 @@ int main (int argc, char *argv[]){
 		vectors[i].coord=malloc(coords*sizeof(int));
 	}
 	save_input(path, &vectors);
+	
+
+	printf("%f\n", average_dist(vec_sum, coords, &vectors));		// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero geitona
+	
 
 	h=malloc(L*sizeof(struct h_func *));							// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
 	for(i=0; i<L; i++){
@@ -45,7 +49,15 @@ int main (int argc, char *argv[]){
 		}
 	}
 	a=malloc(coords*sizeof(int));
-	
+	/* Gia tin dimiourgia tou 1ou hashtable : */
+
+	for(i=0; i<1; i++){
+		for(j=0; j<coords; j++){
+			a[j]=(vectors[i].coord[j] - h[0][0].s[j]) / w;
+			printf("%d ", a[j]);
+		}
+		printf("\n");
+	}
 
 
 

@@ -1,4 +1,4 @@
-OBJS = lsh.o input.o
+OBJS = lsh.o input.o average.o
 SOURCE = lsh.c
 HEADER = headers.h functions.h
 OUT = lsh
