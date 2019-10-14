@@ -4,5 +4,6 @@ struct vec{
 };
 
 struct h_func{
+	int h_sum;
 	int *s;
 };

@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 #include "headers.h"
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, L, w, flag, vec_sum, coords, *a;
+	int i, j, z, k, L, w, flag, vec_sum, coords, *a, m, M;
 	char ch, *num, path[256];
+	float f;
 	struct vec *vectors;
 	struct h_func **h; 
 	FILE *fp;
@@ -15,8 +17,8 @@ int main (int argc, char *argv[]){
 	k=4;
 	L=5;
 	w=4*880;														// Na kanoume dokimes!!!!
-//	printf("Give the path to the data set:\n");
-//	scanf("%s", path);
+	//printf("Give the path to the data set:\n");
+	//scanf("%s", path);
 	strcpy(path, "siftsmall/input_small_id");
 
 	count_input(path, &vec_sum, &coords);
@@ -50,15 +52,24 @@ int main (int argc, char *argv[]){
 	}
 	a=malloc(coords*sizeof(int));
 	/* Gia tin dimiourgia tou 1ou hashtable : */
-
-	for(i=0; i<1; i++){
-		for(j=0; j<coords; j++){
-			a[j]=(vectors[i].coord[j] - h[0][0].s[j]) / w;
-			printf("%d ", a[j]);
+	
+	m = 4;
+	M = 128;
+	for(z=0; z<L; z++){
+		for(i=0; i<k; i++){								
+			h[z][i].h_sum = 0;
+			for(j=0; j<coords; j++){
+				f = (float) (vectors[i].coord[j] - h[0][0].s[j]) / w;			//Briskw kathe a[i]
+				a[j]=floor(f) + 2;									//Efarmozw to floor kai ta kanw thetika
+				h[z][i].h_sum = (a[j]*m) % M;						//Kanw mod se kathe paragonta kai athroizw  !! m^.. !!
+			}
+			h[z][i].h_sum = h[z][i].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
+			printf("%d\t", h[z][i].h_sum);
+			
 		}
 		printf("\n");
 	}
-
+	
 
 
 /*	for(i=0; i<vec_sum; i++){										// Emfanizw olo to arxeio
