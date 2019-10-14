@@ -7,7 +7,7 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, L, w, flag, vec_sum, coords, *a, m, M;
+	int i, j, z, k, L, w, flag, vec_sum, coords, *a, m, M, g;
 	char ch, *num, path[256];
 	float f;
 	struct vec *vectors;
@@ -30,10 +30,10 @@ int main (int argc, char *argv[]){
 	save_input(path, &vectors);
 	
 
-	printf("%f\n", average_dist(vec_sum, coords, &vectors));		// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero geitona
+	printf("%f\n", average_dist(vec_sum, coords, &vectors));		// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero 												geitona
 	
 
-	h=malloc(L*sizeof(struct h_func *));							// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
+	h=malloc(L*sizeof(struct h_func *));							// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s 														apothikeumena gia to query
 	for(i=0; i<L; i++){
 		h[i]=malloc(k*sizeof(struct h_func));
 	}
@@ -59,17 +59,19 @@ int main (int argc, char *argv[]){
 		for(i=0; i<k; i++){								
 			h[z][i].h_sum = 0;
 			for(j=0; j<coords; j++){
-				f = (float) (vectors[i].coord[j] - h[0][0].s[j]) / w;			//Briskw kathe a[i]
-				a[j]=floor(f) + 2;									//Efarmozw to floor kai ta kanw thetika
-				h[z][i].h_sum = (a[j]*m) % M;						//Kanw mod se kathe paragonta kai athroizw  !! m^.. !!
+				f = (float) (vectors[i].coord[j] - h[z][i].s[j]) / w;			//Briskw kathe a[i]
+				a[j]=floor(f) + 2;							//Efarmozw to floor kai ta kanw thetika
+				g = modulo_calc(m, (coords-1) - j, M);
+				//printf("%d ", g);
+				h[z][i].h_sum += a[j] * g;						//Kanw mod se kathe paragonta kai athroizw  !! m^.. !!
 			}
 			h[z][i].h_sum = h[z][i].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
-			printf("%d\t", h[z][i].h_sum);
+			//printf("%d\t", h[z][i].h_sum);
+			printf("\n");
 			
 		}
 		printf("\n");
 	}
-	
 
 
 /*	for(i=0; i<vec_sum; i++){										// Emfanizw olo to arxeio
