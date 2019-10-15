@@ -53,11 +53,6 @@ int main (int argc, char *argv[]){
 	}
 	a=malloc(coords*sizeof(int));
 
-/*	g=malloc((vec_sum/8)*sizeof(struct vec *));
-	for(i=0; i<vec_sum/8; i++){
-		g[i]=NULL;
-	}
-*/
 	/* Gia tin dimiourgia twn hashtables : */
 	
 	TableSize=vec_sum/8;
@@ -73,7 +68,6 @@ int main (int argc, char *argv[]){
 	
 	m = 5;
 	M = 128;
-
 	m_power=malloc(coords*sizeof(int));
 	for(j=0; j<coords; j++){
 		m_power[j] = modulo_calc(m, (coords-1) - j, M);			// Ypologizw kai apothikeuw ola ta m^(coords-1)-j % M giati einai 128 ki epanaxrisopoiountai polles fores
@@ -115,17 +109,35 @@ int main (int argc, char *argv[]){
 			}
 		}
 	}
-
 	//printf("\n");
 
-/*
-	for(i=0; i<vec_sum; i++){
-		printf("%d.\t", i);										// Emfanizw olo to arxeio
+	printf("TableSize = %d\nt = ", TableSize);
+	z=0;
+	for(i=0; i<L; i++){
+		for(j=0; j<TableSize; j++){
+			cur=HashTables[i][j];
+			if(cur!=NULL){
+				t=1;
+				while(cur->next!=NULL){
+					cur=cur->next;
+					t++;
+				}
+				printf("%d ", t);
+			}else{
+				z++;
+			}
+		}
+	}
+	printf("\nz = %d\n", z);
+
+
+/*	for(i=0; i<vec_sum; i++){
+		printf("%d.\t", i+1);										// Emfanizw olo to arxeio
 		for(j=0; j<coords; j++){
 			printf("%d ", vectors[i].coord[j]);
 		}
 		printf("\n\n");
-	}
-*/
+	}*/
+
 	return 0;
 }
