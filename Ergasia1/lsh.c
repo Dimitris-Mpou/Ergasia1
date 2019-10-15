@@ -7,7 +7,7 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, g, final, TableSize;
+	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, g, final, TableSize, sum;
 	char ch, *num, path[256];
 	float f;
 	struct vec *vectors;
@@ -66,12 +66,15 @@ int main (int argc, char *argv[]){
 		}
 	}
 	
-	m = 5;
+/*	m = 5;
 	M = 128;
 	m_power=malloc(coords*sizeof(int));
 	for(j=0; j<coords; j++){
 		m_power[j] = modulo_calc(m, (coords-1) - j, M);			// Ypologizw kai apothikeuw ola ta m^(coords-1)-j % M giati einai 128 ki 													epanaxrisopoiountai polles fores
 	}
+*/
+	m_power=malloc(coords*sizeof(int));
+	m_power = factors(5, 128, coords);
 
 	for(i=0; i<vec_sum; i++){
 		for(z=0; z<L; z++){
@@ -83,18 +86,17 @@ int main (int argc, char *argv[]){
 
 						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta 														kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
 
-						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta kai athroizw, (a*b) mod 																m = [(a mod m)*(b mod m)] mod m
-
 					}
 				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
 			}
-			g=0;
-			g+=h[z][0].h_sum<<24;
+/*			g=0;
+			g+=h[z][0].h_sum<<24;								//Na to ftiaksoume
 			g+=h[z][1].h_sum<<16;
 			g+=h[z][2].h_sum<<8;
 			g+=h[z][3].h_sum;
+*/			
+			g = concut(h[z], k);		
 			final = g % (TableSize);
-			//printf("%d ", final);
 			cur=HashTables[z][final];
 			if(cur==NULL){
 				HashTables[z][final]=malloc(sizeof(struct list_node));
@@ -112,10 +114,10 @@ int main (int argc, char *argv[]){
 			}
 		}
 	}
-	//printf("\n");
 
 	printf("TableSize = %d\nt = ", TableSize);
 	z=0;
+	sum=0;
 	for(i=0; i<L; i++){
 		for(j=0; j<TableSize; j++){
 			cur=HashTables[i][j];
@@ -126,12 +128,17 @@ int main (int argc, char *argv[]){
 					t++;
 				}
 				printf("%d ", t);
+				sum+=t;
 			}else{
 				z++;
 			}
 		}
+		printf("\nsum = %d\nt =", sum);
+		sum=0;
 	}
 	printf("\nz = %d\n", z);
+	
+
 
 /*	for(i=0; i<vec_sum; i++){
 		printf("%d.\t", i+1);										// Emfanizw olo to arxeio
