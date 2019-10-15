@@ -7,11 +7,12 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, g, final;
+	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, g, final, TableSize;
 	char ch, *num, path[256];
 	float f;
 	struct vec *vectors;//, **g;
 	struct h_func **h; 
+	struct list_node ***HashTables, *cur;
 	FILE *fp;
 
 	k=4;
@@ -59,6 +60,17 @@ int main (int argc, char *argv[]){
 */
 	/* Gia tin dimiourgia twn hashtables : */
 	
+	TableSize=vec_sum/8;
+	HashTables=malloc(L*sizeof(struct list_node **));
+	for(i=0; i<L; i++){
+		HashTables[i]=malloc(TableSize*sizeof(struct list_node *));
+	}
+	for(i=0; i<L; i++){
+		for(j=0; j<TableSize; j++){
+			HashTables[i][j]=NULL;
+		}
+	}
+	
 	m = 5;
 	M = 128;
 
@@ -67,8 +79,8 @@ int main (int argc, char *argv[]){
 		m_power[j] = modulo_calc(m, (coords-1) - j, M);			// Ypologizw kai apothikeuw ola ta m^(coords-1)-j % M giati einai 128 ki epanaxrisopoiountai polles fores
 	}
 
-	for(i=0; i<5; i++){  // swsto->//for(i=0; i<vec_sum; i++){
-		for(z=0; z<1; z++){
+	for(i=0; i<vec_sum; i++){
+		for(z=0; z<L; z++){
 			for(t=0; t<k; t++){								
 				h[z][t].h_sum = 0;
 					for(j=0; j<coords; j++){
@@ -84,13 +96,27 @@ int main (int argc, char *argv[]){
 			g+=h[z][1].h_sum<<16;
 			g+=h[z][2].h_sum<<8;
 			g+=h[z][3].h_sum;
-			final = g % (vec_sum/8);
-			printf("%d ", final);
-//			g[final] = &(vectors[i]);
+			final = g % (TableSize);
+			//printf("%d ", final);
+			cur=HashTables[z][final];
+			if(cur==NULL){
+				cur=malloc(sizeof(struct list_node));
+				cur->next=NULL;
+				cur->g=g;
+				cur->vec_pos=i;
+			}else{
+				while(cur->next!=NULL){
+					cur= cur->next;
+				}
+				cur->next= malloc(sizeof(struct list_node));
+				cur->next->g=g;
+				cur->next->next=NULL;
+				cur->next->vec_pos=i;
+			}
 		}
 	}
 
-	printf("\n");
+	//printf("\n");
 
 /*
 	for(i=0; i<vec_sum; i++){
