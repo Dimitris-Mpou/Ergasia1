@@ -7,10 +7,10 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, g, final, TableSize;
+	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, g, final, TableSize, sum;
 	char ch, *num, path[256];
 	float f;
-	struct vec *vectors;//, **g;
+	struct vec *vectors;
 	struct h_func **h; 
 	struct list_node ***HashTables, *cur;
 	FILE *fp;
@@ -91,13 +91,13 @@ int main (int argc, char *argv[]){
 			g+=h[z][2].h_sum<<8;
 			g+=h[z][3].h_sum;
 			final = g % (TableSize);
-			//printf("%d ", final);
+//			printf("%d ", final);
 			cur=HashTables[z][final];
 			if(cur==NULL){
-				cur=malloc(sizeof(struct list_node));
-				cur->next=NULL;
-				cur->g=g;
-				cur->vec_pos=i;
+				HashTables[z][final]=malloc(sizeof(struct list_node));
+				HashTables[z][final]->next=NULL;
+				HashTables[z][final]->g=g;
+				HashTables[z][final]->vec_pos=i;
 			}else{
 				while(cur->next!=NULL){
 					cur= cur->next;
@@ -109,10 +109,11 @@ int main (int argc, char *argv[]){
 			}
 		}
 	}
-	//printf("\n");
+//	printf("\n");
 
 	printf("TableSize = %d\nt = ", TableSize);
 	z=0;
+	sum=0;
 	for(i=0; i<L; i++){
 		for(j=0; j<TableSize; j++){
 			cur=HashTables[i][j];
@@ -123,12 +124,17 @@ int main (int argc, char *argv[]){
 					t++;
 				}
 				printf("%d ", t);
+				sum+=t;
 			}else{
 				z++;
 			}
 		}
+		printf("\nsum = %d\nt =", sum);
+		sum=0;
 	}
 	printf("\nz = %d\n", z);
+	
+
 
 
 /*	for(i=0; i<vec_sum; i++){
