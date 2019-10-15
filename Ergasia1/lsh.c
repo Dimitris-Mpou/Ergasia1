@@ -66,7 +66,7 @@ int main (int argc, char *argv[]){
 				h[z][i].h_sum += a[j] * g;						//Kanw mod se kathe paragonta kai athroizw  !! m^.. !!
 			}
 			h[z][i].h_sum = h[z][i].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
-			//printf("%d\t", h[z][i].h_sum);
+			printf("%d\t", h[z][i].h_sum);
 			printf("\n");
 			
 		}
