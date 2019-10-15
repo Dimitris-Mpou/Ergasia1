@@ -82,8 +82,7 @@ int main (int argc, char *argv[]){
 						a[j]=floor(f) + 2;							//Efarmozw to floor kai ta kanw thetika
 						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
 					}
-				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
-				//printf("%d\t", h[z][t].h_sum);			
+				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma		
 			}
 			g=0;
 			g+=h[z][0].h_sum<<24;
@@ -91,7 +90,6 @@ int main (int argc, char *argv[]){
 			g+=h[z][2].h_sum<<8;
 			g+=h[z][3].h_sum;
 			final = g % (TableSize);
-//			printf("%d ", final);
 			cur=HashTables[z][final];
 			if(cur==NULL){
 				HashTables[z][final]=malloc(sizeof(struct list_node));
@@ -109,7 +107,6 @@ int main (int argc, char *argv[]){
 			}
 		}
 	}
-//	printf("\n");
 
 	printf("TableSize = %d\nt = ", TableSize);
 	z=0;
