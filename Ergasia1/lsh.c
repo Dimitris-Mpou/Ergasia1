@@ -53,11 +53,6 @@ int main (int argc, char *argv[]){
 	}
 	a=malloc(coords*sizeof(int));
 
-	g=malloc((vec_sum/8)*sizeof(struct vec*));
-	for(i=0; i<vec_sum/8; i++){
-		g[i] = NULL;
-	}
-
 	/* Gia tin dimiourgia twn hashtables : */
 	
 	TableSize=vec_sum/8;
@@ -75,7 +70,7 @@ int main (int argc, char *argv[]){
 	M = 128;
 	m_power=malloc(coords*sizeof(int));
 	for(j=0; j<coords; j++){
-		m_power[j] = modulo_calc(m, (coords-1) - j, M);			// Ypologizw kai apothikeuw ola ta m^(coords-1)-j % M giati einai 128 ki epanaxrisopoiountai polles fores
+		m_power[j] = modulo_calc(m, (coords-1) - j, M);			// Ypologizw kai apothikeuw ola ta m^(coords-1)-j % M giati einai 128 ki 													epanaxrisopoiountai polles fores
 	}
 
 	for(i=0; i<vec_sum; i++){
@@ -88,11 +83,10 @@ int main (int argc, char *argv[]){
 
 						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta 														kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
 
-						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
+						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta kai athroizw, (a*b) mod 																m = [(a mod m)*(b mod m)] mod m
 
 					}
 				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
-				//printf("%d\t", h[z][t].h_sum);			
 			}
 			g=0;
 			g+=h[z][0].h_sum<<24;
@@ -103,10 +97,10 @@ int main (int argc, char *argv[]){
 			//printf("%d ", final);
 			cur=HashTables[z][final];
 			if(cur==NULL){
-				cur=malloc(sizeof(struct list_node));
-				cur->next=NULL;
-				cur->g=g;
-				cur->vec_pos=i;
+				HashTables[z][final]=malloc(sizeof(struct list_node));
+				HashTables[z][final]->next=NULL;
+				HashTables[z][final]->g=g;
+				HashTables[z][final]->vec_pos=i;
 			}else{
 				while(cur->next!=NULL){
 					cur= cur->next;
@@ -116,19 +110,6 @@ int main (int argc, char *argv[]){
 				cur->next->next=NULL;
 				cur->next->vec_pos=i;
 			}
-			final=0;
-			final+=h[z][0].h_sum<<24;
-			final+=h[z][1].h_sum<<16;
-			final+=h[z][2].h_sum<<8;
-			final+=h[z][3].h_sum;
-			final = final % (vec_sum/8);
-			
-			printf("%d\n", final);
-			for(j=0; j<coords; j++){
-				printf("%d ", vectors[i].coord[j]);
-			}
-			g[final] = &vectors[i];
-			printf("\n");
 		}
 	}
 	//printf("\n");
@@ -152,10 +133,6 @@ int main (int argc, char *argv[]){
 	}
 	printf("\nz = %d\n", z);
 
-	for(j=0; j<coords; j++){
-		printf("%d ", g[final]->coord[j]);
-	}
-
 /*	for(i=0; i<vec_sum; i++){
 		printf("%d.\t", i+1);										// Emfanizw olo to arxeio
 		for(j=0; j<coords; j++){
@@ -164,7 +141,7 @@ int main (int argc, char *argv[]){
 		printf("\n\n");
 	}
 */
-	printf("fg\n");
+/*	printf("fg\n");
 	for(i=0; i<vec_sum/8; i++){
 		printf("%d.\t", i);
 		for(j=0; j<coords; j++){
