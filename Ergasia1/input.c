@@ -58,4 +58,5 @@ void save_input(char path[256], struct vec **vectors){
 			num[z]='\0';
 		}	
 	}
+	fclose(fp);
 }

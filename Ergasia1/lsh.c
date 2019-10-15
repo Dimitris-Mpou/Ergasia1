@@ -7,10 +7,10 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, final;
+	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, g, final;
 	char ch, *num, path[256];
 	float f;
-	struct vec *vectors, *g;
+	struct vec *vectors;//, **g;
 	struct h_func **h; 
 	FILE *fp;
 
@@ -30,7 +30,7 @@ int main (int argc, char *argv[]){
 	save_input(path, &vectors);
 	
 
-	printf("%f\n", average_dist(vec_sum, coords, &vectors));		// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero 												geitona
+	printf("%f\n", average_dist(vec_sum, coords, &vectors));		// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero geitona
 	
 
 	h=malloc(L*sizeof(struct h_func *));							// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
@@ -52,7 +52,11 @@ int main (int argc, char *argv[]){
 	}
 	a=malloc(coords*sizeof(int));
 
-	g=malloc((vec_sum/8)*sizeof(struct vec));
+/*	g=malloc((vec_sum/8)*sizeof(struct vec *));
+	for(i=0; i<vec_sum/8; i++){
+		g[i]=NULL;
+	}
+*/
 	/* Gia tin dimiourgia twn hashtables : */
 	
 	m = 5;
@@ -63,36 +67,33 @@ int main (int argc, char *argv[]){
 		m_power[j] = modulo_calc(m, (coords-1) - j, M);			// Ypologizw kai apothikeuw ola ta m^(coords-1)-j % M giati einai 128 ki epanaxrisopoiountai polles fores
 	}
 
-	for(i=0; i<1; i++){  // swsto->//for(i=0; i<vec_sum; i++){
+	for(i=0; i<5; i++){  // swsto->//for(i=0; i<vec_sum; i++){
 		for(z=0; z<1; z++){
 			for(t=0; t<k; t++){								
 				h[z][t].h_sum = 0;
 					for(j=0; j<coords; j++){
 						f = (float) (vectors[i].coord[j] - h[z][t].s[j]) / w;			//Briskw kathe a[j], lathos!!!
 						a[j]=floor(f) + 2;							//Efarmozw to floor kai ta kanw thetika
-						//printf("%d ", a[j]);
-						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta 														kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
+						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
 					}
 				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
-				printf("%d\t", h[z][t].h_sum);			
+				//printf("%d\t", h[z][t].h_sum);			
 			}
-			final=0;
-			final+=h[z][0].h_sum<<24;
-			final+=h[z][1].h_sum<<16;
-			final+=h[z][2].h_sum<<8;
-			final+=h[z][3].h_sum;
-			final = final % (vec_sum/8);
-			printf("%d\n", final);
-/*			for(j=0; j<coords; j++){
-				printf("%d ", vectors[1].coord[j]);
-			}
-			g[final] = vectors[i];
-*/			//printf("\n");
+			g=0;
+			g+=h[z][0].h_sum<<24;
+			g+=h[z][1].h_sum<<16;
+			g+=h[z][2].h_sum<<8;
+			g+=h[z][3].h_sum;
+			final = g % (vec_sum/8);
+			printf("%d ", final);
+//			g[final] = &(vectors[i]);
 		}
 	}
 
+	printf("\n");
 
-/*	for(i=0; i<vec_sum; i++){
+/*
+	for(i=0; i<vec_sum; i++){
 		printf("%d.\t", i);										// Emfanizw olo to arxeio
 		for(j=0; j<coords; j++){
 			printf("%d ", vectors[i].coord[j]);
@@ -100,13 +101,5 @@ int main (int argc, char *argv[]){
 		printf("\n\n");
 	}
 */
-	printf("fg");
-	for(i=0; i<vec_sum/8; i++){
-		printf("%d.\t", i);
-		for(j=0; j<coords; j++){
-			printf("%d ", g[i].coord[j]);
-		}
-		printf("\n");
-	}
 	return 0;
 }
