@@ -10,7 +10,7 @@ int main (int argc, char *argv[]){
 	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, final;
 	char ch, *num, path[256];
 	float f;
-	struct vec *vectors, *g;
+	struct vec *vectors, **g;
 	struct h_func **h; 
 	FILE *fp;
 
@@ -52,7 +52,10 @@ int main (int argc, char *argv[]){
 	}
 	a=malloc(coords*sizeof(int));
 
-	g=malloc((vec_sum/8)*sizeof(struct vec));
+	g=malloc((vec_sum/8)*sizeof(struct vec*));
+	for(i=0; i<vec_sum/8; i++){
+		g[i] = NULL;
+	}
 	/* Gia tin dimiourgia twn hashtables : */
 	
 	m = 5;
@@ -70,7 +73,6 @@ int main (int argc, char *argv[]){
 					for(j=0; j<coords; j++){
 						f = (float) (vectors[i].coord[j] - h[z][t].s[j]) / w;			//Briskw kathe a[j], lathos!!!
 						a[j]=floor(f) + 2;							//Efarmozw to floor kai ta kanw thetika
-						//printf("%d ", a[j]);
 						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta 														kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
 					}
 				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
@@ -82,15 +84,19 @@ int main (int argc, char *argv[]){
 			final+=h[z][2].h_sum<<8;
 			final+=h[z][3].h_sum;
 			final = final % (vec_sum/8);
+			
 			printf("%d\n", final);
-/*			for(j=0; j<coords; j++){
-				printf("%d ", vectors[1].coord[j]);
+			for(j=0; j<coords; j++){
+				printf("%d ", vectors[i].coord[j]);
 			}
-			g[final] = vectors[i];
-*/			//printf("\n");
+			g[final] = &vectors[i];
+			printf("\n");
 		}
 	}
 
+	for(j=0; j<coords; j++){
+		printf("%d ", g[final]->coord[j]);
+	}
 
 /*	for(i=0; i<vec_sum; i++){
 		printf("%d.\t", i);										// Emfanizw olo to arxeio
@@ -100,11 +106,11 @@ int main (int argc, char *argv[]){
 		printf("\n\n");
 	}
 */
-	printf("fg");
+	printf("fg\n");
 	for(i=0; i<vec_sum/8; i++){
 		printf("%d.\t", i);
 		for(j=0; j<coords; j++){
-			printf("%d ", g[i].coord[j]);
+			printf("%d ", g[i]->coord[j]);
 		}
 		printf("\n");
 	}
