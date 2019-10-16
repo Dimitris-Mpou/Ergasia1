@@ -1,7 +1,6 @@
-#include <stdlib.h>
+
 #include "headers.h"
 #include "functions.h"
-
 
 
 void factors(int m, int M, int coords, int *m_factors){

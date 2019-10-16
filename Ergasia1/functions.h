@@ -4,3 +4,4 @@ float average_dist(int, int, struct vec **);
 int modulo_calc(int, int, int);
 void factors(int, int, int, int *);
 unsigned int concut(struct h_func *, int);
+void hash(struct list_node **, int, int, int);

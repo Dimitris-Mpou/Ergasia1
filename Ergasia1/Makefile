@@ -1,4 +1,4 @@
-OBJS = lsh.o input.o average.o modulo_calc.o concut.o factors.o
+OBJS = lsh.o input.o average.o modulo_calc.o concut.o factors.o hash.o
 SOURCE = lsh.c
 HEADER = headers.h functions.h
 OUT = lsh
@@ -25,6 +25,9 @@ concut.o: concut.c
 
 factors.o: factors.c
 	$(CC) $(FLAG) factors.c
+
+hash.o: hash.c
+	$(CC) $(FLAG) hash.c
 
 clean:
 	rm -f $(OBJS) $(OUT)

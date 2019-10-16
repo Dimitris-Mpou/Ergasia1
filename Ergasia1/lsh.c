@@ -30,9 +30,8 @@ int main (int argc, char *argv[]){
 		vectors[i].coord=malloc(coords*sizeof(int));
 	}
 	save_input(path, &vectors);
-	
+
 	printf("%f\n", average_dist(vec_sum, coords, &vectors));		// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero geitona
-	
 	h=malloc(L*sizeof(struct h_func *));				// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
 	for(i=0; i<L; i++){
 		h[i]=malloc(k*sizeof(struct h_func));
@@ -67,9 +66,10 @@ int main (int argc, char *argv[]){
 	
 	m = 5;
 	M = pow(2, 32/k);
-	m_factors = malloc(coords*sizeof(int));
-	factors(m, M, coords, m_factors);
 
+	m_factors=malloc(coords*sizeof(int));
+	factors(m, M, coords, m_factors);
+	
 	for(i=0; i<vec_sum; i++){
 		for(z=0; z<L; z++){
 			for(t=0; t<k; t++){								
@@ -77,35 +77,20 @@ int main (int argc, char *argv[]){
 					for(j=0; j<coords; j++){
 						f = (float) (vectors[i].coord[j] - h[z][t].s[j]) / w;			//Briskw kathe a[j], lathos!!!
 						a[j]=floor(f) + 2;							//Efarmozw to floor kai ta kanw thetika
-
 						h[z][t].h_sum += (a[j] % M * m_factors[j]) % M;			//Kanw mod se kathe paragonta kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
-
 					}
 				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
-			}		
-			g = concut(h[z], k);		
-			final = g % (TableSize);
-			cur=HashTables[z][final];
-			if(cur==NULL){
-				HashTables[z][final]=malloc(sizeof(struct list_node));
-				HashTables[z][final]->next=NULL;
-				HashTables[z][final]->g=g;
-				HashTables[z][final]->vec_pos=i;
-			}else{
-				while(cur->next!=NULL){
-					cur= cur->next;
-				}
-				cur->next= malloc(sizeof(struct list_node));
-				cur->next->g=g;
-				cur->next->next=NULL;
-				cur->next->vec_pos=i;
 			}
+			g = concut(h[z], k);
+			final = g % (TableSize);
+			hash(HashTables[z], final, g, i);
 		}
 	}
 
 	printf("TableSize = %d\nt = ", TableSize);
 	z=0;
 	sum=0;
+	final=-1;
 	for(i=0; i<L; i++){
 		for(j=0; j<TableSize; j++){
 			cur=HashTables[i][j];
@@ -136,6 +121,5 @@ int main (int argc, char *argv[]){
 		printf("\n\n");
 	}
 */
-
 	return 0;
 }
