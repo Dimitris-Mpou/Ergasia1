@@ -7,7 +7,8 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_power, g, final, TableSize, sum;
+	int i, j, z, k, t, L, w, flag, vec_sum, coords, *a, m, M, *m_factors, final, TableSize, sum;
+	unsigned int g;
 	char ch, *num, path[256];
 	float f;
 	struct vec *vectors;
@@ -31,7 +32,7 @@ int main (int argc, char *argv[]){
 	save_input(path, &vectors);
 	
 
-	printf("%f\n", average_dist(vec_sum, coords, &vectors));		// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero geitona
+	printf("%f\n", average_dist(vec_sum, coords, &vectors));	// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero geitona
 	
 
 	h=malloc(L*sizeof(struct h_func *));				// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
@@ -66,16 +67,12 @@ int main (int argc, char *argv[]){
 		}
 	}
 	
-/*	m = 5;
-	M = 128;
-	m_power=malloc(coords*sizeof(int));
-	for(j=0; j<coords; j++){
-		m_power[j] = modulo_calc(m, (coords-1) - j, M);			// Ypologizw kai apothikeuw ola ta m^(coords-1)-j % M giati einai 128 ki 													epanaxrisopoiountai polles fores
-	}
-*/
-	m_power=malloc(coords*sizeof(int));
-	m_power = factors(5, 128, coords);
+	m = 5;
+	M = pow(2, 32/k);
 
+	m_factors=malloc(coords*sizeof(int));
+	factors(m, M, coords, m_factors);
+	
 	for(i=0; i<vec_sum; i++){
 		for(z=0; z<L; z++){
 			for(t=0; t<k; t++){								
@@ -84,20 +81,14 @@ int main (int argc, char *argv[]){
 						f = (float) (vectors[i].coord[j] - h[z][t].s[j]) / w;			//Briskw kathe a[j], lathos!!!
 						a[j]=floor(f) + 2;							//Efarmozw to floor kai ta kanw thetika
 
-						h[z][t].h_sum += (a[j] % M * m_power[j]) % M;			//Kanw mod se kathe paragonta 														kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
-
+						h[z][t].h_sum += (a[j] % M * m_factors[j]) % M;			//Kanw mod se kathe paragonta 														kai athroizw, (a*b) mod m = [(a mod m)*(b mod m)] mod m
 					}
 				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma
 			}
-/*			g=0;
-			g+=h[z][0].h_sum<<24;								//Na to ftiaksoume
-			g+=h[z][1].h_sum<<16;
-			g+=h[z][2].h_sum<<8;
-			g+=h[z][3].h_sum;
-*/			
+			
 			g = concut(h[z], k);		
 			final = g % (TableSize);
-			cur=HashTables[z][final];
+/*			cur=HashTables[z][final];
 			if(cur==NULL){
 				HashTables[z][final]=malloc(sizeof(struct list_node));
 				HashTables[z][final]->next=NULL;
@@ -105,13 +96,15 @@ int main (int argc, char *argv[]){
 				HashTables[z][final]->vec_pos=i;
 			}else{
 				while(cur->next!=NULL){
-					cur= cur->next;
+					cur = cur->next;
 				}
 				cur->next= malloc(sizeof(struct list_node));
 				cur->next->g=g;
 				cur->next->next=NULL;
 				cur->next->vec_pos=i;
 			}
+*/			
+			hash(cur, HashTables[z][final], g, i);
 		}
 	}
 
@@ -148,14 +141,5 @@ int main (int argc, char *argv[]){
 		printf("\n\n");
 	}
 */
-/*	printf("fg\n");
-	for(i=0; i<vec_sum/8; i++){
-		printf("%d.\t", i);
-		for(j=0; j<coords; j++){
-			printf("%d ", g[i]->coord[j]);
-		}
-		printf("\n");
-	}*/
-
 	return 0;
 }

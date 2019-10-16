@@ -1,10 +1,12 @@
 #include <stdlib.h>
+#include "headers.h"
 
-int concut(struct h_func *z, int k){
-	int i, g=0;
+unsigned int concut(struct h_func *z, int k){
+	int i;
+	unsigned int g=0;
 	for(i=0; i<k; i++){
-		g+= z->h[k].h_sum << (32 - 8*(i+1));								
-	} 
+		g+= z[i].h_sum << (32 - (32/k)*(i+1));					
+	}
 	
 	return g;
 }
