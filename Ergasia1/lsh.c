@@ -84,7 +84,7 @@ int main (int argc, char *argv[]){
 					}
 				h[z][t].h_sum = h[z][t].h_sum % M;						//Kanw mod kai so oloklhro to athroisma		
 			}
-			g=0;
+			g=0;														// !!!! Prepei na paixoume me to k !!!!!
 			g+=h[z][0].h_sum<<24;
 			g+=h[z][1].h_sum<<16;
 			g+=h[z][2].h_sum<<8;
