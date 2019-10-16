@@ -34,7 +34,7 @@ int main (int argc, char *argv[]){
 	printf("%f\n", average_dist(vec_sum, coords, &vectors));		// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero geitona
 	
 
-	h=malloc(L*sizeof(struct h_func *));							// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
+	h=malloc(L*sizeof(struct h_func *));				// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
 	for(i=0; i<L; i++){
 		h[i]=malloc(k*sizeof(struct h_func));
 	}
@@ -43,7 +43,7 @@ int main (int argc, char *argv[]){
 			h[i][j].s=malloc(coords*sizeof(int));
 		}
 	}
-	srand(time(0));													// Dinw tuxaies times sta s sto diastima [0,w)
+	srand(time(0));							// Dinw tuxaies times sta s sto diastima [0,w)
 	for(i=0; i<L; i++){
 		for(j=0; j<k; j++){
 			for(z=0; z<coords; z++){
