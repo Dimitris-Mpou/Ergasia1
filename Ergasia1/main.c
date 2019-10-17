@@ -73,43 +73,13 @@ int main (int argc, char *argv[]){
 	factors(m, M, coords, m_factors);
 
 	lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);
-
-/*	printf("TableSize = %d\nt = ", TableSize);
-	z=0;
 	sum=0;
-	for(i=0; i<L; i++){
-		for(j=0; j<TableSize; j++){
-			cur=HashTables[i][j];
-			if(cur!=NULL){
-				t=1;
-				while(cur->next!=NULL){
-					cur=cur->next;
-					t++;
-				}
-				printf("%d ", t);
-				sum+=t;
-			}else{
-				z++;
-			}
-		}
-		printf("\nsum = %d\nt =", sum);
-		sum=0;
-	}
-	printf("\nz = %d\n", z);*/
 	printf("Actual Result\tLSH Result\n\n");
 	for(i=0; i<50; i++){
-		printf("%d\t\t%d\n", knn_results[i], lsh_search(vectors, vectors[i], h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize));
+		printf("%d\t\t%d\n", t=knn_results[i], z=lsh_search(vectors, vectors[i], h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize));
+		if(t==z){sum++;}
 	}
-	printf("\n");
+	printf("Score: %d / 50\n", sum);
 
-
-/*	for(i=0; i<vec_sum; i++){
-		printf("%d.\t", i+1);										// Emfanizw olo to arxeio
-		for(j=0; j<coords; j++){
-			printf("%d ", vectors[i].coord[j]);
-		}
-		printf("\n\n");
-	}
-*/
 	return 0;
 }
