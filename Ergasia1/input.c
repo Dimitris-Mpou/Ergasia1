@@ -10,17 +10,17 @@ void count_input(char path[256], int *vec_sum, int *coords){
 	fp = fopen(path,"r");
 	(*coords)=0;
 	(*vec_sum)=0;
-	while(1){															// Sarwnw to arxeio metrwntas posa dianusmata exei
+	while(1){						// Sarwnoume to arxeio metrwntas posa dianusmata exei
 		ch = fgetc(fp);
 		if(ch==EOF){
 			break;
 		}else if(ch=='\n'){
 			(*vec_sum)++;
 		}else if((ch==' ') && ((*vec_sum)==0)){
-			(*coords)++;												// Metraw poses suntentagmenes exei to 1o dianusma (toses tha exoun ola)
+			(*coords)++;			// Metrame poses suntentagmenes exei to 1o dianusma (toses tha exoun ola)
 		}
 	}
-	(*coords)--;														// Exw metrisei kai to id tou dianusmatos san suntetagmeni opote to afairw
+	(*coords)--;					// Exoume metrisei kai to id tou dianusmatos san suntetagmeni opote to afairoume
 
 	fclose(fp);
 }
@@ -30,8 +30,8 @@ void save_input(char path[256], struct vec *vectors){
 	char ch, *num;
 	FILE *fp;
 
-	num =malloc(10*sizeof(char));									// Ara oi suntetagmenes einai mexri 9psifioi arithmoi
-	fp = fopen(path,"r");											// Ksana anoigw to arxeio wste autoi ti fora na apothikeusw ta dianusmata
+	num =malloc(10*sizeof(char));	// Ara oi suntetagmenes einai mexri 9psifioi arithmoi
+	fp = fopen(path,"r");			// Ksana anoigoume to arxeio wste autoi ti fora na apothikeusoume ta dianusmata
 	flag=0;
 	z=0;
 	j=0;
@@ -46,7 +46,7 @@ void save_input(char path[256], struct vec *vectors){
 			flag=0;
 		}else if(ch==' '){
 			z=0;
-			if(flag){												// An i flag einai 0 tote to num periexei to id tou dianusmatos (oxi kapoia suntetagmeni)
+			if(flag){				// An i flag einai 0 tote to num periexei to id tou dianusmatos (oxi kapoia suntetagmeni)
 				vectors[i].coord[j]=atoi(num);
 				j++;
 			}else{

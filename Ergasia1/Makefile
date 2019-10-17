@@ -32,5 +32,8 @@ hash.o: hash.c
 lsh.o: lsh.c
 	$(CC) $(FLAG) lsh.c
 
+write_output.o: write_output.c
+	$(CC) $(FLAG) write_output.c
+
 clean:
 	rm -f $(OBJS) $(OUT)
