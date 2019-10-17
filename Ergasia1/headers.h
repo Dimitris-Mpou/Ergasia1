@@ -9,7 +9,7 @@ struct h_func{
 };
 
 struct list_node{
-	int g;
+	unsigned int g;
 	int vec_pos;
 	struct list_node *next;
 };

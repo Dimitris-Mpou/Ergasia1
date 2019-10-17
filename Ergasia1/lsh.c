@@ -104,7 +104,7 @@ int main (int argc, char *argv[]){
 				cur->next->vec_pos=i;
 			}
 */			
-			hash(cur, HashTables[z][final], g, i);
+			hash(HashTables[z], final, g, i);
 		}
 	}
 
