@@ -1,4 +1,4 @@
-OBJS = lsh.o input.o average.o modulo_calc.o concut.o factors.o hash.o
+OBJS = main.o input.o average.o modulo_calc.o concut.o factors.o hash.o lsh.o
 SOURCE = lsh.c
 HEADER = headers.h functions.h
 OUT = lsh
@@ -8,8 +8,8 @@ FLAG = -c
 all: $(OBJS)
 	$(CC) $(OBJS) -o $(OUT) -lm
 
-lsh.o: lsh.c
-	$(CC) $(FLAG) lsh.c
+main.o: main.c
+	$(CC) $(FLAG) main.c
 
 input.o: input.c
 	$(CC) $(FLAG) input.c
@@ -28,6 +28,9 @@ factors.o: factors.c
 
 hash.o: hash.c
 	$(CC) $(FLAG) hash.c
+
+lsh.o: lsh.c
+	$(CC) $(FLAG) lsh.c
 
 clean:
 	rm -f $(OBJS) $(OUT)
