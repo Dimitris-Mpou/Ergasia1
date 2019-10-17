@@ -25,7 +25,7 @@ void count_input(char path[256], int *vec_sum, int *coords){
 	fclose(fp);
 }
 
-void save_input(char path[256], struct vec **vectors){
+void save_input(char path[256], struct vec *vectors){
 	int i, j, z, flag;
 	char ch, *num;
 	FILE *fp;
@@ -47,10 +47,10 @@ void save_input(char path[256], struct vec **vectors){
 		}else if(ch==' '){
 			z=0;
 			if(flag){												// An i flag einai 0 tote to num periexei to id tou dianusmatos (oxi kapoia suntetagmeni)
-				(*vectors)[i].coord[j]=atoi(num);
+				vectors[i].coord[j]=atoi(num);
 				j++;
 			}else{
-				(*vectors)[i].id=atoi(num);
+				vectors[i].id=atoi(num);
 				flag=1;
 			}
 		}else{
