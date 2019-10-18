@@ -9,7 +9,7 @@
 int main (int argc, char *argv[]){
 	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, sum, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
 	unsigned int g;
-	char ch, *num, input[256], query[256];
+	char ch, *num, input[256], query[256], output[256];
 	float r;
 	clock_t start, stop;
 	struct vec *vectors, *queries;
@@ -22,7 +22,7 @@ int main (int argc, char *argv[]){
 		strcpy(query, argv[4]);
 		k = atoi(argv[6]);
 		L = atoi(argv[8]);
-		// Output file
+		strcpy(output, argv[10]);
 	
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio
 		k = 4;
@@ -33,6 +33,9 @@ int main (int argc, char *argv[]){
 		//printf("Give the path to the query file:\n");
 		//scanf("%s", query);
 		strcpy(query, "siftsmall/query_small_id");
+		//printf("Give the path to the output file:\n");
+		//scanf("%s", output);
+		strcpy(output, "output");
 	}
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
@@ -56,9 +59,11 @@ int main (int argc, char *argv[]){
 	distanceTrue = malloc(quer_sum*sizeof(int));
 	distanceLSH = malloc(quer_sum*sizeof(int));
 	start=clock();
-	query_knn(vec_sum, quer_sum, coords, vectors, queries, search_results, distanceTrue);	// Kwdikas exantlitikis anazitisis
+	for(i=0; i<quer_sum; i++){
+		search_results[i] = query_knn(vec_sum, coords, vectors, queries[i], &distanceTrue[i]);	// Kwdikas exantlitikis anazitisis
+	}
 	stop=clock();
-	printf("Actual KNN time: %ld\n", stop-start);
+	printf("Actual KNN time: %f\n", (double)(stop-start)/CLOCKS_PER_SEC);
 
 	r = average_dist(vec_sum, coords, vectors);					// Kwdikas gia ton upologismo tou r wste na thesoume w = 4*r
 	printf("r = %f\n", r);
@@ -107,17 +112,17 @@ int main (int argc, char *argv[]){
 	}
 	stop=clock();
 
-//	write_output("output", quer_sum, queries, vectors, lsh_results, distanceLSH, distanceTrue);
+	write_output(output, quer_sum, queries, vectors, lsh_results, distanceLSH, distanceTrue);
 
 
 	sum=0;
 	printf("Actual Result\tLSH Result\tdistanceTrue\tdistanceLSH\n\n");
 	for(i=0; i<quer_sum; i++){
-//		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], lsh_results[i], distanceTrue[i], distanceLSH[i]);
+		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], lsh_results[i], distanceTrue[i], distanceLSH[i]);
 		if(search_results[i]==lsh_results[i]){sum++;}
 	}
 	printf("Score: %d / %d\n", sum, quer_sum);
-	printf("LSH time: %ld\n", stop-start);
+	printf("LSH time: %f\n", (double)(stop-start)/CLOCKS_PER_SEC);
 
 
 /*	for(i=0; i<vec_sum; i++){

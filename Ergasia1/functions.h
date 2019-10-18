@@ -7,5 +7,5 @@ unsigned int concut(struct h_func *, int);
 void hash(struct list_node **, int, int, int);
 void lsh_train(struct vec *, struct h_func **, struct list_node ***, int *, int , int , int , int , int, int , int);
 int lsh_search(struct vec *, struct vec, struct h_func **, struct list_node ***, int *, int *, int, int, int, int, int, int, int);
-void query_knn(int, int, int, struct vec *, struct vec *, int *, int *);
+int query_knn(int, int, struct vec *, struct vec, int *);
 void write_output(char[256], int, struct vec *, struct vec *, int *, int *, int *);
