@@ -58,7 +58,7 @@ int lsh_search(struct vec *vectors, struct vec query, struct h_func **h, struct 
 					for(j=0; j<coords; j++){
 						dist+=abs(vectors[vec_pos].coord[j]-query.coord[j]);
 					}
-					if(dist<min && dist!=0){
+					if(dist<min){
 						min_pos=vec_pos;
 						min=dist;
 					}

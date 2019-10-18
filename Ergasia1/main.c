@@ -18,7 +18,7 @@ int main (int argc, char *argv[]){
 
 	k=4;
 	L=5;
-	w=4*880;								
+									
 	//printf("Give the path to the data set:\n");
 	//scanf("%s", path);
 	strcpy(path, "siftsmall/input_small_id");
@@ -45,6 +45,7 @@ int main (int argc, char *argv[]){
 
 	r = average_dist(vec_sum, coords, vectors);
 	printf("r = %f\n", r);						// Aplos kwdikas anazitisis gia ton evresi tis mesis apostasis apo ton plisiestero geitona
+	w=4*r;
 
 	h=malloc(L*sizeof(struct h_func *));				// Ftiaxnw tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
 	for(i=0; i<L; i++){
