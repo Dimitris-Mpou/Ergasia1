@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "headers.h"
 
-void write_output(char path[256], int quer_sum, struct vec *queries, struct vec *vectors, int *lsh_results, int *distanceLSH, int *distanceTrue){
+void write_output(char path[256], int quer_sum, struct vec *queries, struct vec *vectors, int *lsh_results, int *distanceLSH, int *distanceTrue, float *tLSH, float *tTrue){
 	int i;
 	FILE *fp;
 	
@@ -11,7 +11,9 @@ void write_output(char path[256], int quer_sum, struct vec *queries, struct vec 
 		fprintf(fp, "Query: %d\n", i);
 		fprintf(fp, "Nearest neighbor: %d\n", vectors[lsh_results[i]].id);
 		fprintf(fp, "distanceLSH: %d\n", distanceLSH[i]);
-		fprintf(fp, "distanceTrue: %d\n\n", distanceTrue[i]);
+		fprintf(fp, "distanceTrue: %d\n", distanceTrue[i]);
+		fprintf(fp, "tLSH:  %f\n", tLSH[i]);
+		fprintf(fp, "tTrue: %f\n\n", tTrue[i]);
 	}
 
 }

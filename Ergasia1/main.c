@@ -10,7 +10,7 @@ int main (int argc, char *argv[]){
 	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, sum, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
 	unsigned int g;
 	char ch, *num, input[256], query[256], output[256];
-	float r;
+	float r, *tLSH, *tTrue;
 	clock_t start, stop;
 	struct vec *vectors, *queries;
 	struct h_func **h; 
@@ -58,16 +58,19 @@ int main (int argc, char *argv[]){
 	lsh_results = malloc(quer_sum*sizeof(int));
 	distanceTrue = malloc(quer_sum*sizeof(int));
 	distanceLSH = malloc(quer_sum*sizeof(int));
-	start=clock();
+	tLSH = malloc(quer_sum*sizeof(float));
+	tTrue = malloc(quer_sum*sizeof(float));
+
 	for(i=0; i<quer_sum; i++){
+		start = clock();
 		search_results[i] = query_knn(vec_sum, coords, vectors, queries[i], &distanceTrue[i]);	// Kwdikas exantlitikis anazitisis
+		stop = clock();
+		tTrue[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
-	stop=clock();
-	printf("Actual KNN time: %f\n", (double)(stop-start)/CLOCKS_PER_SEC);
 
 	r = average_dist(vec_sum, coords, vectors);					// Kwdikas gia ton upologismo tou r wste na thesoume w = 4*r
 	printf("r = %f\n", r);
-	w = 5000;
+	w = 4000;
 
 	h = malloc(L*sizeof(struct h_func *));						// Ftiaxnoume tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
 	for(i=0; i<L; i++){	
@@ -89,7 +92,7 @@ int main (int argc, char *argv[]){
 	}
 	
 	TableSize = vec_sum/8;										// Kanoume malloc gia tous L Hashtables
-	HashTables=malloc(L*sizeof(struct list_node **));
+	HashTables = malloc(L*sizeof(struct list_node **));
 	for(i=0; i<L; i++){
 		HashTables[i] = malloc(TableSize*sizeof(struct list_node *));
 	}
@@ -106,23 +109,23 @@ int main (int argc, char *argv[]){
 	factors(m, M, coords, m_factors);
 
 	lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);	// Ekteloume to lsh gia to input data
-	start=clock();
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
+		start = clock();
 		lsh_results[i] = lsh_search(vectors, queries[i], h, HashTables, m_factors, &distanceLSH[i], vec_sum, coords, M, k, L, w, TableSize);
+		stop = clock();
+		tLSH[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
-	stop=clock();
 
-	write_output(output, quer_sum, queries, vectors, lsh_results, distanceLSH, distanceTrue);
+	write_output(output, quer_sum, queries, vectors, lsh_results, distanceLSH, distanceTrue, tLSH, tTrue);
 
 
 	sum=0;
-	printf("Actual Result\tLSH Result\tdistanceTrue\tdistanceLSH\n\n");
+//	printf("Actual Result\tLSH Result\tdistanceTrue\tdistanceLSH\n\n");
 	for(i=0; i<quer_sum; i++){
-		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], lsh_results[i], distanceTrue[i], distanceLSH[i]);
+//		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], lsh_results[i], distanceTrue[i], distanceLSH[i]);
 		if(search_results[i]==lsh_results[i]){sum++;}
 	}
 	printf("Score: %d / %d\n", sum, quer_sum);
-	printf("LSH time: %f\n", (double)(stop-start)/CLOCKS_PER_SEC);
 
 
 /*	for(i=0; i<vec_sum; i++){
