@@ -7,7 +7,7 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
+	int i, j, z, k, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
 	char ch, *num, input[256], query[256], output[256];
 	float r, *tLSH, *tTrue;
 	clock_t start, stop;
@@ -34,6 +34,7 @@ int main (int argc, char *argv[]){
 		scanf("%s", output);
 		strcpy(output, "output");
 	}
+
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
 	for(i=0; i<vec_sum; i++){
@@ -46,7 +47,7 @@ int main (int argc, char *argv[]){
 	for(i=0; i<quer_sum; i++){
 		queries[i].coord = malloc(coords*sizeof(int));
 	}
-	save_input(query, queries);									// Apothikeuoume ta queries
+	save_input(query, queries);						// Apothikeuoume ta queries
 
 	search_results = malloc(quer_sum*sizeof(int));
 	lsh_results = malloc(quer_sum*sizeof(int));
@@ -62,11 +63,12 @@ int main (int argc, char *argv[]){
 		tTrue[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
 
-//	r = average_dist(vec_sum, coords, vectors);					// Kwdikas gia ton upologismo tou r wste na thesoume w = 4*r
+//	r = average_dist(vec_sum, coords, vectors);			// Kwdikas gia ton upologismo tou r wste na thesoume w = 4*r
 //	printf("r = %f\n", r);
 	w = 4500;
 
-	h = malloc(L*sizeof(struct h_func *));						// Ftiaxnoume tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
+
+	h = malloc(L*sizeof(struct h_func *));			// Ftiaxnoume tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
 	for(i=0; i<L; i++){	
 		h[i] = malloc(k*sizeof(struct h_func));
 	}

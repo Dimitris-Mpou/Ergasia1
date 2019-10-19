@@ -3,7 +3,7 @@
 #include "headers.h"
 #include "functions.h"
 
-void lsh(struct vec *vectors, struct h_func **h, int *m_factors, unsigned int *g, int vec_sum, int coords, int M, int k, int L, int w){
+void lsh(struct vec *vectors, struct h_func **h, int *m_factors, unsigned int **g, int vec_sum, int coords, int M, int k, int L, int w){
 	int i, j, z, t, hash_pos, *a;
 	float f;
 
@@ -19,7 +19,7 @@ void lsh(struct vec *vectors, struct h_func **h, int *m_factors, unsigned int *g
 				}
 				h[z][t].h_sum = h[z][t].h_sum % M;			//Kanoume mod kai so oloklhro to athroisma
 			}
-//			g[i] = concut(h[z], k);		Thelei diorthwsi
+			g[i][z] = concut(h[z], k);
 		}
 	}
 }
