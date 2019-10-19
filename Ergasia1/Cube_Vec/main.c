@@ -7,7 +7,7 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
+	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, sum, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
 	unsigned int g;
 	char ch, *num, input[256], query[256], output[256];
 	float r, *tLSH, *tTrue;
@@ -114,6 +114,14 @@ int main (int argc, char *argv[]){
 	}
 
 	write_output(output, quer_sum, queries, vectors, lsh_results, distanceLSH, distanceTrue, tLSH, tTrue);
+
+	sum=0;
+//	printf("Actual Result\tLSH Result\tdistanceTrue\tdistanceLSH\n\n");
+	for(i=0; i<quer_sum; i++){
+//		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], lsh_results[i], distanceTrue[i], distanceLSH[i]);
+		if(search_results[i]==lsh_results[i]){sum++;}
+	}
+	printf("Score: %d / %d\n", sum, quer_sum);
 
 	return 0;
 }
