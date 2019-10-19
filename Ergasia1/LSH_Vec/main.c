@@ -8,13 +8,12 @@
 
 int main (int argc, char *argv[]){
 	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
-	unsigned int g;
 	char ch, *num, input[256], query[256], output[256];
 	float r, *tLSH, *tTrue;
 	clock_t start, stop;
 	struct vec *vectors, *queries;
 	struct h_func **h; 
-	struct list_node ***HashTables, *cur;
+	struct list_node ***HashTables;
 	FILE *fp;	
 
 	if(argc==11){					// Pairnoume ta orismata

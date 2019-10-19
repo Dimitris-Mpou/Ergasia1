@@ -7,34 +7,40 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, sum, *search_results, *cube_results, *distanceTrue, *distanceLSH;
-	unsigned int g;
+	int i, j, z, k, t, L, w, k_Cube, M_Cube, probes, vec_sum, quer_sum, coords, m, M, *m_factors, sum, *search_results, *cube_results, *distanceTrue, *distanceCube;
+	unsigned int *g;
 	char ch, *num, input[256], query[256], output[256];
-	float r, *tLSH, *tTrue;
+	float r, *tCube, *tTrue;
 	clock_t start, stop;
 	struct vec *vectors, *queries;
 	struct h_func **h; 
-	struct list_node ***HashTables, *cur;
 	FILE *fp;	
 
-	if(argc==11){					// Pairnoume ta orismata
+	if(argc==13){					// Pairnoume ta orismata
 		strcpy(input, argv[2]);
 		strcpy(query, argv[4]);
-		k = atoi(argv[6]);
-		L = atoi(argv[8]);
-		strcpy(output, argv[10]);
+		k_Cube = atoi(argv[6]);
+		M_Cube = atoi(argv[8]);
+		probes = atoi(argv[10]);
+		strcpy(output, argv[12]);
 	
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio
-		k = 4;
-		L = 5;								
-		printf("k = 4\tL = 5\nGive the path to the input file:\n");
-		scanf("%s", input);
-		printf("Give the path to the query file:\n");
-		scanf("%s", query);
-		printf("Give the path to the output file:\n");
-		scanf("%s", output);
+		k_Cube = 3;
+		M_Cube = 10;
+		probes = 2;								
+		//printf("k = 4\tL = 5\nGive the path to the input file:\n");
+		//scanf("%s", input);
+		strcpy(input, "siftsmall/input_small_id");
+		//printf("Give the path to the query file:\n");
+		//scanf("%s", query);
+		strcpy(query, "siftsmall/query_small_id");
+		//printf("Give the path to the output file:\n");
+		//scanf("%s", output);
 		strcpy(output, "output");
 	}
+	k=4;
+	L=5;
+
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	printf("Vectors = %d\tCoordinates = %d\n", vec_sum, coords);
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
@@ -57,6 +63,7 @@ int main (int argc, char *argv[]){
 	distanceCube = malloc(quer_sum*sizeof(int));
 	tCube = malloc(quer_sum*sizeof(float));
 	tTrue = malloc(quer_sum*sizeof(float));
+	g = malloc(vec_sum*sizeof(unsigned int));
 
 	for(i=0; i<quer_sum; i++){
 		start = clock();
@@ -88,27 +95,17 @@ int main (int argc, char *argv[]){
 		}
 	}
 	
-	TableSize = vec_sum/8;										// Kanoume malloc gia tous L Hashtables
-	HashTables = malloc(L*sizeof(struct list_node **));
-	for(i=0; i<L; i++){
-		HashTables[i] = malloc(TableSize*sizeof(struct list_node *));
-	}
-	for(i=0; i<L; i++){											// Ola ta buckets twn hashtables dixnoun NULL
-		for(j=0; j<TableSize; j++){
-			HashTables[i][j] = NULL;
-		}
-	}
-	
 	m = 5;														// Ekxwroume times sta m, M
 	M = pow(2, 32/k);
 
 	m_factors = malloc(coords*sizeof(int));						// Apothikeuoume ola ta (m^d) mod M, gia na min kanoume askopous upologismous
 	factors(m, M, coords, m_factors);
 
-	lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);	// Ekteloume to lsh gia to input data
+	lsh(vectors, h, m_factors, g, vec_sum, coords, M, k, L, w);	// Ekteloume to lsh gia to input data
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
 		start = clock();
-		cube_results[i] = lsh_search(vectors, queries[i], h, HashTables, m_factors, &distanceCube[i], vec_sum, coords, M, k, L, w, TableSize);
+//		cube_results[i] = cube_search();
+		cube_results[i]=i;
 		stop = clock();
 		tCube[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}

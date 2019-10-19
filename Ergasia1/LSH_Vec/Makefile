@@ -1,5 +1,5 @@
 OBJS = main.o input.o average.o modulo_calc.o concut.o factors.o hash.o lsh.o write_output.o
-SOURCE = lsh.c
+SOURCE = main.c input.c average.c modulo_calc.c concut.c factors.c hash.c lsh.c write_output.c
 HEADER = headers.h functions.h
 OUT = lsh
 CC = gcc
