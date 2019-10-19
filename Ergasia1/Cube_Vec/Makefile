@@ -1,7 +1,7 @@
 OBJS = main.o input.o average.o modulo_calc.o concut.o factors.o hash.o lsh.o write_output.o
 SOURCE = lsh.c
 HEADER = headers.h functions.h
-OUT = lsh
+OUT = cube
 CC = gcc
 FLAG = -c 
 

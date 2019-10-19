@@ -7,7 +7,7 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, sum, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
+	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, sum, *search_results, *cube_results, *distanceTrue, *distanceLSH;
 	unsigned int g;
 	char ch, *num, input[256], query[256], output[256];
 	float r, *tLSH, *tTrue;
@@ -52,10 +52,10 @@ int main (int argc, char *argv[]){
 	save_input(query, queries);									// Apothikeuoume ta queries
 
 	search_results = malloc(quer_sum*sizeof(int));
-	lsh_results = malloc(quer_sum*sizeof(int));
+	cube_results = malloc(quer_sum*sizeof(int));
 	distanceTrue = malloc(quer_sum*sizeof(int));
-	distanceLSH = malloc(quer_sum*sizeof(int));
-	tLSH = malloc(quer_sum*sizeof(float));
+	distanceCube = malloc(quer_sum*sizeof(int));
+	tCube = malloc(quer_sum*sizeof(float));
 	tTrue = malloc(quer_sum*sizeof(float));
 
 	for(i=0; i<quer_sum; i++){
@@ -108,18 +108,18 @@ int main (int argc, char *argv[]){
 	lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);	// Ekteloume to lsh gia to input data
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
 		start = clock();
-		lsh_results[i] = lsh_search(vectors, queries[i], h, HashTables, m_factors, &distanceLSH[i], vec_sum, coords, M, k, L, w, TableSize);
+		cube_results[i] = lsh_search(vectors, queries[i], h, HashTables, m_factors, &distanceCube[i], vec_sum, coords, M, k, L, w, TableSize);
 		stop = clock();
-		tLSH[i] = (double)(stop-start) / CLOCKS_PER_SEC;
+		tCube[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
 
-	write_output(output, quer_sum, queries, vectors, lsh_results, distanceLSH, distanceTrue, tLSH, tTrue);
+	write_output(output, quer_sum, queries, vectors, cube_results, distanceCube, distanceTrue, tCube, tTrue);
 
 	sum=0;
-//	printf("Actual Result\tLSH Result\tdistanceTrue\tdistanceLSH\n\n");
+//	printf("Actual Result\tCube Result\tdistanceTrue\tdistanceLSH\n\n");
 	for(i=0; i<quer_sum; i++){
-//		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], lsh_results[i], distanceTrue[i], distanceLSH[i]);
-		if(search_results[i]==lsh_results[i]){sum++;}
+//		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], cube_results[i], distanceTrue[i], distanceCube[i]);
+		if(search_results[i]==cube_results[i]){sum++;}
 	}
 	printf("Score: %d / %d\n", sum, quer_sum);
 
