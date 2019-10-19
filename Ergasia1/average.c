@@ -8,8 +8,8 @@ float average_dist(int vec_sum, int coords, struct vec *vectors){
 	min=1000000;
 	min_pos=-1;
 	dist=0;
-	for(z=0; z<100; z++){
-		for(i=0; i<vec_sum; i++){
+	for(z=0; z<100; z++){				// Gia ta prwta 100 dianusmata tou input
+		for(i=0; i<vec_sum; i++){		// Vriskoume ton actual kontinotero geitona
 			for(j=0; j<coords; j++){
 				dist+=abs(vectors[z].coord[j]-vectors[i].coord[j]);
 			}
@@ -26,25 +26,22 @@ float average_dist(int vec_sum, int coords, struct vec *vectors){
 }
 
 
-void query_knn(int vec_sum, int quer_sum, int coords, struct vec *vectors, struct vec *queries, int *knn_results){
-	int i, j, z, dist, min, min_pos, aver;
+int query_knn(int vec_sum, int coords, struct vec *vectors, struct vec query, int *distanceTrue){
+	int i, j, dist, min, min_pos;
 
 	min=1000000;
 	min_pos=-1;
-	dist=0;
-	for(z=0; z<quer_sum; z++){
-		for(i=0; i<vec_sum; i++){
-			for(j=0; j<coords; j++){
-				dist+=abs(queries[z].coord[j]-vectors[i].coord[j]);
-			}
-			if(min>dist){
-				min=dist;
-				min_pos=i;
-			}
-			dist=0;
+	dist=0;	
+	for(i=0; i<vec_sum; i++){		// Vriskoume ton actual kontinotero geitona tou query
+		for(j=0; j<coords; j++){
+			dist+=abs(query.coord[j]-vectors[i].coord[j]);
 		}
-		min=1000000;
-		knn_results[z]=min_pos;
+		if(min>dist){
+			min=dist;
+			min_pos=i;
+		}
+		dist=0;
 	}
-
+	*distanceTrue=min;			// Ekxwroume tin actual min distance		
+	return min_pos;				// Epistrefoume to pos tou actual neighbor
 }

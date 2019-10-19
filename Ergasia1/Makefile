@@ -1,4 +1,4 @@
-OBJS = main.o input.o average.o modulo_calc.o concut.o factors.o hash.o lsh.o
+OBJS = main.o input.o average.o modulo_calc.o concut.o factors.o hash.o lsh.o write_output.o
 SOURCE = lsh.c
 HEADER = headers.h functions.h
 OUT = lsh
@@ -31,6 +31,9 @@ hash.o: hash.c
 
 lsh.o: lsh.c
 	$(CC) $(FLAG) lsh.c
+
+write_output.o: write_output.c
+	$(CC) $(FLAG) write_output.c
 
 clean:
 	rm -f $(OBJS) $(OUT)
