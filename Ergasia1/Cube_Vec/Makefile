@@ -1,7 +1,7 @@
-OBJS = main.o input.o average.o modulo_calc.o concut.o factors.o hash.o lsh.o write_output.o
-SOURCE = lsh.c
+OBJS = main.o input.o average.o modulo_calc.o concut.o factors.o lsh.o write_output.o cube.o
+SOURCE = main.c input.c average.c modulo_calc.c concut.c factors.c lsh.c write_output.c cube.c
 HEADER = headers.h functions.h
-OUT = lsh
+OUT = cube
 CC = gcc
 FLAG = -c 
 
@@ -26,14 +26,14 @@ concut.o: concut.c
 factors.o: factors.c
 	$(CC) $(FLAG) factors.c
 
-hash.o: hash.c
-	$(CC) $(FLAG) hash.c
-
 lsh.o: lsh.c
 	$(CC) $(FLAG) lsh.c
 
 write_output.o: write_output.c
 	$(CC) $(FLAG) write_output.c
+
+cube.o: cube.c
+	$(CC) $(FLAG) cube.c
 
 clean:
 	rm -f $(OBJS) $(OUT)
