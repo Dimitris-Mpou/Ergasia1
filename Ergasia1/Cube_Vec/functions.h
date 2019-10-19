@@ -8,4 +8,4 @@ void hash(struct list_node **, int, int, int);
 void lsh(struct vec *, struct h_func **, int *, unsigned int **, int, int, int, int, int, int);
 int query_knn(int, int, struct vec *, struct vec, int *);
 void write_output(char[256], int, struct vec *, struct vec *, int *, int *, int *, float *, float *);
-void cube_train(unsigned int **, struct list_node **, int, int);
+void cube_train(unsigned int **, struct list_node ***, int, int);

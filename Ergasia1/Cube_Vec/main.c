@@ -14,7 +14,7 @@ int main (int argc, char *argv[]){
 	clock_t start, stop;
 	struct vec *vectors, *queries;
 	struct h_func **h;
-	struct list_node **f;
+	struct list_node ***f;
 	FILE *fp;	
 
 	if(argc==13){					// Pairnoume ta orismata
@@ -65,11 +65,17 @@ int main (int argc, char *argv[]){
 	tTrue = malloc(quer_sum*sizeof(float));
 	g = malloc(vec_sum*sizeof(unsigned int *));
 	for(i=0; i<vec_sum; i++){
-		g = malloc(d*sizeof(unsigned int));
+		g[i] = malloc(d*sizeof(unsigned int));
 	}
-	f = malloc(d*sizeof(struct list_node *));
+	f = malloc(d*sizeof(struct list_node **));
 	for(i=0; i<d; i++){
-		f[i] = NULL;
+		f[i] = malloc(4999*sizeof(struct list_node *));
+	}
+
+	for(i=0; i<d; i++){
+		for(j=0; j<4999; j++){
+			f[i][j] = NULL;
+		}
 	}
 
 	for(i=0; i<quer_sum; i++){
@@ -109,7 +115,7 @@ int main (int argc, char *argv[]){
 	factors(m, M, coords, m_factors);
 
 	lsh(vectors, h, m_factors, g, vec_sum, coords, M, k, d, w);			// Ekteloume to lsh gia to input data
-//	cube_train(p, vec_sum, d);
+	cube_train(g, f, vec_sum, d);
 
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
 		start = clock();
@@ -122,7 +128,7 @@ int main (int argc, char *argv[]){
 	write_output(output, quer_sum, queries, vectors, cube_results, distanceCube, distanceTrue, tCube, tTrue);
 
 	sum=0;
-//	printf("Actual Result\tCube Result\tdistanceTrue\tdistanceLSH\n\n");
+	//printf("Actual Result\tCube Result\tdistanceTrue\tdistanceLSH\n\n");
 	for(i=0; i<quer_sum; i++){
 //		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], cube_results[i], distanceTrue[i], distanceCube[i]);
 		if(search_results[i]==cube_results[i]){sum++;}
