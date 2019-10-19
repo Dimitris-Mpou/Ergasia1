@@ -8,7 +8,7 @@ void write_output(char path[256], int quer_sum, struct vec *queries, struct vec 
 	fp = fopen(path, "w");
 	
 	for(i=0; i<quer_sum; i++){
-		fprintf(fp, "Query: %d\n", i);
+		fprintf(fp, "Query: %d\n", queries[i].id);
 		fprintf(fp, "Nearest neighbor: %d\n", vectors[lsh_results[i]].id);
 		fprintf(fp, "distanceLSH: %d\n", distanceLSH[i]);
 		fprintf(fp, "distanceTrue: %d\n", distanceTrue[i]);

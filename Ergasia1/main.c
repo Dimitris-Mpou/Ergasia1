@@ -29,15 +29,16 @@ int main (int argc, char *argv[]){
 		L = 5;								
 		//printf("k = 4\tL = 5\nGive the path to the input file:\n");
 		//scanf("%s", input);
-		strcpy(input, "siftsmall/input_small_id");
+		//strcpy(input, "siftsmall/input_small_id");
+		strcpy(input, "siftbig/input_b_id");
 		//printf("Give the path to the query file:\n");
 		//scanf("%s", query);
-		strcpy(query, "siftsmall/query_small_id");
+		//strcpy(query, "siftsmall/query_small_id");
+		strcpy(query, "siftbig/query_b_id");
 		//printf("Give the path to the output file:\n");
 		//scanf("%s", output);
 		strcpy(output, "output");
 	}
-
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	printf("Vectors = %d\tCoordinates = %d\n", vec_sum, coords);
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
@@ -49,7 +50,7 @@ int main (int argc, char *argv[]){
 	count_input(query, &quer_sum, &coords);						// Metrame to plithos twn queries
 	printf("Queries = %d\tCoordinates = %d\n", quer_sum, coords);
 	queries = malloc(quer_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
-	for(i=0; i<vec_sum; i++){
+	for(i=0; i<quer_sum; i++){
 		queries[i].coord = malloc(coords*sizeof(int));
 	}
 	save_input(query, queries);									// Apothikeuoume ta queries
