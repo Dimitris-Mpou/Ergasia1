@@ -29,7 +29,6 @@ void cube_train(unsigned int **g, struct list_node ***f, int vec_sum, int d){
 				//cur->vec_pos periexei to 0 ή 1 
 			}
 		}
-		// Insert in cube
 	}
 }
 // Στα 2 πααραπανω σημεια η οποια θα φτιαχνει μια σειρα απο 0 και 1
