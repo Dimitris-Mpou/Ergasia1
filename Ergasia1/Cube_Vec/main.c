@@ -14,7 +14,7 @@ int main (int argc, char *argv[]){
 	clock_t start, stop;
 	struct vec *vectors, *queries;
 	struct h_func **h;
-	struct list_node ***f;
+	struct list_node ***f, **cube;
 	FILE *fp;	
 
 	if(argc==13){					// Pairnoume ta orismata
@@ -99,6 +99,11 @@ int main (int argc, char *argv[]){
 		}
 	}
 
+	cube = malloc(vec_sum*sizeof(struct list_node*));
+	for(i=0; i<d; i++){
+		cube[i] = NULL;
+	}
+
 	srand(time(0));								// Dinoume tuxaies times sta s sto diastima [0,w)
 	for(i=0; i<d; i++){
 		for(j=0; j<k; j++){
@@ -115,7 +120,7 @@ int main (int argc, char *argv[]){
 	factors(m, M, coords, m_factors);
 
 	lsh(vectors, h, m_factors, g, vec_sum, coords, M, k, d, w);			// Ekteloume to lsh gia to input data
-	cube_train(g, f, vec_sum, d);
+	cube_train(g, f, cube, vec_sum, d);
 
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
 		start = clock();
