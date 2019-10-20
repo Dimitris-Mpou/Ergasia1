@@ -29,7 +29,7 @@ void cube_train(unsigned int **g, struct list_node ***f, struct list_node **cube
 					cur->next->next = NULL;
 					cur->next->vec_pos = rand() % 2;
 				}
-				binary_string[j] = f[j][hash_pos]->vec_pos; 
+				binary_string[j] = cur->vec_pos; 
 			}	
 			binary_string[d+1] = '\0';
 		}
