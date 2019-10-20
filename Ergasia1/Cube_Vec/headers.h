@@ -13,8 +13,3 @@ struct list_node{
 	int vec_pos;
 	struct list_node *next;
 };
-
-struct projection{
-	unsigned int *g;
-	int *f;
-}; 

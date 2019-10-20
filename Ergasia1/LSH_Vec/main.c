@@ -7,7 +7,7 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, t, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
+	int i, j, z, k, L, w, vec_sum, quer_sum, coords, m, M, *m_factors, TableSize, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
 	char ch, *num, input[256], query[256], output[256];
 	float r, *tLSH, *tTrue;
 	clock_t start, stop;
@@ -35,14 +35,14 @@ int main (int argc, char *argv[]){
 		strcpy(output, "output");
 	}
 
-	count_input(input, &vec_sum, &coords);					// Metrame to plithos twn dianusmatwn
+	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
 	for(i=0; i<vec_sum; i++){
 		vectors[i].coord = malloc(coords*sizeof(int));
 	}
-	save_input(input, vectors);						// Apothikeuoume ta dianusmata
-											
-	count_input(query, &quer_sum, &coords);					// Metrame to plithos twn queries
+	save_input(input, vectors);									// Apothikeuoume ta dianusmata
+
+	count_input(query, &quer_sum, &coords);						// Metrame to plithos twn queries
 	queries = malloc(quer_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
 	for(i=0; i<quer_sum; i++){
 		queries[i].coord = malloc(coords*sizeof(int));
