@@ -26,7 +26,7 @@ int main (int argc, char *argv[]){
 		strcpy(output, argv[12]);
 	
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio
-		k_Cube = 3;
+		d = 3;
 		M_Cube = 10;
 		probes = 2;								
 		//printf("k = 4\tL = 5\nGive the path to the input file:\n");
@@ -40,8 +40,6 @@ int main (int argc, char *argv[]){
 		strcpy(output, "output");
 	}
 	k=4;
-	d=3;
-	L=d;
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	printf("Vectors = %d\tCoordinates = %d\n", vec_sum, coords);
@@ -83,10 +81,10 @@ int main (int argc, char *argv[]){
 	w = 4500;
 
 	h = malloc(L*sizeof(struct h_func *));				// Ftiaxnoume tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
-	for(i=0; i<L; i++){	
+	for(i=0; i<d; i++){	
 		h[i] = malloc(k*sizeof(struct h_func));
 	}
-	for(i=0; i<L; i++){
+	for(i=0; i<d; i++){
 		for(j=0; j<k; j++){
 			h[i][j].s = malloc(coords*sizeof(int));
 		}
@@ -107,7 +105,7 @@ int main (int argc, char *argv[]){
 	m_factors = malloc(coords*sizeof(int));						// Apothikeuoume ola ta (m^d) mod M, gia na min kanoume askopous upologismous
 	factors(m, M, coords, m_factors);
 
-	lsh(vectors, h, m_factors, p, vec_sum, coords, M, k, L, w);			// Ekteloume to lsh gia to input data
+	lsh(vectors, h, m_factors, p, vec_sum, coords, M, k, d, w);			// Ekteloume to lsh gia to input data
 	cube_train(p, vec_sum, d);
 
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
