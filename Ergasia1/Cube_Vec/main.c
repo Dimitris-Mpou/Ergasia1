@@ -8,7 +8,7 @@
 
 int main (int argc, char *argv[]){
 	int i, j, z, k, d, w, M_Cube, probes, vec_sum, quer_sum, coords, m, M, *m_factors, sum, *search_results, *cube_results, *distanceTrue, *distanceCube;
-	unsigned int **g;
+	unsigned int **g, *g_quer;
 	char ch, *num, input[256], query[256], output[256];
 	float r, *tCube, *tTrue;
 	clock_t start, stop;
@@ -99,8 +99,8 @@ int main (int argc, char *argv[]){
 		}
 	}
 
-	cube = malloc(vec_sum*sizeof(struct list_node*));
-	for(i=0; i<d; i++){
+	cube = malloc(vec_sum*sizeof(struct list_node *));
+	for(i=0; i<vec_sum; i++){
 		cube[i] = NULL;
 	}
 
@@ -119,11 +119,14 @@ int main (int argc, char *argv[]){
 	m_factors = malloc(coords*sizeof(int));						// Apothikeuoume ola ta (m^d) mod M, gia na min kanoume askopous upologismous
 	factors(m, M, coords, m_factors);
 
-	lsh(vectors, h, m_factors, g, vec_sum, coords, M, k, d, w);			// Ekteloume to lsh gia to input data
+	lsh_train(vectors, h, m_factors, g, vec_sum, coords, M, k, d, w);			// Ekteloume to lsh gia to input data
 	cube_train(g, f, cube, vec_sum, d);
+
+	g_quer = malloc(d*sizeof(unsigned int));
 
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
 		start = clock();
+		lsh_search(query, h, m_factors, g_quer, coords, M, k, d, w);
 //		cube_results[i] = cube_search();
 		cube_results[i]=i;
 		stop = clock();
