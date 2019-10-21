@@ -12,3 +12,4 @@ void write_output(char[256], int, struct vec *, struct vec *, int *, int *, int 
 void cube_train(unsigned int **, struct list_node ***, struct list_node **, int, int);
 int cube_search(unsigned int *, struct list_node ***, struct list_node **, struct vec *, struct vec, int *, int, int, int, int);
 void edges(int *, int *, int, int);
+int count_edges(int, int, int *, int *, int, int, int);

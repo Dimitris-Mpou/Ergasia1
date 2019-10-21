@@ -27,7 +27,7 @@ int main (int argc, char *argv[]){
 	
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio
 		M_Cube = 10;
-		probes = 10;								
+		probes = 20;								
 		//printf("k = 4\tL = 5\nGive the path to the input file:\n");
 		//scanf("%s", input);
 		strcpy(input, "siftsmall/input_small_id");

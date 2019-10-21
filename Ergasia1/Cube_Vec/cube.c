@@ -56,12 +56,10 @@ int cube_search(unsigned int *g_quer, struct list_node ***f, struct list_node **
 	cube_pos = malloc(probes*sizeof(int));
 
 	srand(time(0));
-//	cube_pos = 0;
 	for(j=0; j<d; j++){
 		hash_pos = g_quer[j] % 4999;
 		if(f[j][hash_pos ] == NULL){
 			binary_string[j] = rand() % 2;
-//			cube_pos += (rand() % 2) * pow(2,d-1 -j);		// Den apothikeuoume to diadiko string alla to xrisimopoume gia na broume se poia korifi tou kubou tha paei to dianusma
 		}else{
 			cur = f[j][hash_pos];
 			while(cur->next!=NULL && cur->g!=g_quer[j]){
@@ -69,10 +67,8 @@ int cube_search(unsigned int *g_quer, struct list_node ***f, struct list_node **
 			}
 			if(cur->g != g_quer[j]){
 				binary_string[j] = rand() % 2;
-//				cube_pos += (rand() % 2) * pow(2,d-1 -j);
 			}else{
 				binary_string[j] = cur->vec_pos;
-//				cube_pos += cur->vec_pos*pow(2,d-1 -j);
 			}
 		}
 	}
