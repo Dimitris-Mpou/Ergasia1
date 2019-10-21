@@ -26,9 +26,8 @@ int main (int argc, char *argv[]){
 		strcpy(output, argv[12]);
 	
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio
-		d = 3;
 		M_Cube = 10;
-		probes = 2;								
+		probes = 10;								
 		//printf("k = 4\tL = 5\nGive the path to the input file:\n");
 		//scanf("%s", input);
 		strcpy(input, "siftsmall/input_small_id");
@@ -48,6 +47,8 @@ int main (int argc, char *argv[]){
 		vectors[i].coord = malloc(coords*sizeof(int));
 	}
 	save_input(input, vectors);							// Apothikeuoume ta dianusmata
+	if(argc!=13)
+		d = log2(vec_sum);
 
 	count_input(query, &quer_sum, &coords);						// Metrame to plithos twn queries
 	printf("Queries = %d\tCoordinates = %d\n", quer_sum, coords);
@@ -126,9 +127,8 @@ int main (int argc, char *argv[]){
 
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
 		start = clock();
-		lsh_search(query, h, m_factors, g_quer, coords, M, k, d, w);
-//		cube_results[i] = cube_search();
-		cube_results[i]=i;
+		lsh_search(queries[i], h, m_factors, g_quer, coords, M, k, d, w);
+		cube_results[i] = cube_search(g_quer, f, cube, vectors, queries[i], &distanceCube[i], vec_sum, coords, d, probes);
 		stop = clock();
 		tCube[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
@@ -136,9 +136,9 @@ int main (int argc, char *argv[]){
 	write_output(output, quer_sum, queries, vectors, cube_results, distanceCube, distanceTrue, tCube, tTrue);
 
 	sum=0;
-	//printf("Actual Result\tCube Result\tdistanceTrue\tdistanceLSH\n\n");
+	printf("Actual Result\tCube Result\tdistanceTrue\tdistanceCube\n\n");
 	for(i=0; i<quer_sum; i++){
-//		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], cube_results[i], distanceTrue[i], distanceCube[i]);
+		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], cube_results[i], distanceTrue[i], distanceCube[i]);
 		if(search_results[i]==cube_results[i]){sum++;}
 	}
 	printf("Score: %d / %d\n", sum, quer_sum);
