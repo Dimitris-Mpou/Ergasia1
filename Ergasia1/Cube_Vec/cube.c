@@ -49,8 +49,8 @@ void cube_train(int **h_sum, struct list_node ***f, struct list_node **cube, int
 	}
 }
 
-int cube_search(int *h_quer, struct list_node ***f, struct list_node **cube, struct vec *vectors, struct vec query, int *distanceCube, int vec_sum, int coords, int d, int probes){
-	int i, j, hash_pos, vec_pos, min, min_pos, dist, *cube_pos, *binary_string;
+int cube_search(int *h_quer, struct list_node ***f, struct list_node **cube, struct vec *vectors, struct vec query, int *distanceCube, int vec_sum, int coords, int d, int probes, int M){
+	int i, j, hash_pos, vec_pos, min, min_pos, dist, *cube_pos, *binary_string, count;
 	struct list_node *cur;
 
 	binary_string = malloc(d*sizeof(int));
@@ -80,8 +80,9 @@ int cube_search(int *h_quer, struct list_node ***f, struct list_node **cube, str
 
 	for(i=0; i<probes; i++){
 		if(cube[cube_pos[i]] != NULL){
+			count=0;
 			cur = cube[cube_pos[i]];
-			while(cur!=NULL){
+			while(cur!=NULL && count<M){
 				vec_pos = cur->vec_pos;
 				dist=0;					// Metrame tin manhattan distance
 				for(j=0; j<coords; j++){
@@ -92,6 +93,7 @@ int cube_search(int *h_quer, struct list_node ***f, struct list_node **cube, str
 					min=dist;
 				}
 				cur = cur->next;
+//				count++;			To afinoume sxoliasmeno, wste na min exei kritirio termatismou	
 			}
 		}
 	}

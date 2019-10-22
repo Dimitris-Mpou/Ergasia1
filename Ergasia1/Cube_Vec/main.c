@@ -27,7 +27,7 @@ int main (int argc, char *argv[]){
 	
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio
 		M_Cube = 10;
-		probes = 40;								
+		probes = 25;								
 		//printf("k = 4\tL = 5\nGive the path to the input file:\n");
 		//scanf("%s", input);
 		strcpy(input, "siftsmall/input_small_id");
@@ -121,7 +121,7 @@ int main (int argc, char *argv[]){
 	for(i=0; i<quer_sum; i++){
 		start = clock();
 		lsh_search(queries[i], h, m_factors, h_quer, coords, M, d, w);	// Ekteloume lsh gia ta queries
-		cube_results[i] = cube_search(h_quer, f, cube, vectors, queries[i], &distanceCube[i], vec_sum, coords, d, probes);
+		cube_results[i] = cube_search(h_quer, f, cube, vectors, queries[i], &distanceCube[i], vec_sum, coords, d, probes, M_Cube);
 		stop = clock();
 		tCube[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
@@ -129,9 +129,9 @@ int main (int argc, char *argv[]){
 	write_output(output, quer_sum, queries, vectors, cube_results, distanceCube, distanceTrue, tCube, tTrue);
 
 	sum=0;
-	printf("Actual Result\tCube Result\tdistanceTrue\tdistanceCube\n\n");
+//	printf("Actual Result\tCube Result\tdistanceTrue\tdistanceCube\n\n");
 	for(i=0; i<quer_sum; i++){
-		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], cube_results[i], distanceTrue[i], distanceCube[i]);
+//		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], cube_results[i], distanceTrue[i], distanceCube[i]);
 		if(search_results[i]==cube_results[i]){sum++;}
 	}
 	printf("Score: %d / %d\n", sum, quer_sum);

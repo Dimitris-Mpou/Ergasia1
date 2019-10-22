@@ -10,6 +10,6 @@ void lsh_search(struct vec, struct h_func *, int *,int *, int, int, int, int);
 int query_knn(int, int, struct vec *, struct vec, int *);
 void write_output(char[256], int, struct vec *, struct vec *, int *, int *, int *, float *, float *);
 void cube_train(int **, struct list_node ***, struct list_node **, int, int);
-int cube_search(int *, struct list_node ***, struct list_node **, struct vec *, struct vec, int *, int, int, int, int);
+int cube_search(int *, struct list_node ***, struct list_node **, struct vec *, struct vec, int *, int, int, int, int, int);
 void edges(int *, int *, int, int);
 int count_edges(int, int, int *, int *, int, int, int);
