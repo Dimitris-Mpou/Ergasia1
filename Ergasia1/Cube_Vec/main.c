@@ -7,13 +7,13 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, d, w, M_Cube, probes, vec_sum, quer_sum, coords, m, M, *m_factors, sum, *search_results, *cube_results, *distanceTrue, *distanceCube;
+	int i, j, z, k, d, w, M_Cube, probes, vec_sum, quer_sum, coords, m, M, *m_factors, **h_sum, *h_quer, sum, *search_results, *cube_results, *distanceTrue, *distanceCube;
 	unsigned int **g, *g_quer;
 	char ch, *num, input[256], query[256], output[256];
 	float r, *tCube, *tTrue;
 	clock_t start, stop;
 	struct vec *vectors, *queries;
-	struct h_func **h;
+	struct h_func *h;
 	struct list_node ***f, **cube;
 	FILE *fp;	
 
@@ -26,9 +26,8 @@ int main (int argc, char *argv[]){
 		strcpy(output, argv[12]);
 	
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio
-		d = 3;
 		M_Cube = 10;
-		probes = 2;								
+		probes = 25;								
 		//printf("k = 4\tL = 5\nGive the path to the input file:\n");
 		//scanf("%s", input);
 		strcpy(input, "siftsmall/input_small_id");
@@ -48,6 +47,8 @@ int main (int argc, char *argv[]){
 		vectors[i].coord = malloc(coords*sizeof(int));
 	}
 	save_input(input, vectors);							// Apothikeuoume ta dianusmata
+	if(argc!=13)
+		d = log2(vec_sum);
 
 	count_input(query, &quer_sum, &coords);						// Metrame to plithos twn queries
 	printf("Queries = %d\tCoordinates = %d\n", quer_sum, coords);
@@ -63,9 +64,9 @@ int main (int argc, char *argv[]){
 	distanceCube = malloc(quer_sum*sizeof(int));
 	tCube = malloc(quer_sum*sizeof(float));
 	tTrue = malloc(quer_sum*sizeof(float));
-	g = malloc(vec_sum*sizeof(unsigned int *));
+	h_sum = malloc(vec_sum*sizeof(int *));
 	for(i=0; i<vec_sum; i++){
-		g[i] = malloc(d*sizeof(unsigned int));
+		h_sum[i] = malloc(d*sizeof(int));
 	}
 	f = malloc(d*sizeof(struct list_node **));
 	for(i=0; i<d; i++){
@@ -85,18 +86,13 @@ int main (int argc, char *argv[]){
 		tTrue[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
 
-//	r = average_dist(vec_sum, coords, vectors);					// Kwdikas gia ton upologismo tou r wste na thesoume w = 4*r
+//	r = average_dist(vec_sum, coords, vectors);	// Kwdikas gia ton upologismo tou r wste na thesoume w = 4*r
 //	printf("r = %f\n", r);
 	w = 4500;
 
-	h = malloc(d*sizeof(struct h_func *));				// Ftiaxnoume tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
+	h = malloc(d*sizeof(struct h_func));		// Ftiaxnoume tis sunartiseis h pou kathe mia tha exei ola ta s apothikeumena gia to query
 	for(i=0; i<d; i++){	
-		h[i] = malloc(k*sizeof(struct h_func));
-	}
-	for(i=0; i<d; i++){
-		for(j=0; j<k; j++){
-			h[i][j].s = malloc(coords*sizeof(int));
-		}
+		h[i].s = malloc(coords*sizeof(int));
 	}
 
 	cube = malloc(vec_sum*sizeof(struct list_node *));
@@ -106,29 +102,26 @@ int main (int argc, char *argv[]){
 
 	srand(time(0));								// Dinoume tuxaies times sta s sto diastima [0,w)
 	for(i=0; i<d; i++){
-		for(j=0; j<k; j++){
-			for(z=0; z<coords; z++){
-				h[i][j].s[z] = rand()%w;
-			}
+		for(z=0; z<coords; z++){
+			h[i].s[z] = rand()%w;
 		}
 	}
-	
-	m = 5;											// Ekxwroume times sta m, M
+	m = 5;										// Ekxwroume times sta m, M
 	M = pow(2, 32/k);
 
-	m_factors = malloc(coords*sizeof(int));						// Apothikeuoume ola ta (m^d) mod M, gia na min kanoume askopous upologismous
+	m_factors = malloc(coords*sizeof(int));		// Apothikeuoume ola ta (m^d) mod M, gia na min kanoume askopous upologismous
 	factors(m, M, coords, m_factors);
 
-	lsh_train(vectors, h, m_factors, g, vec_sum, coords, M, k, d, w);			// Ekteloume to lsh gia to input data
-	cube_train(g, f, cube, vec_sum, d);
+	
+	lsh_train(vectors, h, m_factors, h_sum, vec_sum, coords, M, d, w);			// Ekteloume to lsh gia to input data
+	cube_train(h_sum, f, cube, vec_sum, d);										// Ekteloume to cube gia to input data
+	
+	h_quer = malloc(d*sizeof(int));
 
-	g_quer = malloc(d*sizeof(unsigned int));
-
-	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
+	for(i=0; i<quer_sum; i++){
 		start = clock();
-		lsh_search(query, h, m_factors, g_quer, coords, M, k, d, w);
-//		cube_results[i] = cube_search();
-		cube_results[i]=i;
+		lsh_search(queries[i], h, m_factors, h_quer, coords, M, d, w);	// Ekteloume lsh gia ta queries
+		cube_results[i] = cube_search(h_quer, f, cube, vectors, queries[i], &distanceCube[i], vec_sum, coords, d, probes, M_Cube);
 		stop = clock();
 		tCube[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
@@ -136,7 +129,7 @@ int main (int argc, char *argv[]){
 	write_output(output, quer_sum, queries, vectors, cube_results, distanceCube, distanceTrue, tCube, tTrue);
 
 	sum=0;
-	//printf("Actual Result\tCube Result\tdistanceTrue\tdistanceLSH\n\n");
+//	printf("Actual Result\tCube Result\tdistanceTrue\tdistanceCube\n\n");
 	for(i=0; i<quer_sum; i++){
 //		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], cube_results[i], distanceTrue[i], distanceCube[i]);
 		if(search_results[i]==cube_results[i]){sum++;}
