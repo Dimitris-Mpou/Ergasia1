@@ -26,7 +26,7 @@ int main (int argc, char *argv[]){
 	save_input(path, curves);
 	for(i=0; i<1; i++){
 		for(j=0; j<curves[i].noPoints; j++){
-			printf("%f, %f\n", curves[i].points[j].x, curves[i].points[j].y);
+			printf("%.16f, %.16f\n", curves[i].points[j].x, curves[i].points[j].y);
 		}
 	}
 	return 0;
