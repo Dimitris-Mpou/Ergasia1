@@ -82,7 +82,7 @@ int main (int argc, char *argv[]){
 	for(i=0; i<L; i++){
 		for(j=0; j<k; j++){
 			for(z=0; z<coords; z++){
-				h[i][j].s[z] = rand()%w;
+				h[i][j].s[z] = w*(rand() / (RAND_MAX +1.0));
 			}
 		}
 	}

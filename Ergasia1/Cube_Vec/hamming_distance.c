@@ -1,7 +1,5 @@
 #include <math.h>
 
-#include <stdio.h>
-
 int count_edges(int start, int d, int *binary_string, int *cube_pos, int hamming_distance, int count_probes, int probes){
 	int i, j;
 
