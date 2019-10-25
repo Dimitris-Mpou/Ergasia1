@@ -7,7 +7,7 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, k, d, w, M_Cube, probes, vec_sum, quer_sum, coords, m, M, *m_factors, **h_sum, *h_quer, sum, *search_results, *cube_results, *distanceTrue, *distanceCube;
+	int i, j, z, k, d, w, M_Cube, probes, vec_sum, quer_sum, coords, m, M, *m_factors, **h_sum, *h_quer, *search_results, *cube_results, *distanceTrue, *distanceCube;
 	unsigned int **g, *g_quer;
 	char ch, *num, input[256], query[256], output[256];
 	float r, *tCube, *tTrue;
@@ -28,20 +28,16 @@ int main (int argc, char *argv[]){
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio
 		M_Cube = 10;
 		probes = 25;								
-		//printf("k = 4\tL = 5\nGive the path to the input file:\n");
-		//scanf("%s", input);
-		strcpy(input, "siftsmall/input_small_id");
-		//printf("Give the path to the query file:\n");
-		//scanf("%s", query);
-		strcpy(query, "siftsmall/query_small_id");
-		//printf("Give the path to the output file:\n");
-		//scanf("%s", output);
-		strcpy(output, "output");
+		printf("k = 4\tL = 5\nGive the path to the input file:\n");
+		scanf("%s", input);
+		printf("Give the path to the query file:\n");
+		scanf("%s", query);
+		printf("Give the path to the output file:\n");
+		scanf("%s", output);
 	}
 	k=4;
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
-	printf("Vectors = %d\tCoordinates = %d\n", vec_sum, coords);
 	vectors = malloc(vec_sum*sizeof(struct vec));					// Kanoume malloc gia na ta apothikeusoume
 	for(i=0; i<vec_sum; i++){
 		vectors[i].coord = malloc(coords*sizeof(int));
@@ -51,7 +47,6 @@ int main (int argc, char *argv[]){
 		d = log2(vec_sum);
 
 	count_input(query, &quer_sum, &coords);						// Metrame to plithos twn queries
-	printf("Queries = %d\tCoordinates = %d\n", quer_sum, coords);
 	queries = malloc(quer_sum*sizeof(struct vec));					// Kanoume malloc gia na ta apothikeusoume
 	for(i=0; i<quer_sum; i++){
 		queries[i].coord = malloc(coords*sizeof(int));
@@ -127,14 +122,6 @@ int main (int argc, char *argv[]){
 	}
 
 	write_output(output, quer_sum, queries, vectors, cube_results, distanceCube, distanceTrue, tCube, tTrue);
-
-	sum=0;
-//	printf("Actual Result\tCube Result\tdistanceTrue\tdistanceCube\n\n");
-	for(i=0; i<quer_sum; i++){
-//		printf("%d\t\t%d\t\t%d\t\t%d\n", search_results[i], cube_results[i], distanceTrue[i], distanceCube[i]);
-		if(search_results[i]==cube_results[i]){sum++;}
-	}
-	printf("Score: %d / %d\n", sum, quer_sum);
 
 	return 0;
 }
