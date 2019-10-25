@@ -28,12 +28,13 @@ int count_curves(char path[256]){
 }
 
 
-void count_points (char path[256], struct curve *curves){
-	int i, z;
+int count_points (char path[256], struct curve *curves){
+	int i, z, max;
 	char ch, *num;
 	FILE *fp;
 	num = malloc(10*sizeof(char));
 	fp = fopen(path,"r");
+	max = 0;
 	i=0;
 	z=0;
 	while(1){						// Sarwnoume to arxeio metrwntas posa curves exei
@@ -51,6 +52,9 @@ void count_points (char path[256], struct curve *curves){
 			}
 			num[z] = '\0';	
 			curves[i].noPoints = atoi(num);
+			if(curves[i].noPoints>max){
+				max = curves[i].noPoints;
+			}
 			ch = fgetc(fp);
 		}
 		else if(ch=='\n'){
@@ -58,6 +62,7 @@ void count_points (char path[256], struct curve *curves){
 		}
 	} 
 	fclose(fp);
+	return max;
 }
 
 
