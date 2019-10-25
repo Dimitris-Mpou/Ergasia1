@@ -1,4 +1,4 @@
-.#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -103,7 +103,7 @@ int main (int argc, char *argv[]){
 	srand(time(0));								// Dinoume tuxaies times sta s sto diastima [0,w)
 	for(i=0; i<d; i++){
 		for(z=0; z<coords; z++){
-			h[i].s[z] = rand()%w;
+			h[i].s[z] = w*(rand() / (RAND_MAX +1.0));
 		}
 	}
 	m = 5;										// Ekxwroume times sta m, M
