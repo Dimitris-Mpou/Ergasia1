@@ -83,7 +83,7 @@ void save_input(char path[256], struct curve *curves){
 				z++;
 				ch = fgetc(fp);
 			}
-			num[z] = '\0
+			num[z] = '\0';
 			curves[i].points[j].x = atof(num);		
 			ch = fgetc(fp);					//Diavazetai to comma
 			z=0;
