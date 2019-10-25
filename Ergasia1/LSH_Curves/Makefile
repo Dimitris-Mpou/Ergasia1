@@ -1,5 +1,5 @@
-OBJS = main.o input.o #average.o modulo_calc.o concut.o factors.o hash.o lsh.o write_output.o
-SOURCE = main.c input.c #average.c modulo_calc.c concut.c factors.c hash.c lsh.c write_output.c
+OBJS = main.o input.o dtw.o #average.o modulo_calc.o concut.o factors.o hash.o lsh.o write_output.o
+SOURCE = main.c input.c dtw.c#average.c modulo_calc.c concut.c factors.c hash.c lsh.c write_output.c
 HEADER = headers.h functions.h
 OUT = curves
 CC = gcc
@@ -13,6 +13,9 @@ main.o: main.c
 
 input.o: input.c
 	$(CC) $(FLAG) input.c
+
+dtw.o: dtw.c
+	$(CC) $(FLAG) dtw.c
 
 #average.o: average.c
 #	$(CC) $(FLAG) average.c

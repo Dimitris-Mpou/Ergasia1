@@ -30,18 +30,8 @@ void cube_train(int **h_sum, struct list_node ***f, struct list_node **cube, int
 					cur->next->next = NULL;
 					cur->next->vec_pos = rand() % 2;
 				}
-<<<<<<< HEAD
-				binary_string[j] = cur->vec_pos; 
-			}	
-			binary_string[d+1] = '\0';
-		}
-		cube_pos = 0;		// int
-		for(j=0; j<d; j++){
-			cube_pos += atoi(binary_string[j]) * pow(2,d-1 -j);	// math.h
-=======
 				cube_pos += cur->vec_pos*pow(2,d-1 -j);
 			}
->>>>>>> f81ef8006dfb773fce935199f5dbb5c46c667c8f
 		}
 		if(cube[cube_pos] == NULL){
 			cube[cube_pos] = malloc(sizeof(struct list_node));

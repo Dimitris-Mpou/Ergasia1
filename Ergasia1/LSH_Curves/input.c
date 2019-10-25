@@ -66,7 +66,7 @@ void save_input(char path[256], struct curve *curves){
 	char ch, *num;
 	FILE *fp;
 
-	num =malloc(25*sizeof(char));	// Ara oi suntetagmenes einai mexri 9psifioi arithmoi
+	num =malloc(25*sizeof(char));		// Ara oi suntetagmenes einai mexri 9psifioi arithmoi
 	fp = fopen(path,"r");			// Ksana anoigoume to arxeio wste autoi ti fora na apothikeusoume ta dianusmata
 	z=0;
 	j=0;
@@ -78,20 +78,22 @@ void save_input(char path[256], struct curve *curves){
 		}else if(ch=='('){
 			ch = fgetc(fp);
 			z=0;
-			while(ch != ','){
+			while(ch != ','){				//Diavazetai h suntetagmenh x
 				num[z] = ch;
 				z++;
 				ch = fgetc(fp);
 			}
-			curves[i].points[j].x = atof(num);
-			ch = fgetc(fp);
-			ch = fgetc(fp);
+			num[z] = '\0
+			curves[i].points[j].x = atof(num);		
+			ch = fgetc(fp);					//Diavazetai to comma
 			z=0;
-			while(ch != ')'){
+			ch = fgetc(fp);
+			while(ch != ')'){				//Diavazetai h suntetagmenh x
 				num[z] = ch;
 				z++;
 				ch = fgetc(fp);
 			}
+			num[z] = '\0';
 			curves[i].points[j].y = atof(num);
 			j++;
 				
