@@ -5,3 +5,4 @@ double euclidean(struct point, struct point);
 double dtw(struct curve, struct curve);
 struct dtw_cell *min_neighbour(struct dtw_cell *, struct dtw_cell *, struct dtw_cell *);
 double count_d(struct curve *, int);
+void snap(struct curve *, int ****, int **, int, int, int);
