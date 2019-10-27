@@ -17,11 +17,7 @@ int count_curves(char path[256]){
 		}else if(ch=='\n'){
 			curves_sum++;
 		}
-	/*	}else if((ch==' ') && ((*vec_sum)==0)){
-			(*coords)++;			// Metrame poses suntentagmenes exei to 1o dianusma (toses tha exoun ola)
-		}*/
 	}
-	//(*coords)--;					// Exoume metrisei kai to id tou dianusmatos san suntetagmeni opote to afairoume
 
 	fclose(fp);
 	return curves_sum;
@@ -88,7 +84,7 @@ void save_input(char path[256], struct curve *curves){
 			ch = fgetc(fp);					//Diavazetai to comma
 			z=0;
 			ch = fgetc(fp);
-			while(ch != ')'){				//Diavazetai h suntetagmenh x
+			while(ch != ')'){				//Diavazetai h suntetagmenh y
 				num[z] = ch;
 				z++;
 				ch = fgetc(fp);
