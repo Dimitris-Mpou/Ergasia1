@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <math.h>
 #include "headers.h"
 #include "functions.h"
 
@@ -49,8 +48,4 @@ struct dtw_cell *min_neighbour(struct dtw_cell *a, struct dtw_cell *b, struct dt
 			return c;
 		}
 	}
-}
-
-double euclidean(struct point a, struct point b){
-	return pow( pow(a.x - b.x, 2) + pow(a.y - b.y, 2), 0.5 );
 }
