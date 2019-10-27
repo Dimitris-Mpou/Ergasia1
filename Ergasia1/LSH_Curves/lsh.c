@@ -28,7 +28,7 @@ void lsh_train(struct vec *vectors, struct h_func **h, struct list_node ***HashT
 	}
 }
 
-int lsh_search(struct vec *vectors, struct vec query, struct h_func **h, struct list_node ***HashTables, int *m_factors, int *min_distance, int vec_sum, int coords, int M, int k, int L, int w, int TableSize){
+int lsh_search(struct vec *vectors, struct vec query, struct curve *curves, struct h_func **h, struct list_node ***HashTables, int *m_factors, int *min_distance, int vec_sum, int coords, int M, int k, int L, int w, int TableSize){
 	int i, j, z, t, hash_pos, *a, min, min_pos, vec_pos, dist;
 	unsigned int g;
 	float f;
@@ -55,10 +55,8 @@ int lsh_search(struct vec *vectors, struct vec query, struct h_func **h, struct 
 			while(cur!=NULL){				// Trexoume olo to bucket
 				if(cur->g==g){				// Kai an ta dianusmata tou bucket exoun idio g me to query
 					vec_pos=cur->vec_pos;
-					dist=0;					// Metrame tin manhattan distance
-					for(j=0; j<coords; j++){
-						dist+=abs(vectors[vec_pos].coord[j]-query.coord[j]);
-					}
+					dist=0;					// Metrame tin dtw
+					dist = dtw(curves[vectors[vec_pos].id], curves[curves[query.id])
 					if(dist<min){			// Apothikeuoume to mikrotero
 						min_pos=vec_pos;
 						min=dist;
@@ -74,7 +72,7 @@ int lsh_search(struct vec *vectors, struct vec query, struct h_func **h, struct 
 	return min_pos;							// Ki epistrefoume tin thesi tou ston pinaka vectors
 }
 
-void lsh(struct vec *vectors, struct vec *queries, int vec_sum, int quer_sum, int coords, int k, int L, int w, int *lsh_results, int *distanceLSH, float *tLSH){
+void lsh(struct vec *vectors, struct vec *queries, struct curve *curves, int vec_sum, int quer_sum, int coords, int k, int L, int w, int *lsh_results, int *distanceLSH, float *tLSH){
 	int i, j, z, m, M, hash_pos, TableSize, *m_factors;
 	struct h_func **h; 
 	struct list_node ***HashTables;
@@ -120,7 +118,7 @@ void lsh(struct vec *vectors, struct vec *queries, int vec_sum, int quer_sum, in
 
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
 		start = clock();
-		lsh_results[i] = lsh_search(vectors, queries[i], h, HashTables, m_factors, &distanceLSH[i], vec_sum, coords, M, k, L, w, TableSize);
+		lsh_results[i] = lsh_search(vectors, queries[i], curves, h, HashTables, m_factors, &distanceLSH[i], vec_sum, coords, M, k, L, w, TableSize);
 		stop = clock();
 		tLSH[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}

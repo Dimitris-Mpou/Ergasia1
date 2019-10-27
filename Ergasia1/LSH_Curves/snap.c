@@ -2,8 +2,6 @@
 #include "headers.h"
 #include "functions.h"
 
-#include <stdio.h>
-
 void snap(struct curve *curves, int ****grid_curves, int **grids, int curves_sum, int grid_length, int L_grid){
 	int i, j, z, p, minVal_x, minVal_y, min_x, min_y;
 

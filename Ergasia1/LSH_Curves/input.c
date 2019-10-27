@@ -48,6 +48,7 @@ int count_points (char path[256], struct curve *curves){
 			}
 			num[z] = '\0';	
 			curves[i].noPoints = atoi(num);
+			curves[i].id = i;
 			if(curves[i].noPoints>max){
 				max = curves[i].noPoints;
 			}

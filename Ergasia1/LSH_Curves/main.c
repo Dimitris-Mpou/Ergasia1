@@ -6,10 +6,12 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, p, curves_sum, max_points, **grids, ****grid_curves, k_vec, L_grid, d_greek, **t, grid_length;
+	int i, j, z, p, curves_sum, max_points, **grids, ****grid_curves, k_vec, L_grid, delta, **t, grid_length, w, h, k, TableSize, vec_sum, quer_sum, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
 	char input[256], query[256], output[256];
+	float *tLSH, *tTrue;
+	clock_t start, stop;
 	struct curve *curves;
-	struct vec **vectors;
+	struct vec **vectors, *queries;
 	
 	if(argc==11){					// Pairnoume ta orismata
 		strcpy(input, argv[2]);
@@ -35,13 +37,12 @@ int main (int argc, char *argv[]){
 	max_points = count_points(input, curves);					// Metrame to plithos twn suntetagmenwn kathe curve
 	printf("Curves = %d max points = %d\n", curves_sum, max_points);
 	for(i=0; i<curves_sum; i++){
-		//printf("%d %d\n", i, curves[i].noPoints);
 		curves[i].points = malloc(curves[i].noPoints*sizeof(struct point));
 	}	
 	save_input(input, curves);
 
-//	d_greek = count_d(curves, curves_sum);		d = 0.002212, to pollaplasiazoume epi 1000
-	d_greek=2;
+//	delta = count_d(curves, curves_sum);		d = 0.002212, to pollaplasiazoume epi 1000
+	delta=2;
 	grid_length = 2000;
 
 	grids = malloc(L_grid*sizeof(int *));				// Kanoume malloc gia ta grids
@@ -66,7 +67,7 @@ int main (int argc, char *argv[]){
 	for(i=0; i<L_grid; i++){
 		t[i] = malloc(grid_length*sizeof(int));
 		for(j=0; j<grid_length; j++){
-			t[i][j] = 2 * (rand() / (RAND_MAX +1.0));
+			t[i][j] = delta * (rand() / (RAND_MAX +1.0));
 			grids[i][j] += t[i][j];
 		}
 	}
@@ -96,19 +97,43 @@ int main (int argc, char *argv[]){
 	}
 	concat_curve(vectors, curves, grid_curves, curves_sum, max_points, L_grid);
 
+
+/*
 	printf("%d. (", vectors[0][6].id);
 	for(i=0; i<max_points; i++){
 		printf("%d, ", vectors[0][6].coord[i]);		
 	}
 	printf(")\n");
+*/
+/*********	LSH	***********/
 	
-
-/*	for(i=0; i<1; i++){
-		for(j=0; j<curves[i].noPoints; j++){
-			printf("%.16f, %.16f\n", curves[i].points[j].x, curves[i].points[j].y);
+	quer_sum = 86;
+	queries = malloc(quer_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
+	for(i=0; i<quer_sum; i++){
+		queries[i].coord = malloc(max_points*sizeof(int));
+		for(j=0; j<=max_points; j++){
+			queries[i].coord[j] = vectors[curves_sum - 86 + i].coord[j]; 	// Apothikeuoume ta queries
 		}
 	}
-*/
-	
+				
+	vec_sum = 7400;	
+
+	search_results = malloc(quer_sum*sizeof(int));
+	lsh_results = malloc(quer_sum*sizeof(int));
+	distanceTrue = malloc(quer_sum*sizeof(int));
+	distanceLSH = malloc(quer_sum*sizeof(int));
+	tLSH = malloc(quer_sum*sizeof(float));
+	tTrue = malloc(quer_sum*sizeof(float));
+
+	for(i=0; i<quer_sum; i++){
+		start = clock();
+		search_results[i] = query_knn(vec_sum, max_points, vectors, queries[i], &distanceTrue[i]);	// Kwdikas exantlitikis anazitisis
+		stop = clock();
+		tTrue[i] = (double)(stop-start) / CLOCKS_PER_SEC;
+	}
+	w = 4500;
+
+	lsh(vectors, queries, curves, vec_sum, quer_sum, max_points, k, L_grid, w, lsh_results, distanceLSH, tLSH);
+	write_output(output, quer_sum, queries, vectors, lsh_results, distanceLSH, distanceTrue, tLSH, tTrue);	
 	return 0;
 }
