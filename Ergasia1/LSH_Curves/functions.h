@@ -6,3 +6,4 @@ double dtw(struct curve, struct curve);
 struct dtw_cell *min_neighbour(struct dtw_cell *, struct dtw_cell *, struct dtw_cell *);
 double count_d(struct curve *, int);
 void snap(struct curve *, int ****, int **, int, int, int);
+void concat_curve(struct vec **, struct curve *, int ****, int, int, int);

@@ -6,7 +6,7 @@
 #include "functions.h"
 
 int main (int argc, char *argv[]){
-	int i, j, z, p, curves_sum, max_points, **grids, ****grid_curves, k_vec, L_grid, d_greek, **t, grid_length, count;
+	int i, j, z, p, curves_sum, max_points, **grids, ****grid_curves, k_vec, L_grid, d_greek, **t, grid_length;
 	char input[256], query[256], output[256];
 	struct curve *curves;
 	struct vec **vectors;
@@ -33,7 +33,7 @@ int main (int argc, char *argv[]){
 	curves_sum = count_curves(input);							// Metrame to plithos twn curves
 	curves = malloc(curves_sum*sizeof(struct curve));
 	max_points = count_points(input, curves);					// Metrame to plithos twn suntetagmenwn kathe curve
-	printf("Curves = %d\n", curves_sum);
+	printf("Curves = %d max points = %d\n", curves_sum, max_points);
 	for(i=0; i<curves_sum; i++){
 		//printf("%d %d\n", i, curves[i].noPoints);
 		curves[i].points = malloc(curves[i].noPoints*sizeof(struct point));
@@ -87,29 +87,18 @@ int main (int argc, char *argv[]){
 		printf("(%f, %f)\t(%d, %d)\n", curves[0].points[i].x, curves[0].points[i].y, grid_curves[0][0][i][0], grid_curves[0][0][i][1]);
 	}
 
-	vectors = malloc(L_grid*sizeof(struct vec *)); // Seg edw mesa
-	for(i=0; i<curves_sum; i++){
+	vectors = malloc(L_grid*sizeof(struct vec *));
+	for(i=0; i<L_grid; i++){
 		vectors[i] = malloc(curves_sum*sizeof(struct vec));
 		for(j=0; j<curves_sum; j++){
 			vectors[i][j].coord = malloc(max_points*2*sizeof(int));
-			vectors[i][j].id = curves[j].id;
-			count = 0;
-			for(z=0; z<curves[j].noPoints * 2; z++){
-				vectors[i][j].coord[count] = grid_curves[i][j][z][1];
-				vectors[i][j].coord[count+1] = grid_curves[i][j][z][2];
-				count +=2;
-			}
-			for(z; z<max_points*2; z+=2){
-				vectors[i][j].coord[z] = 0;
-				vectors[i][j].coord[z+1] = 0;
-			}
 		}
 	}
-	printf("Here");
+	concat_curve(vectors, curves, grid_curves, curves_sum, max_points, L_grid);
 
-	printf("%d. (", vectors[0][0].id);
+	printf("%d. (", vectors[0][6].id);
 	for(i=0; i<max_points; i++){
-		printf("%d, ", vectors[0][0].coord[i]);		
+		printf("%d, ", vectors[0][6].coord[i]);		
 	}
 	printf(")\n");
 	
