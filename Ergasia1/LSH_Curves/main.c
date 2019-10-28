@@ -8,7 +8,6 @@
 int main (int argc, char *argv[]){
 	int i, j, z, p, curves_sum, max_points, **grids, ****grid_curves, k_vec, L_grid, delta, **t, grid_length, w, h, k, TableSize, vec_sum, quer_sum, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
 	char input[256], query[256], output[256];
-	float *tLSH, *tTrue;
 	clock_t start, stop;
 	struct curve *curves;
 	struct vec **vectors, *queries;
@@ -97,22 +96,20 @@ int main (int argc, char *argv[]){
 	}
 	concat_curve(vectors, curves, grid_curves, curves_sum, max_points, L_grid);
 
-
-/*
 	printf("%d. (", vectors[0][6].id);
 	for(i=0; i<max_points; i++){
 		printf("%d, ", vectors[0][6].coord[i]);		
 	}
 	printf(")\n");
-*/
+
 /*********	LSH	***********/
-	
+/*	
 	quer_sum = 86;
 	queries = malloc(quer_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
 	for(i=0; i<quer_sum; i++){
 		queries[i].coord = malloc(max_points*sizeof(int));
 		for(j=0; j<=max_points; j++){
-			queries[i].coord[j] = vectors[curves_sum - 86 + i].coord[j]; 	// Apothikeuoume ta queries
+			queries[i].coord[j] = vectors[0][curves_sum - 86 + i].coord[j]; 	// Apothikeuoume ta queries
 		}
 	}
 				
@@ -122,18 +119,14 @@ int main (int argc, char *argv[]){
 	lsh_results = malloc(quer_sum*sizeof(int));
 	distanceTrue = malloc(quer_sum*sizeof(int));
 	distanceLSH = malloc(quer_sum*sizeof(int));
-	tLSH = malloc(quer_sum*sizeof(float));
-	tTrue = malloc(quer_sum*sizeof(float));
 
 	for(i=0; i<quer_sum; i++){
-		start = clock();
-		search_results[i] = query_knn(vec_sum, max_points, vectors, queries[i], &distanceTrue[i]);	// Kwdikas exantlitikis anazitisis
-		stop = clock();
-		tTrue[i] = (double)(stop-start) / CLOCKS_PER_SEC;
+		search_results[i] = query_knn(vec_sum, max_points, curves, vectors, queries[i], &distanceTrue[i], L_grid);	// Kwdikas exantlitikis anazitisis
 	}
 	w = 4500;
 
-	lsh(vectors, queries, curves, vec_sum, quer_sum, max_points, k, L_grid, w, lsh_results, distanceLSH, tLSH);
-	write_output(output, quer_sum, queries, vectors, lsh_results, distanceLSH, distanceTrue, tLSH, tTrue);	
+	lsh(vectors, queries, curves, vec_sum, quer_sum, max_points, k, L_grid, w, lsh_results, distanceLSH);
+	write_output(output, quer_sum, curves, queries, lsh_results, search_results, distanceLSH, distanceTrue);	
 	return 0;
+*/
 }

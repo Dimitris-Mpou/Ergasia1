@@ -4,18 +4,18 @@
 #include "headers.h"
 #include "functions.h"
 
-void lsh_train(struct vec *vectors, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int M, int k, int L, int w, int TableSize){
+void lsh_train(struct vec **vectors, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int M, int k, int L, int w, int TableSize){
 	int i, j, z, t, hash_pos, *a;
 	unsigned int g;
 	float f;
 
 	a = malloc(coords*sizeof(int));
-	for(i=0; i<vec_sum; i++){
-		for(z=0; z<L; z++){
+	for(z=0; z<L; z++){
+		for(i=0; i<vec_sum; i++){
 			for(t=0; t<k; t++){								
 				h[z][t].h_sum = 0;
 				for(j=0; j<coords; j++){
-					f = (float) (vectors[i].coord[j] - h[z][t].s[j]) / w;			//Briskoume kathe a[j]
+					f = (float) (vectors[z][i].coord[j] - h[z][t].s[j]) / w;			//Briskoume kathe a[j]
 					a[j]=floor(f) + 2;						//Efarmozoume to floor kai ta kanoume thetika
 					h[z][t].h_sum += (a[j] % M * m_factors[j]) % M; 				//Kanoume mod se kathe paragonta kai athroizoume
 				}
@@ -28,7 +28,7 @@ void lsh_train(struct vec *vectors, struct h_func **h, struct list_node ***HashT
 	}
 }
 
-int lsh_search(struct vec *vectors, struct vec query, struct curve *curves, struct h_func **h, struct list_node ***HashTables, int *m_factors, int *min_distance, int vec_sum, int coords, int M, int k, int L, int w, int TableSize){
+int lsh_search(struct vec **vectors, struct vec query, struct curve *curves, struct h_func **h, struct list_node ***HashTables, int *m_factors, int *min_distance, int vec_sum, int coords, int M, int k, int L, int w, int TableSize){
 	int i, j, z, t, hash_pos, *a, min, min_pos, vec_pos, dist;
 	unsigned int g;
 	float f;
@@ -56,7 +56,7 @@ int lsh_search(struct vec *vectors, struct vec query, struct curve *curves, stru
 				if(cur->g==g){				// Kai an ta dianusmata tou bucket exoun idio g me to query
 					vec_pos=cur->vec_pos;
 					dist=0;					// Metrame tin dtw
-					dist = dtw(curves[vectors[vec_pos].id], curves[curves[query.id])
+					dist = dtw(curves[vectors[z][vec_pos].id], curves[query.id]);
 					if(dist<min){			// Apothikeuoume to mikrotero
 						min_pos=vec_pos;
 						min=dist;
@@ -72,7 +72,7 @@ int lsh_search(struct vec *vectors, struct vec query, struct curve *curves, stru
 	return min_pos;							// Ki epistrefoume tin thesi tou ston pinaka vectors
 }
 
-void lsh(struct vec *vectors, struct vec *queries, struct curve *curves, int vec_sum, int quer_sum, int coords, int k, int L, int w, int *lsh_results, int *distanceLSH, float *tLSH){
+void lsh(struct vec **vectors, struct vec *queries, struct curve *curves, int vec_sum, int quer_sum, int coords, int k, int L, int w, int *lsh_results, int *distanceLSH){
 	int i, j, z, m, M, hash_pos, TableSize, *m_factors;
 	struct h_func **h; 
 	struct list_node ***HashTables;
@@ -117,9 +117,6 @@ void lsh(struct vec *vectors, struct vec *queries, struct curve *curves, int vec
 	lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);		// Ekteloume to lsh gia to input data
 
 	for(i=0; i<quer_sum; i++){									// Ekteloume lsh gia ta queries
-		start = clock();
 		lsh_results[i] = lsh_search(vectors, queries[i], curves, h, HashTables, m_factors, &distanceLSH[i], vec_sum, coords, M, k, L, w, TableSize);
-		stop = clock();
-		tLSH[i] = (double)(stop-start) / CLOCKS_PER_SEC;
 	}
 }

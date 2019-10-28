@@ -1,5 +1,5 @@
-OBJS = main.o input.o average.o modulo_calc.o concut.o factors.o hash.o lsh.o write_output.o
-SOURCE = main.c input.c average.c modulo_calc.c concut.c factors.c hash.c lsh.c write_output.c
+OBJS = main.o input.o average.o modulo_calc.o concat.o factors.o hash.o lsh.o write_output.o
+SOURCE = main.c input.c average.c modulo_calc.c concat.c factors.c hash.c lsh.c write_output.c
 HEADER = headers.h functions.h
 OUT = lsh
 CC = gcc
@@ -20,8 +20,8 @@ average.o: average.c
 modulo_calc.o: modulo_calc.c
 	$(CC) $(FLAG) modulo_calc.c
 
-concut.o: concut.c
-	$(CC) $(FLAG) concut.c
+concat.o: concat.c
+	$(CC) $(FLAG) concat.c
 
 factors.o: factors.c
 	$(CC) $(FLAG) factors.c

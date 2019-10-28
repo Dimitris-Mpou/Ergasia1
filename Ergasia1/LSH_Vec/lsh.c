@@ -21,7 +21,7 @@ void lsh_train(struct vec *vectors, struct h_func **h, struct list_node ***HashT
 				}
 				h[z][t].h_sum = h[z][t].h_sum % M;			//Kanoume mod kai so oloklhro to athroisma
 			}
-			g = concut(h[z], k);
+			g = concat(h[z], k);
 			hash_pos = g % (TableSize);
 			hash(HashTables[z], hash_pos, g, i);
 		}
@@ -48,7 +48,7 @@ int lsh_search(struct vec *vectors, struct vec query, struct h_func **h, struct 
 			}
 			h[z][t].h_sum = h[z][t].h_sum % M;
 		}
-		g = concut(h[z], k);
+		g = concat(h[z], k);
 		hash_pos = g % (TableSize);			// Molis antistoixithei se bucket
 		if(HashTables[z][hash_pos]!=NULL){	// An to bucket den einai adeio
 			cur=HashTables[z][hash_pos];

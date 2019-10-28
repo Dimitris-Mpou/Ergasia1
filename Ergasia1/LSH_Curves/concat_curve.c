@@ -19,7 +19,7 @@ void concat_curve(struct vec **vectors, struct curve *curves, int ****grid_curve
 				last_y = grid_curves[i][j][z][1];
 			}
 			for(z=count; z<max_points*2; z++){
-				vectors[i][j].coord[z] = 0;
+				vectors[i][j].coord[z] = 100000;		//padding 
 			}
 		}
 	}
