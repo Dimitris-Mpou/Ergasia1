@@ -30,7 +30,7 @@ int main (int argc, char *argv[]){
 		scanf("%s", output);
 		k_vec = 4;
 		L_grid = 4;
-		e =0.5;
+		e = 0.5;
 	}
 	
 	curves_sum = count_curves(input);							// Metrame to plithos twn curves
@@ -95,7 +95,7 @@ int main (int argc, char *argv[]){
 	concat_curve(vectors, curves, grid_curves, curves_sum, max_points, L_grid);
 
 /*********	LSH	***********/
-/*	
+	
 	quer_sum = 86;
 	queries = malloc(quer_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
 	for(i=0; i<quer_sum; i++){
@@ -120,5 +120,5 @@ int main (int argc, char *argv[]){
 	lsh(vectors, queries, curves, vec_sum, quer_sum, max_points, k, L_grid, w, lsh_results, distanceLSH);
 	write_output(output, quer_sum, curves, queries, lsh_results, search_results, distanceLSH, distanceTrue);	
 	return 0;
-*/
+
 }
