@@ -62,7 +62,6 @@ int main (int argc, char *argv[]){
 	}
 
 //	r = average_dist(vec_sum, coords, vectors);			// Kwdikas gia ton upologismo tou r wste na thesoume w = 4*r
-//	printf("r = %f\n", r);
 	w = 4500;
 /*
 

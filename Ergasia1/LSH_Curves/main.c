@@ -7,6 +7,7 @@
 
 int main (int argc, char *argv[]){
 	int i, j, z, p, curves_sum, max_points, **grids, ****grid_curves, k_vec, L_grid, delta, **t, grid_length, w, h, k, TableSize, vec_sum, quer_sum, *search_results, *lsh_results, *distanceTrue, *distanceLSH;
+	double e;
 	char input[256], query[256], output[256];
 	clock_t start, stop;
 	struct curve *curves;
@@ -17,24 +18,24 @@ int main (int argc, char *argv[]){
 		strcpy(query, argv[4]);
 		k_vec = atoi(argv[6]);
 		L_grid = atoi(argv[8]);
-		strcpy(output, argv[10]);
+		e = atof(argv[10]);
+		strcpy(output, argv[12]);
 	
 	}else{							// An den itan arketa diavazoume ta files ap to pliktrologio							
-/*		printf("Give the path to the input file:\n");
+		printf("Give the path to the input file:\n");
 		scanf("%s", input);
 		printf("Give the path to the query file:\n");
 		scanf("%s", query);
 		printf("Give the path to the output file:\n");
-		scanf("%s", output);	*/
-		strcpy(input, "trajectories_dataset");
+		scanf("%s", output);
 		k_vec = 4;
 		L_grid = 4;
+		e =0.5;
 	}
 	
 	curves_sum = count_curves(input);							// Metrame to plithos twn curves
 	curves = malloc(curves_sum*sizeof(struct curve));
 	max_points = count_points(input, curves);					// Metrame to plithos twn suntetagmenwn kathe curve
-	printf("Curves = %d max points = %d\n", curves_sum, max_points);
 	for(i=0; i<curves_sum; i++){
 		curves[i].points = malloc(curves[i].noPoints*sizeof(struct point));
 	}	
@@ -83,9 +84,6 @@ int main (int argc, char *argv[]){
 	}
 
 	snap(curves, grid_curves, grids, curves_sum, grid_length, L_grid);
-	for(i=0; i<curves[0].noPoints; i++){
-		printf("(%f, %f)\t(%d, %d)\n", curves[0].points[i].x, curves[0].points[i].y, grid_curves[0][0][i][0], grid_curves[0][0][i][1]);
-	}
 
 	vectors = malloc(L_grid*sizeof(struct vec *));
 	for(i=0; i<L_grid; i++){
@@ -95,12 +93,6 @@ int main (int argc, char *argv[]){
 		}
 	}
 	concat_curve(vectors, curves, grid_curves, curves_sum, max_points, L_grid);
-
-	printf("%d. (", vectors[0][6].id);
-	for(i=0; i<max_points; i++){
-		printf("%d, ", vectors[0][6].coord[i]);		
-	}
-	printf(")\n");
 
 /*********	LSH	***********/
 /*	
