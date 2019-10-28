@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
-#include "headers.h"
+#include "structs.h"
 #include "functions.h"
 
 int main (int argc, char *argv[]){

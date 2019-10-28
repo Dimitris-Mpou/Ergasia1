@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "structs.h"
 
 void concat_curve(struct vec **vectors, struct curve *curves, int ****grid_curves, int curves_sum, int max_points, int L_grid){
 	int i, j, z, count, last_x, last_y;

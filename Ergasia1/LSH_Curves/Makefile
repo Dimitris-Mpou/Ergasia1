@@ -1,6 +1,6 @@
-OBJS = main.o input.o euclidean.o dtw.o count_d.o snap.o concat_curve.o average.o modulo_calc.o concut.o factors.o hash.o lsh.o write_output.o
-SOURCE = main.c input.c euclidean.c dtw.c count_d.c snap.c concat_curve.c average.o modulo_calc.c concut.c factors.c hash.c lsh.c write_output.c
-HEADER = headers.h functions.h
+OBJS = main.o input.o euclidean.o dtw.o count_d.o snap.o concat_curve.o average.o modulo_calc.o concat.o factors.o hash.o lsh.o write_output.o
+SOURCE = main.c input.c euclidean.c dtw.c count_d.c snap.c concat_curve.c average.o modulo_calc.c concat.c factors.c hash.c lsh.c write_output.c
+HEADER = structs.h functions.h
 OUT = curve_grid_lsh
 CC = gcc
 FLAG = -c 
@@ -35,8 +35,8 @@ average.o: average.c
 modulo_calc.o: modulo_calc.c
 	$(CC) $(FLAG) modulo_calc.c
 
-concut.o: concut.c
-	$(CC) $(FLAG) concut.c
+concat.o: concat.c
+	$(CC) $(FLAG) concat.c
 
 factors.o: factors.c
 	$(CC) $(FLAG) factors.c

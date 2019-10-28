@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "headers.h"
+#include "structs.h"
 #include "functions.h"
 
 void snap(struct curve *curves, int ****grid_curves, int **grids, int curves_sum, int grid_length, int L_grid){

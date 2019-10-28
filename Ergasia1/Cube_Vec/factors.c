@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "structs.h"
 #include "functions.h"
 
 void factors(int m, int M, int coords, int *m_factors){

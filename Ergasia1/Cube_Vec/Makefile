@@ -1,6 +1,6 @@
 OBJS = main.o input.o average.o modulo_calc.o factors.o lsh.o write_output.o cube.o hamming_distance.o
 SOURCE = main.c input.c average.c modulo_calc.c factors.c lsh.c write_output.c cube.c hamming_distance.c
-HEADER = headers.h functions.h
+HEADER = structs.h functions.h
 OUT = cube
 CC = gcc
 FLAG = -c 

@@ -1,6 +1,6 @@
 OBJS = main.o input.o average.o modulo_calc.o concat.o factors.o hash.o lsh.o write_output.o
 SOURCE = main.c input.c average.c modulo_calc.c concat.c factors.c hash.c lsh.c write_output.c
-HEADER = headers.h functions.h
+HEADER = structs.h functions.h
 OUT = lsh
 CC = gcc
 FLAG = -c 

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "headers.h"
+#include "structs.h"
 
 void count_input(char path[256], int *vec_sum, int *coords){
 	char ch;

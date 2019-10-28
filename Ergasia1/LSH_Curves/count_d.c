@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "structs.h"
 #include "functions.h"
 
 double count_d(struct curve *curves, int curves_sum){

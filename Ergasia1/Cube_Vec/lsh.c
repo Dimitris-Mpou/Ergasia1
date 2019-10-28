@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <math.h>
-#include "headers.h"
+#include "structs.h"
 #include "functions.h"
 
 void lsh_train(struct vec *vectors, struct h_func *h, int *m_factors, int **h_sum, int vec_sum, int coords, int M, int d, int w){

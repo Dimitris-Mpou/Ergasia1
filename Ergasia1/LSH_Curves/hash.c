@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "headers.h"
+#include "structs.h"
 
 void hash(struct list_node **Hash, int pos, unsigned int g, int i){
 	struct list_node *cur;

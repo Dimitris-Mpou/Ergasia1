@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "headers.h"
+#include "structs.h"
 #include "functions.h"
 
 double dtw(struct curve a, struct curve b){

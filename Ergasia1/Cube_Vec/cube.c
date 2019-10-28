@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
-#include "headers.h"
+#include "structs.h"
 #include <math.h>
 #include "functions.h"
 

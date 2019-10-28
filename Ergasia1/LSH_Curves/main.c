@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "headers.h"
+#include "structs.h"
 #include "functions.h"
 
 int main (int argc, char *argv[]){

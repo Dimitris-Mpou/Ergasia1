@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "headers.h"
+#include "structs.h"
 
 int count_curves(char path[256]){
 	int curves_sum;

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "headers.h"
+#include "structs.h"
 
 void write_output(char path[256], int quer_sum, struct vec *queries, struct vec *vectors, int *lsh_results, int *distanceLSH, int *distanceTrue, float *tLSH, float *tTrue){
 	int i;

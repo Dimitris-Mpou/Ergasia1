@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include "headers.h"
+#include "structs.h"
 #include "functions.h"
 
 void lsh_train(struct vec *vectors, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int M, int k, int L, int w, int TableSize){

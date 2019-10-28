@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "headers.h"
+#include "structs.h"
 
 float average_dist(int vec_sum, int coords, struct vec *vectors){
 	int i, j, z, dist, min, min_pos, aver;
