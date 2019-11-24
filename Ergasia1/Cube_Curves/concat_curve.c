@@ -19,7 +19,7 @@ void concat_curve(struct vec **vectors, struct curve *curves, int ****grid_curve
 				}
 			}
 			for(z=count; z<max_points*2; z++){
-				vectors[i][j].coord[z] = 0;
+				vectors[i][j].coord[z] = 99999;
 			}
 		}
 	}

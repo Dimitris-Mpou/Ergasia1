@@ -4,6 +4,7 @@
 
 double dtw(struct curve a, struct curve b){
 	int i, j;
+	double dist;
 	struct dtw_cell **dtw_table, *min;
 	
 	dtw_table = malloc(a.noPoints * sizeof(struct dtw_cell *));
@@ -31,7 +32,13 @@ double dtw(struct curve a, struct curve b){
 		}
 	}
 
-	return dtw_table[a.noPoints-1][b.noPoints-1].value;
+	dist = dtw_table[a.noPoints-1][b.noPoints-1].value;
+	for(i=0; i<a.noPoints; i++){
+		free(dtw_table[i]);
+	}
+	free(dtw_table);
+
+	return dist;
 }
 	
 struct dtw_cell *min_neighbour(struct dtw_cell *a, struct dtw_cell *b, struct dtw_cell *c){

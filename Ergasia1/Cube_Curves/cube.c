@@ -86,7 +86,7 @@ int cube_search(int *h_quer, struct list_node ***f, struct list_node **cube, str
 			while(cur!=NULL && count<M){
 				vec_pos = cur->vec_pos;
 				dist = dtw(curves[vec_pos], query);					// Metrame tin distance
-				if(dist<min){			// Apothikeuoume to mikrotero
+				if(dist<min && dist!=0){							// Apothikeuoume to mikrotero
 					min_pos=vec_pos;
 					min=dist;
 				}
