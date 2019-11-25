@@ -26,7 +26,7 @@ int main(){
 
 	/***** Random selection of k points *****/
 	k = 100;
-	random_selection(vectors, vec_sum, k);
+//	random_selection(vectors, vec_sum, k);
 
 	int c=1;
 	for(i=0; i<vec_sum; i++){
@@ -35,6 +35,9 @@ int main(){
 			c++;
 		}
 	}
+	printf("\n");
+
+	k_means_plus_plus(vectors, vec_sum, k, coords);
 
 	return 0;
 }
