@@ -24,9 +24,12 @@ int main(){
 	printf("Vectors= %d\tCoordinates = %d\n", vec_sum, coords);
 
 
-	/***** Random selection of k points *****/
 	k = 100;
 //	random_selection(vectors, vec_sum, k);
+	k_means_plus_plus(vectors, vec_sum, k, coords);
+
+	/* Dokimi gia to an ginetai kala h epilogh 
+	   Ama thes dokimazeis alliws to svineis */
 
 	int c=1;
 	for(i=0; i<vec_sum; i++){
@@ -37,7 +40,6 @@ int main(){
 	}
 	printf("\n");
 
-	k_means_plus_plus(vectors, vec_sum, k, coords);
 
 	return 0;
 }
