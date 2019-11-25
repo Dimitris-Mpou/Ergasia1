@@ -6,12 +6,12 @@
 #include "functions.h"
 
 int main(){
-	int i, vec_sum, coords, k, c;
+	int i, vec_sum, coords, k;
 	char input[256];
 	struct vec *vectors;
 	
 	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
-	strcpy(input, "Ex2_Datasets/DataVectors_15_10000x500.csv");
+//	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
@@ -25,28 +25,16 @@ int main(){
 
 
 	/***** Random selection of k points *****/
-	k = 100;							
-	srand(time(0));							
-	for(i=0; i<k; i++){
-		do{							//Etsi wste na mh einai hdh metoid
-			c = vec_sum*(rand() / (RAND_MAX +1.0));
-		}
-		while(vectors[c].isMedoid == 1);
-		vectors[c].isMedoid = 1;
-		//printf("%d. %s\t", i, vectors[c].id);
-	}
-	
-	/* Dokimi gia to an ginetai kala h epilogh 
-	   Ama thes dokimazeis alliws to svineis
+	k = 100;
+	random_selection(vectors, vec_sum, k);
 
-	c=1;
+	int c=1;
 	for(i=0; i<vec_sum; i++){
 		if (vectors[i].isMedoid == 1){	
 			printf("%d. %s\t", c, vectors[i].id);
 			c++;
 		}
-	}*/
-		
-	printf("\n");
+	}
+
 	return 0;
 }
