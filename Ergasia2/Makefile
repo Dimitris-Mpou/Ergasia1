@@ -1,5 +1,5 @@
-OBJS = main.o input.o random_selection.o manhattan_distance.o k_means_plus_plus.o
-SOURCE = main.c input.c random_selection.c manhattan_distance.c k_means_plus_plus.o
+OBJS = main.o input.o random_selection.o manhattan_distance.o k_means_plus_plus.o assignment.o
+SOURCE = main.c input.c random_selection.c manhattan_distance.c k_means_plus_plus.c assignment.c
 HEADER = structs.h functions.h
 OUT = curve
 CC = gcc
@@ -22,6 +22,9 @@ manhattan_distance.o: manhattan_distance.c
 
 k_means_plus_plus.o: k_means_plus_plus.c
 	$(CC) $(FLAG) k_means_plus_plus.c
+
+assignment.o: assignment.c
+	$(CC) $(FLAG) assignment.c
 
 clean:
 	rm -f $(OBJS) $(OUT)
