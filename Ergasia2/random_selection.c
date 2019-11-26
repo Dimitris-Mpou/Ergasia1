@@ -7,7 +7,7 @@ void random_selection(struct vec *vectors, int vec_sum, int k){
 
 	srand(time(0));							
 	for(i=0; i<k; i++){
-		do{							//Etsi wste na mh einai hdh metoid
+		do{							//Etsi wste na mh einai hdh medoid
 			c = vec_sum*(rand() / (RAND_MAX +1.0));
 		}
 		while(vectors[c].isMedoid == 1);
