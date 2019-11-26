@@ -24,7 +24,6 @@ int main(){
 
 	printf("Vectors= %d\tCoordinates = %d\n", vec_sum, coords);
 
-
 	k = 50;
 	centers = malloc(k*sizeof(struct vec));
 	random_selection(vectors, vec_sum, k);
