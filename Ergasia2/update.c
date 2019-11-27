@@ -2,35 +2,50 @@
 #include "structs.h"
 #include "functions.h"
 
+#include <stdio.h>	//// Gia tin emfanisi twn kentrwn pou allaxan
+
 void PAM(struct vec *vectors, int *centers, int vec_sum, int coords, int k){
-	int i, j, z, *min_pos;
-	double dist, *min;
+	int i, j, z, min_pos, count;
+	double dist, min;
 
-	min = malloc(k*sizeof(double));
-	for(i=0; i<k; i++)
-		min[i] = 10000000.0;
-	min_pos = malloc(k*sizeof(int));
-	for(i=0; i<k; i++)
-		min_pos[i] = centers[i];
+	int change;	//// Gia tis dokimes
 
-	for(i=0; i<k; i++){
-		for(j=0; j<vec_sum; j++){
-			if(vectors[j].nearest_centroid == centers[i]){
-				dist = 0.0;
-				for(z=0; z<vec_sum; z++){
-					if(vectors[z].nearest_centroid == centers[i]){
-						dist += manhattan_distance(vectors[j], vectors[z], coords);
+	count = 0;
+	while(count < 10){
+		change = 0;	//////
+		for(i=0; i<k; i++){					// Update centers
+			min = 10000000.0;
+			for(j=0; j<vec_sum; j++){
+				if(vectors[j].nearest == i){
+					dist = 0.0;
+					for(z=0; z<vec_sum; z++){
+						if(vectors[z].nearest == i){
+							dist += manhattan_distance(vectors[j], vectors[z], coords);
+						}
+					}
+					if(dist < min){
+						min = dist;
+						min_pos = j;
 					}
 				}
-				if(dist < min[i]){
-					min[i] = dist;
-					min_pos[i] = j;
-				}
+			}
+			if(centers[i] != min_pos){
+				vectors[centers[i]].isMedoid = 0;
+				vectors[min_pos].isMedoid = 1;
+				centers[i] = min_pos;
+				change++;				/////
 			}
 		}
-	}
-	// min_pos has new centers
-	for(i=0; i<k; i++){
-		centers[i] = min_pos[i];
+
+		for(i=0; i<vec_sum; i++){		// Update assignment (Me tin paradoxi tou kuriou Emiri)
+			if(manhattan_distance(vectors[i], vectors[centers[ vectors[i].second_nearest ]], coords) < manhattan_distance(vectors[i], vectors[centers[ vectors[i].nearest ]], coords)){
+				j = vectors[i].nearest;
+				vectors[i].nearest = vectors[i].second_nearest;
+				vectors[i].second_nearest = j;
+			}
+		}
+
+		count++;
+		printf("In itteration %d: %d centers changed\n", count, change);	/////
 	}
 }

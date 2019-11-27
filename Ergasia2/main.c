@@ -19,7 +19,7 @@ int main(){
 	for(i=0; i<vec_sum; i++){
 		vectors[i].coord = malloc(coords*sizeof(double));
 		vectors[i].isMedoid = 0;
-		vectors[i].nearest_centroid = -1;
+		vectors[i].nearest = -1;
 	}
 	save_input(input, vectors);
 
@@ -50,11 +50,6 @@ int main(){
 
 	/****** Update ***********/
 	PAM(vectors, centers, vec_sum, coords, k);
-
-	for(i=0; i<k; i++){
-		printf("%d, %s\t", i, vectors[centers[i]].id);
-	}
-	printf("\n");
 
 
 	return 0;
