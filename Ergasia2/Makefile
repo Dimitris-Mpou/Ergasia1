@@ -1,5 +1,5 @@
-OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o
-SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c
+OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o update.o
+SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c update.c
 HEADER = structs.h functions.h
 OUT = curve
 CC = gcc
@@ -22,6 +22,9 @@ initialization.o: initialization.c
 
 assignment.o: assignment.c
 	$(CC) $(FLAG) assignment.c
+
+update.o: update.c
+	$(CC) $(FLAG) update.c
 
 clean:
 	rm -f $(OBJS) $(OUT)

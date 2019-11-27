@@ -4,3 +4,4 @@ void random_selection(struct vec *, int, int);
 double manhattan_distance(struct vec, struct vec, int);
 void k_means_plus_plus(struct vec *, int, int, int);
 void Lloyds_assignment(struct vec *, int *, int , int, int);
+void PAM(struct vec *, int *, int, int, int);

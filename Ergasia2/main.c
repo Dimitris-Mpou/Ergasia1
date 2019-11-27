@@ -26,10 +26,10 @@ int main(){
 	printf("Vectors= %d\tCoordinates = %d\n", vec_sum, coords);
 
 	/****** Initialize ***********/
-	k = 50;
+	k = 20;
 	centers = malloc(k*sizeof(int));
-	random_selection(vectors, vec_sum, k);
-//	k_means_plus_plus(vectors, vec_sum, k, coords);
+//	random_selection(vectors, vec_sum, k);
+	k_means_plus_plus(vectors, vec_sum, k, coords);
 	
 	int c=0;
 	for(i=0; i<vec_sum; i++){
@@ -45,14 +45,16 @@ int main(){
 	for(i=0; i<k; i++){
 		printf("%d, %s\t", i, vectors[centers[i]].id);
 	}
-
 	printf("\n\n");
-	
-	for(i=0; i<10; i++){
-		printf("%d, %s -> %s, %s\n", i, vectors[i].id, vectors[vectors[i].nearest_centroid].id, vectors[vectors[i].second_nearest].id);
-	}
 
 	/****** Update ***********/
-	
+	PAM(vectors, centers, vec_sum, coords, k);
+
+	for(i=0; i<k; i++){
+		printf("%d, %s\t", i, vectors[centers[i]].id);
+	}
+	printf("\n");
+
+
 	return 0;
 }
