@@ -3,28 +3,41 @@
 #include "structs.h"
 #include "functions.h"
 
+void random_selection(struct vec *vectors, int vec_sum, int k){
+	int i, c;
+
+	srand(time(0));							
+	for(i=0; i<k; i++){
+		do{							//Etsi wste na mh einai hdh medoid
+			c = vec_sum*(rand() / (RAND_MAX +1.0));
+		}
+		while(vectors[c].isMedoid == 1);
+		vectors[c].isMedoid = 1;
+	}
+}
+
 void k_means_plus_plus(struct vec *vectors, int vec_sum, int k, int coords){
-	int i, j, c, centroid_count, *centroids;
+	int i, j, c, centers_count, *centers;
 	double *P, *D, dist, max, random;
 
 	D = malloc((vec_sum-1)*sizeof(double));
 	P = malloc((vec_sum-1)*sizeof(double));
-	centroids = malloc(k*sizeof(int));
+	centers = malloc(k*sizeof(int));
 
 	srand(time(0));							
-	centroids[0] = vec_sum*(rand() / (RAND_MAX +1.0));
-	vectors[centroids[0]].isMedoid = 1;
-	centroid_count = 1;
+	centers[0] = vec_sum*(rand() / (RAND_MAX +1.0));
+	vectors[centers[0]].isMedoid = 1;
+	centers_count = 1;
 
-	while(centroid_count<k){
+	while(centers_count<k){
 		for(i=0; i<k; i++)					// Arxikopoioume ta P[i] gia mia eidiki periptwsi
 			P[i] = 0.0;
 
 		for(i=0; i<vec_sum; i++){			// Gia kathe simeio
 			if(vectors[i].isMedoid == 0){	// Pou den einai kentroides
-				D[i] = manhattan_distance(vectors[i], vectors[centroids[0]], coords);	// Ypologismos D[i]
-				for(j=1; j<centroid_count; j++){
-					dist = manhattan_distance(vectors[i], vectors[centroids[j]], coords);
+				D[i] = manhattan_distance(vectors[i], vectors[centers[0]], coords);	// Ypologismos D[i]
+				for(j=1; j<centers_count; j++){
+					dist = manhattan_distance(vectors[i], vectors[centers[j]], coords);
 					if(dist < D[i])
 						D[i] = dist;
 				}
@@ -49,7 +62,7 @@ void k_means_plus_plus(struct vec *vectors, int vec_sum, int k, int coords){
 		i=0;
 		while(1){
 			if(random<=P[i] && vectors[i].isMedoid == 0){
-				centroids[centroid_count++] = i;
+				centers[centers_count++] = i;
 				vectors[i].isMedoid = 1;
 				break;
 			}
