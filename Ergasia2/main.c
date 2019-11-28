@@ -10,8 +10,8 @@ int main(){
 	char input[256];
 	struct vec *vectors;
 	
-	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
-//	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
+//	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
+	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
@@ -27,10 +27,10 @@ int main(){
 
 
 	/****** Initialize ***********/
-	k = 20;
+	k = 100;
 	centers = malloc(k*sizeof(int));
-//	random_selection(vectors, vec_sum, k);
-	k_means_plus_plus(vectors, vec_sum, k, coords);
+	random_selection(vectors, vec_sum, k);
+	//k_means_plus_plus(vectors, vec_sum, k, coords);
 	
 	int c=0;
 	for(i=0; i<vec_sum; i++){

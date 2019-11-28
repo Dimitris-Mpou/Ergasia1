@@ -6,7 +6,7 @@
 
 void PAM(struct vec *vectors, int *centers, int vec_sum, int coords, int k){
 	int i, j, z, min_pos, count;
-	double dist, min;
+	double dist, min, min_dist;
 
 	int change;	//// Gia tis dokimes
 
@@ -37,14 +37,17 @@ void PAM(struct vec *vectors, int *centers, int vec_sum, int coords, int k){
 			}
 		}
 
-		for(i=0; i<vec_sum; i++){		// Update assignment (Me tin paradoxi tou kuriou Emiri)
-			if(manhattan_distance(vectors[i], vectors[centers[ vectors[i].second_nearest ]], coords) < manhattan_distance(vectors[i], vectors[centers[ vectors[i].nearest ]], coords)){
-				j = vectors[i].nearest;
-				vectors[i].nearest = vectors[i].second_nearest;
-				vectors[i].second_nearest = j;
+		for(i=0; i<vec_sum; i++){		// Update assignment (Xwris tin paradoxi tou kuriou Emiri)
+			min_dist = manhattan_distance(vectors[i], vectors[ centers[vectors[i].nearest] ], coords);
+			for(j=0; j<k; j++){
+				if(manhattan_distance(vectors[i], vectors[ centers[j] ], coords) < min_dist )
+					vectors[i].nearest = j;
+					min_dist = manhattan_distance(vectors[i], vectors[centers[j]], coords);
 			}
-		}
 
+		}
+	
+		//Lloyds_assignment(vectors, centers, vec_sum, coords, k);
 		count++;
 		printf("In itteration %d: %d centers changed\n", count, change);	/////
 	}

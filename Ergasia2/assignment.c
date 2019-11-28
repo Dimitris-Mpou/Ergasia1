@@ -14,7 +14,7 @@ void Lloyds_assignment(struct vec *vectors, int *centers, int vec_sum, int coord
 				min_dist = manhattan_distance(vectors[i], vectors[centers[j]], coords);
 			}
 		}
-
+		/*
 		min_dist = 10000000.0;
 		for(j=0; j<k; j++){
 			if( manhattan_distance(vectors[i], vectors[centers[j]], coords) < min_dist && vectors[i].nearest != j){
@@ -22,5 +22,8 @@ void Lloyds_assignment(struct vec *vectors, int *centers, int vec_sum, int coord
 				min_dist = manhattan_distance(vectors[i], vectors[centers[j]], coords);
 			}
 		}
+		*/
 	}
 }
+
+//void LSH_assignment(
