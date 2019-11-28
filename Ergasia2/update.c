@@ -40,14 +40,13 @@ void PAM(struct vec *vectors, int *centers, int vec_sum, int coords, int k){
 		for(i=0; i<vec_sum; i++){		// Update assignment (Xwris tin paradoxi tou kuriou Emiri)
 			min_dist = manhattan_distance(vectors[i], vectors[ centers[vectors[i].nearest] ], coords);
 			for(j=0; j<k; j++){
-				if(manhattan_distance(vectors[i], vectors[ centers[j] ], coords) < min_dist )
+				if(manhattan_distance(vectors[i], vectors[ centers[j] ], coords) < min_dist ){
 					vectors[i].nearest = j;
 					min_dist = manhattan_distance(vectors[i], vectors[centers[j]], coords);
+				}
 			}
 
 		}
-	
-		//Lloyds_assignment(vectors, centers, vec_sum, coords, k);
 		count++;
 		printf("In itteration %d: %d centers changed\n", count, change);	/////
 	}
