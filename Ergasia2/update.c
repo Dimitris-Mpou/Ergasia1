@@ -51,3 +51,37 @@ void PAM(struct vec *vectors, int *centers, int vec_sum, int coords, int k){
 		printf("In itteration %d: %d centers changed\n", count, change);	/////
 	}
 }
+
+
+void PAMean(struct vec *vectors, struct vec *mean_centers, int *centers, int vec_sum, int coords, int k){
+	int i, j, z, min_pos, count;
+	double min, min_dist;
+
+	count = 0;
+	while(count < 10){
+		for(i=0; i<k; i++){					// Update centers
+			for(j=0; j<coords; j++)
+				mean_centers[i].coord[z]=0;
+			for(j=0; j<vec_sum; j++){
+				if(vectors[j].nearest == i){
+					for(z=0; z<coords; z++){
+						mean_centers[i].coord[z] += vectors[j].coord[z];
+					}
+				}
+			}
+		}
+
+		for(i=0; i<vec_sum; i++){		// Update assignment (Xwris tin paradoxi tou kuriou Emiri)
+			min_dist = manhattan_distance(vectors[i], mean_centers[vectors[i].nearest], coords);
+			for(j=0; j<k; j++){
+				if(manhattan_distance(vectors[i], mean_centers[j], coords) < min_dist ){
+					vectors[i].nearest = j;
+					min_dist = manhattan_distance(vectors[i], mean_centers[j], coords);
+				}
+			}
+
+		}
+		count++;
+	}
+
+}
