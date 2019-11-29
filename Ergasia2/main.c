@@ -11,7 +11,7 @@ int main(void){
 	struct vec *vectors, *mean_centers;
 	
 	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
-//	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
+	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
