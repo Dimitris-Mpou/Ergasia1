@@ -44,10 +44,8 @@ void PAM(struct vec *vectors, int *centers, int vec_sum, int coords, int k){
 					vectors[i].nearest = j;
 					min_dist = manhattan_distance(vectors[i], vectors[centers[j]], coords);
 			}
-
 		}
 	
-		//Lloyds_assignment(vectors, centers, vec_sum, coords, k);
 		count++;
 		printf("In itteration %d: %d centers changed\n", count, change);	/////
 	}
