@@ -1,12 +1,12 @@
-OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o update.o lsh.o average.o modulo_calc.o concat.o factors.o hash.o
-SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c update.c lsh.c average.c modulo_calc.c concat.c factors.c hash.c lsh.c
+OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o update.o lsh.o lsh_functions.o
+SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c update.c lsh.c lsh_functions.c
 HEADER = structs.h functions.h
 OUT = clusters
 CC = gcc
 FLAG = -c 
 
 all: $(OBJS)
-	$(CC) $(OBJS) -o $(OUT)
+	$(CC) $(OBJS) -o $(OUT) -lm
 
 main.o: main.c
 	$(CC) $(FLAG) main.c
@@ -29,20 +29,8 @@ update.o: update.c
 lsh.o: lsh.c
 	$(CC) $(FLAG) lsh.c
 
-average.o: average.c
-	$(CC) $(FLAG) average.c
-
-modulo_calc.o: modulo_calc.c
-	$(CC) $(FLAG) modulo_calc.c
-
-concat.o: concat.c
-	$(CC) $(FLAG) concat.c
-
-factors.o: factors.c
-	$(CC) $(FLAG) factors.c
-
-hash.o: hash.c
-	$(CC) $(FLAG) hash.c
+lsh_functions.o: lsh_functions.c
+	$(CC) $(FLAG) lsh_functions.c
 
 clean:
 	rm -f $(OBJS) $(OUT)
