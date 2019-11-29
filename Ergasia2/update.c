@@ -54,19 +54,36 @@ void PAM(struct vec *vectors, int *centers, int vec_sum, int coords, int k){
 
 
 void PAMean(struct vec *vectors, struct vec *mean_centers, int *centers, int vec_sum, int coords, int k){
-	int i, j, z, min_pos, count;
+	int i, j, z, min_pos, count, cluster_size;
 	double min, min_dist;
+	struct vec last_vec;
 
+	last_vec.coord = malloc(coords*sizeof(int));
+
+	int change;
 	count = 0;
 	while(count < 10){
+		change = 0;							/////
 		for(i=0; i<k; i++){					// Update centers
+			for(j=0; j<coords; j++)			////
+				last_vec.coord[j] = mean_centers[i].coord[j];
 			for(j=0; j<coords; j++)
-				mean_centers[i].coord[z]=0;
+				mean_centers[i].coord[j]=0;
+			cluster_size = 0;
 			for(j=0; j<vec_sum; j++){
 				if(vectors[j].nearest == i){
+					cluster_size++;
 					for(z=0; z<coords; z++){
 						mean_centers[i].coord[z] += vectors[j].coord[z];
 					}
+				}
+			}
+			for(j=0; j<coords; j++)
+				mean_centers[i].coord[j] = mean_centers[i].coord[j] / cluster_size;
+			for(j=0; j<coords; j++){		///
+				if(mean_centers[i].coord[j] != last_vec.coord[j]){
+					change++;		////
+					break;
 				}
 			}
 		}
@@ -82,6 +99,7 @@ void PAMean(struct vec *vectors, struct vec *mean_centers, int *centers, int vec
 
 		}
 		count++;
+		printf("In itteration %d: %d centers changed\n", count, change);	/////
 	}
 
 }
