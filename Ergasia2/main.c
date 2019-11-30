@@ -10,7 +10,7 @@ int main(void){
 	char input[256];
 	struct vec *vectors, *mean_centers;
 	
-	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
+//	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
 	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
@@ -41,15 +41,11 @@ int main(void){
 	}
 
 	/****** Assignment ***********/
-	Lloyds_assignment(vectors, centers, vec_sum, coords, k);
-
-	for(i=0; i<k; i++){
-		printf("%d, %s\t", i, vectors[centers[i]].id);
-	}
-	printf("\n\n");
+//	Lloyds_assignment(vectors, centers, vec_sum, coords, k);
+	LSH_assignment(vectors, centers, vec_sum, coords, k);
 
 	/****** Update ***********/
-	PAM(vectors, centers, vec_sum, coords, k);
+/*	PAM(vectors, centers, vec_sum, coords, k);
 
 	mean_centers = malloc(k*sizeof(struct vec));
 	for(i=0; i<k; i++){
@@ -58,7 +54,7 @@ int main(void){
 		mean_centers[i].nearest = i;
 	}
 	//PAMean(vectors, mean_centers, centers, vec_sum, coords, k);
-
+*/
 
 	return 0;
 }
