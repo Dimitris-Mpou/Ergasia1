@@ -6,12 +6,12 @@
 #include "functions.h"
 
 int main(void){
-	int i, j, vec_sum, coords, k, *centers;
+	int i, j, vec_sum, coords, k;
 	char input[256];
-	struct vec *vectors, *mean_centers;
+	struct vec *vectors, *centers;
 	
-//	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
-	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
+	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
+//	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
@@ -27,34 +27,35 @@ int main(void){
 
 
 	/****** Initialize ***********/
+
 	k = 100;
-	centers = malloc(k*sizeof(int));
+	centers = malloc(k*sizeof(struct vec));
+	for(i=0; i<k; i++)
+		centers[i].coord = malloc(coords*sizeof(double));
 	random_selection(vectors, vec_sum, k);
 //	k_means_plus_plus(vectors, vec_sum, k, coords);
 	
 	int c=0;
-	for(i=0; i<vec_sum; i++){
-		if (vectors[i].isMedoid == 1){	
-			centers[c] = i;
+	for(i=0; i<vec_sum; i++){				// isMedoid, nearest??
+		if (vectors[i].isMedoid == 1){
+			for(j=0; j<coords; j++){
+				centers[c].coord[j] = vectors[i].coord[j];
+			}
 			c++;
 		}
 	}
 
 	/****** Assignment ***********/
-//	Lloyds_assignment(vectors, centers, vec_sum, coords, k);
-	LSH_assignment(vectors, centers, vec_sum, coords, k);
+
+	Lloyds_assignment(vectors, centers, vec_sum, coords, k);
+//	LSH_assignment(vectors, centers, vec_sum, coords, k);
 
 	/****** Update ***********/
-/*	PAM(vectors, centers, vec_sum, coords, k);
 
-	mean_centers = malloc(k*sizeof(struct vec));
-	for(i=0; i<k; i++){
-		mean_centers[i].coord = malloc(coords*sizeof(double));
-		mean_centers[i].isMedoid = 0;
-		mean_centers[i].nearest = i;
-	}
-	//PAMean(vectors, mean_centers, centers, vec_sum, coords, k);
-*/
+	//PAM(vectors, centers, vec_sum, coords, k);
+
+	PAMean(vectors, centers, vec_sum, coords, k);
+
 
 	return 0;
 }

@@ -7,32 +7,34 @@
 
 
 
-void Lloyds_assignment(struct vec *vectors, int *centers, int vec_sum, int coords, int k){
+void Lloyds_assignment(struct vec *vectors, struct vec *centers, int vec_sum, int coords, int k){
 	int i, j;
-	double min_dist;
+	double min_dist, dist;
 	
 	for(i=0; i<vec_sum; i++){
 
 		min_dist = 10000000.0;		
 		for(j=0; j<k; j++){
-			if( manhattan_distance(vectors[i], vectors[centers[j]], coords) < min_dist ){
+			dist = manhattan_distance(vectors[i], centers[j], coords);
+			if(dist  < min_dist ){
 				vectors[i].nearest = j;
-				min_dist = manhattan_distance(vectors[i], vectors[centers[j]], coords);
+				min_dist = dist;
 			}
 		}
 		/*
 		min_dist = 10000000.0;
 		for(j=0; j<k; j++){
-			if( manhattan_distance(vectors[i], vectors[centers[j]], coords) < min_dist && vectors[i].nearest != j){
+			dist = manhattan_distance(vectors[i], centers[j], coords);
+			if( dist < min_dist && vectors[i].nearest != j){
 				vectors[i].second_nearest = j;
-				min_dist = manhattan_distance(vectors[i], vectors[centers[j]], coords);
+				min_dist = dist;
 			}
 		}
 		*/
 	}
 }
 
-void LSH_assignment(struct vec *vectors, int *centers, int vec_sum, int coords, int k_clusters){
+void LSH_assignment(struct vec *vectors, struct vec *centers, int vec_sum, int coords, int k_clusters){
 	int i, j, z, k, L, w, quer_sum, m, M, *m_factors, TableSize, *search_results, *lsh_results;
 	float r;
 	struct vec  *queries;
@@ -87,6 +89,6 @@ void LSH_assignment(struct vec *vectors, int *centers, int vec_sum, int coords, 
 	lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);		// Ekteloume to lsh gia to input data
 
 	for(i=0; i<k_clusters; i++){
-//		lsh_results[i] = lsh_search(vectors, vectors[centers[i]], h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);
+//		lsh_results[i] = lsh_search(vectors, centers[i], h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);
 	}
 }
