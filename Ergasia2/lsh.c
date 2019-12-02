@@ -30,75 +30,65 @@ void lsh_train(struct vec *vectors, struct h_func **h, struct list_node ***HashT
 	}
 }
 
-void lsh_search(struct vec *vectors, struct vec query, int center_pos, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int M, int k, int L, int w, int TableSize, int range){
-	int i, j, z, t, hash_pos, *a, min, min_pos, vec_pos, dist;
+void lsh_search(struct vec *vectors, struct vec *centers, int center_pos, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int M, int k, int L, int w, int TableSize, int k_clusters){
+	int i, j, z, t, hash_pos, *a, vec_pos, dist, *cen;
+	double min_dist;
 	unsigned int g;
 	float f;
 	struct list_node *cur;
 
+	cen = malloc(vec_sum*sizeof(int));
+	for(i=0; i<vec_sum; i++){
+		cen[i] = -1;
+		vectors[i].nearest = -1;	///
+	}
 
 	a = malloc(coords*sizeof(int));
-	min=10000000;
-	min_pos=-1;
-	for(z=0; z<L; z++){			// Efarmozoume tin idia diadikasia gia to query
-		for(t=0; t<k; t++){								
-			h[z][t].h_sum = 0;
-			for(j=0; j<coords; j++){
-				f = (float) (query.coord[j] - h[z][t].s[j]) / w;
-				a[j]=floor(f) + 2;
-				h[z][t].h_sum += (a[j] % M * m_factors[j]) % M;
-			}
-			h[z][t].h_sum = h[z][t].h_sum % M;
-		}
-		g = concat(h[z], k);
-		hash_pos = g % (TableSize);			// Molis antistoixithei se bucket
 
-		if(HashTables[z][hash_pos]!=NULL){	// An to bucket den einai adeio
-			cur = HashTables[z][hash_pos];
-			while(cur!=NULL){				// Trexoume olo to bucket
-				//if(cur->g == g){				// Kai an ta dianusmata tou bucket exoun idio g me to query
-				vec_pos = cur->vec_pos;
-				printf("1\n");
-				if(vectors[vec_pos].isMedoid == 0){
-					printf("2\n");
-					vectors[vec_pos].nearest = center_pos;
+	for(i=0; i<k_clusters; i++){
+		for(z=0; z<L; z++){			// Efarmozoume tin idia diadikasia gia to query-center
+			for(t=0; t<k; t++){							
+				h[z][t].h_sum = 0;
+				for(j=0; j<coords; j++){
+					f = (float) (centers[i].coord[j] - h[z][t].s[j]) / w;
+					a[j] = floor(f) + 2;
+					h[z][t].h_sum += (a[j] % M * m_factors[j]) % M;
 				}
-				else if(vectors[vec_pos].isMedoid == 1){
-					printf("3\n");
-					cur = HashTables[z][hash_pos];
-					assign(vectors, cur, query, vec_pos, center_pos, range, coords);
-					printf("4\n");
-					break;
+				h[z][t].h_sum = h[z][t].h_sum % M;
+			}
+
+			g = concat(h[z], k);
+			hash_pos = g % (TableSize);			// Molis antistoixithei se bucket
+			if(HashTables[z][hash_pos]!=NULL){	// An to bucket den einai adeio
+				cur = HashTables[z][hash_pos];
+				while(cur!=NULL){				// Trexoume olo to bucket
+					if(cur->g == g){			// Kai an ta dianusmata tou bucket exoun idio g me to query-center
+						vec_pos = cur->vec_pos;
+						if(cen[vec_pos] == -1){	// An einai to prwto kentro pou zitaei auto to vector
+							cen[vec_pos] = i;
+						}else{
+							if(manhattan_distance(vectors[vec_pos], centers[i], coords) < manhattan_distance(vectors[vec_pos], centers[cen[vec_pos]], coords))
+								cen[vec_pos] = i;	// Alliws an auto to kentro einai pio konta ap ta proigoumena pou eixan zitisei auto to dianusma
+						}
+					}
+					cur = cur->next;
 				}
-				cur=cur->next;
 			}
 		}
-		
 	}
-}
-
-void assign(struct vec *vectors, struct list_node *cur, struct vec query, int vec_pos, int center_pos, int range, int coords){
-	int j;
-	double dist;
-
-	while(cur!=NULL){				// Trexoume olo to bucket
-		vec_pos = cur->vec_pos;
-		printf("3.1\n");
-		if(vectors[vec_pos].isMedoid == 0){
-			printf("3.2\n");
-			dist=0;					// Metrame tin manhattan distance
-			for(j=0; j<coords; j++){
-				dist+=abs(vectors[vec_pos].coord[j]-query.coord[j]);
+	for(i=0; i<vec_sum; i++){
+		if(cen[i] != -1){	// Gia osa dianusmata epese center sto idio bucket
+				vectors[i].nearest = cen[i];
+		}else{				// Gia ta upoloipa
+			min_dist = 10000000.0;		
+			for(j=0; j<k_clusters; j++){
+				dist = manhattan_distance(vectors[i], centers[j], coords);
+				if(dist  < min_dist ){
+					vectors[i].nearest = j;
+					min_dist = dist;
+				}
 			}
-			if(dist < range){			// Kanoume assign ta shmeia pou einai mesa sto range
-				vectors[vec_pos].nearest = center_pos;
-			}
+
 		}
-		else if(vectors[vec_pos].isMedoid == 1){
-			printf("3.3\n");
-			assign(vectors, cur, query, vec_pos, center_pos, range, coords);
-			break;
-		}
-		cur=cur->next;
 	}
 }
