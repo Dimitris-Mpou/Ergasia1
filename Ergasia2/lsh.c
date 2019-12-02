@@ -56,7 +56,6 @@ void lsh_search(struct vec *vectors, struct vec query, int center_pos, struct h_
 		if(HashTables[z][hash_pos]!=NULL){	// An to bucket den einai adeio
 			cur = HashTables[z][hash_pos];
 			while(cur!=NULL){				// Trexoume olo to bucket
-				//if(cur->g == g){				// Kai an ta dianusmata tou bucket exoun idio g me to query
 				vec_pos = cur->vec_pos;
 				printf("1\n");
 				if(vectors[vec_pos].isMedoid == 0){
@@ -73,7 +72,6 @@ void lsh_search(struct vec *vectors, struct vec query, int center_pos, struct h_
 				cur=cur->next;
 			}
 		}
-		
 	}
 }
 
