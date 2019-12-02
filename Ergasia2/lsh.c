@@ -30,7 +30,7 @@ void lsh_train(struct vec *vectors, struct h_func **h, struct list_node ***HashT
 	}
 }
 
-int lsh_search(struct vec *vectors, struct vec query, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int M, int k, int L, int w, int TableSize){
+void lsh_search(struct vec *vectors, struct vec query, int center_pos, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int M, int k, int L, int w, int TableSize, int range){
 	int i, j, z, t, hash_pos, *a, min, min_pos, vec_pos, dist;
 	unsigned int g;
 	float f;
@@ -52,25 +52,53 @@ int lsh_search(struct vec *vectors, struct vec query, struct h_func **h, struct 
 		}
 		g = concat(h[z], k);
 		hash_pos = g % (TableSize);			// Molis antistoixithei se bucket
+
 		if(HashTables[z][hash_pos]!=NULL){	// An to bucket den einai adeio
 			cur = HashTables[z][hash_pos];
 			while(cur!=NULL){				// Trexoume olo to bucket
-				if(cur->g == g){				// Kai an ta dianusmata tou bucket exoun idio g me to query
-					vec_pos = cur->vec_pos;
-					dist = 0.0;					// Metrame tin manhattan distance
-					for(j=0; j<coords; j++){
-						dist += abs(vectors[vec_pos].coord[j]-query.coord[j]);
-					}
-					if(dist < min && dist != 0.0){			// Apothikeuoume to mikrotero
-						min_pos = vec_pos;
-						min = dist;
-					}
-					dist = 0.0;
+				//if(cur->g == g){				// Kai an ta dianusmata tou bucket exoun idio g me to query
+				vec_pos = cur->vec_pos;
+				printf("1\n");
+				if(vectors[vec_pos].isMedoid == 0){
+					printf("2\n");
+					vectors[vec_pos].nearest = center_pos;
+				}
+				else if(vectors[vec_pos].isMedoid == 1){
+					printf("3\n");
+					cur = HashTables[z][hash_pos];
+					assign(vectors, cur, query, vec_pos, center_pos, range, coords);
+					printf("4\n");
+					break;
 				}
 				cur=cur->next;
 			}
 		}
 		
 	}
-	return min_pos;							// Ki epistrefoume tin thesi tou ston pinaka vectors
+}
+
+void assign(struct vec *vectors, struct list_node *cur, struct vec query, int vec_pos, int center_pos, int range, int coords){
+	int j;
+	double dist;
+
+	while(cur!=NULL){				// Trexoume olo to bucket
+		vec_pos = cur->vec_pos;
+		printf("3.1\n");
+		if(vectors[vec_pos].isMedoid == 0){
+			printf("3.2\n");
+			dist=0;					// Metrame tin manhattan distance
+			for(j=0; j<coords; j++){
+				dist+=abs(vectors[vec_pos].coord[j]-query.coord[j]);
+			}
+			if(dist < range){			// Kanoume assign ta shmeia pou einai mesa sto range
+				vectors[vec_pos].nearest = center_pos;
+			}
+		}
+		else if(vectors[vec_pos].isMedoid == 1){
+			printf("3.3\n");
+			assign(vectors, cur, query, vec_pos, center_pos, range, coords);
+			break;
+		}
+		cur=cur->next;
+	}
 }

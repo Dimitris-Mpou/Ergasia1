@@ -36,7 +36,7 @@ void Lloyds_assignment(struct vec *vectors, struct vec *centers, int vec_sum, in
 
 void LSH_assignment(struct vec *vectors, struct vec *centers, int vec_sum, int coords, int k_clusters){
 	int i, j, z, k, L, w, quer_sum, m, M, *m_factors, TableSize, *search_results, *lsh_results;
-	float r;
+	double range;
 	struct vec  *queries;
 	struct h_func **h; 
 	struct list_node ***HashTables;
@@ -88,7 +88,9 @@ void LSH_assignment(struct vec *vectors, struct vec *centers, int vec_sum, int c
 
 	lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);		// Ekteloume to lsh gia to input data
 
+	range = min_range(centers, k_clusters, coords);
+
 	for(i=0; i<k_clusters; i++){
-//		lsh_results[i] = lsh_search(vectors, centers[i], h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize);
+		lsh_search(vectors, centers[i], i, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize, range);
 	}
 }

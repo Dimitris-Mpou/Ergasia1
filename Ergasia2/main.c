@@ -47,14 +47,14 @@ int main(void){
 
 	/****** Assignment ***********/
 
-	Lloyds_assignment(vectors, centers, vec_sum, coords, k);
-//	LSH_assignment(vectors, centers, vec_sum, coords, k);
+//	Lloyds_assignment(vectors, centers, vec_sum, coords, k);
+	LSH_assignment(vectors, centers, vec_sum, coords, k);
 
 	/****** Update ***********/
 
 	//PAM(vectors, centers, vec_sum, coords, k);
 
-	PAMean(vectors, centers, vec_sum, coords, k);
+//	PAMean(vectors, centers, vec_sum, coords, k);
 
 
 	return 0;
