@@ -14,7 +14,7 @@ int main(void){
 	struct list_node ***HashTables;
 	
 	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
-//	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
+	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 
 	count_input(input, &vec_sum, &coords);						// Metrame to plithos twn dianusmatwn
 	vectors = malloc(vec_sum*sizeof(struct vec));				// Kanoume malloc gia na ta apothikeusoume
@@ -49,8 +49,6 @@ int main(void){
 	}
 
 	/****** Assignment ***********/
-
-//	Lloyds_assignment(vectors, centers, vec_sum, coords, k);
 
 	/*	Lsh Initialize	*/
 
@@ -87,20 +85,18 @@ int main(void){
 			HashTables[i][j] = NULL;
 		}
 	}
-
 	m_factors = malloc(coords*sizeof(int));						// Apothikeuoume ola ta (m^d) mod M, gia na min kanoume askopous upologismous
 	factors(m, M, coords, m_factors);
 
 	lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k_lsh, L, w, vec_sum/8);		// Ekteloume to lsh gia to input data
 	
 	LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k);
+//	Lloyds_assignment(vectors, centers, vec_sum, coords, k);
 
 	/****** Update ***********/
 
-	//PAM(vectors, centers, vec_sum, coords, k);
-
-//	PAMean(vectors, centers, vec_sum, coords, k);
-
+//	PAM(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k);
+	PAMean(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k);
 
 	return 0;
 }

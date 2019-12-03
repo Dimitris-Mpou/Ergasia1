@@ -88,7 +88,6 @@ void lsh_search(struct vec *vectors, struct vec *centers, int center_pos, struct
 					min_dist = dist;
 				}
 			}
-
 		}
 	}
 }
