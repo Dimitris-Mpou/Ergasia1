@@ -8,7 +8,7 @@
 
 int main(int argc, char* argv[]){
 	int i, j, z, vec_sum, coords, c, k, L, k_lsh, w, m, M, *m_factors, curves_sum, max_points, grids, lamda;
-	char input[256], conf[256], output[256], ch;
+	char input[256], conf[256], output[256], ch, vec_init, vec_asign, vec_upd;
 	struct vec *vectors, *centers;
 	struct curve *curves, *centers_curve;
 	struct h_func **h; 
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
 	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 //	strcpy(input, "Εργασία 2 - Καμπύλες/input_projection6.csv");
-	strcpy(input, "curves_clustering/input_projection6.csv");
+//	strcpy(input, "curves_clustering/input_projection6.csv");
 	
 	FILE *fp;							//Elegxoume an to dataset einai gia vecs h curves
 	fp = fopen(input,"r");
@@ -66,14 +66,21 @@ int main(int argc, char* argv[]){
 		save_vecs(input, vectors);
 
 		printf("Vectors= %d\tCoordinates = %d\n", vec_sum, coords);
-
+		vec_init = 1;
+		vec_asign = 2;
+		vec_upd = 2;
 			/****** Initialize ***********/
 
 		centers = malloc(k*sizeof(struct vec));
 		for(i=0; i<k; i++)
 			centers[i].coord = malloc(coords*sizeof(double));
-		random_selection(vectors, vec_sum, k);
-//		k_means_plus_plus(vectors, vec_sum, k, coords);
+
+		if(vec_init == 1)
+			random_selection(vectors, vec_sum, k);
+		else
+			k_means_plus_plus(vectors, vec_sum, k, coords);
+
+		c = 0;
 		for(i=0; i<vec_sum; i++){				// isMedoid, nearest??
 			if (vectors[i].isMedoid == 1){
 				for(j=0; j<coords; j++){
@@ -83,18 +90,22 @@ int main(int argc, char* argv[]){
 			}
 		}
 
-		/****** Assignment ***********/
+			/****** Assignment ***********/
 
-		lsh_init(&w, &m, &M, &h, &HashTables, &m_factors, vec_sum, coords, k_lsh, L);		// Kanoume ta katallila malloc kai tis arxikopoiiseis
-		lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k_lsh, L, w, vec_sum/8);		// Ekteloume to lsh gia to input data
-	
-		LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L);
-//		Lloyds_assignment(vectors, centers, vec_sum, coords, k);
+		if(vec_asign == 1){
+			Lloyds_assignment(vectors, centers, vec_sum, coords, k);
+		}else{
+			lsh_init(&w, &m, &M, &h, &HashTables, &m_factors, vec_sum, coords, k_lsh, L);		// Kanoume ta katallila malloc kai tis arxikopoiiseis
+			lsh_train(vectors, h, HashTables, m_factors, vec_sum, coords, M, k_lsh, L, w, vec_sum/8);		// Ekteloume to lsh gia to input data
+			LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L);
+		}
 
 			/****** Update ***********/
 
-//		PAM(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L);
-		PAMean(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L);
+		if(vec_upd == 1)
+			PAM(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L, vec_asign);
+		else
+			PAMean(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L, vec_asign);
 
 	}
 	else if(ch == 'c'){
@@ -110,7 +121,7 @@ int main(int argc, char* argv[]){
 		centers_curve = malloc(k*sizeof(struct curve));
 		random_selection_curve(curves, curves_sum, k);
 		c=0;
-		for(i=0; i<curves_sum; i++){				// isMedoid, nearest??
+		for(i=0; i<curves_sum; i++){
 			if (curves[i].isMedoid == 1){
 				centers_curve[c].id = curves[i].id;
 				centers_curve[c].noPoints = curves[i].noPoints;
@@ -120,7 +131,12 @@ int main(int argc, char* argv[]){
 				}
 				c++;
 			}
-		}	
+		}
+
+			/****** Assignment ***********/
+
+		Lloyds_assignment_curve(curves, centers_curve, curves_sum, k);
+
 	}
 	
 	return 0;

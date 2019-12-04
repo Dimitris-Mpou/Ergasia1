@@ -20,6 +20,8 @@ struct list_node{
 struct curve{
 	int id;
 	int noPoints;
+	char isMedoid;
+	int nearest;
 	struct point *points;
 };
 
