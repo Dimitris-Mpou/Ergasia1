@@ -153,6 +153,7 @@ int save_curves (char path[256], struct curve *curves, int curves_sum){
 	z=0;
 
 	while(i < curves_sum){						// Sarwnoume to arxeio metrwntas posa curves exei
+		curves[i].isMedoid = 0;
 		ch = fgetc(fp);
 		if(ch==EOF){
 			break;

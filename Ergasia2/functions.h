@@ -1,8 +1,6 @@
 void configuration(char[256], int *, int *, int *, int *);
 void count_vecs(char[256], int *, int *);
 void save_vecs(char[256], struct vec *);
-int count_curves(char[256]);
-int save_curves(char[256], struct curve *, int);
 void random_selection(struct vec *, int, int);
 double manhattan_distance(struct vec, struct vec, int);
 void k_means_plus_plus(struct vec *, int, int, int);
@@ -17,6 +15,10 @@ int modulo_calc(int, int, int);
 void factors(int, int, int, int *);
 unsigned int concat(struct h_func *, int);
 void hash(struct list_node **, int, unsigned int, int);
+
+int count_curves(char[256]);
+int save_curves(char[256], struct curve *, int);
 double dtw(struct curve, struct curve);
 struct dtw_cell *min_neighbour(struct dtw_cell *, struct dtw_cell *, struct dtw_cell *);
 double euclidean(struct point, struct point);
+void random_selection_curve(struct curve *, int, int);

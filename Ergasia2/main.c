@@ -7,10 +7,10 @@
 #include "functions.h"
 
 int main(int argc, char* argv[]){
-	int i, j, z, vec_sum, coords, k, L, k_lsh, w, m, M, *m_factors, curves_sum, max_points, grids, lamda;
+	int i, j, z, vec_sum, coords, c, k, L, k_lsh, w, m, M, *m_factors, curves_sum, max_points, grids, lamda;
 	char input[256], conf[256], output[256], ch;
 	struct vec *vectors, *centers;
-	struct curve *curves;
+	struct curve *curves, *centers_curve;
 	struct h_func **h; 
 	struct list_node ***HashTables;
 	
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
 	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 //	strcpy(input, "Εργασία 2 - Καμπύλες/input_projection6.csv");
-//	strcpy(input, "curves_clustering/input_projection6.csv");
+	strcpy(input, "curves_clustering/input_projection6.csv");
 	
 	FILE *fp;							//Elegxoume an to dataset einai gia vecs h curves
 	fp = fopen(input,"r");
@@ -74,7 +74,6 @@ int main(int argc, char* argv[]){
 			centers[i].coord = malloc(coords*sizeof(double));
 		random_selection(vectors, vec_sum, k);
 //		k_means_plus_plus(vectors, vec_sum, k, coords);
-		int c=0;
 		for(i=0; i<vec_sum; i++){				// isMedoid, nearest??
 			if (vectors[i].isMedoid == 1){
 				for(j=0; j<coords; j++){
@@ -102,18 +101,27 @@ int main(int argc, char* argv[]){
 			/***** Input kampulwn *****/
 		curves_sum = count_curves(input);							// Metrame to plithos twn curves
 		curves = malloc(curves_sum*sizeof(struct curve));
-		
 		max_points = save_curves(input, curves, curves_sum);					// Metrame to plithos twn suntetagmenwn kathe curve
 		
-		///////////////////// Dokimastika print ///////////////////////
-		printf("Curves=%d  Max_points=%d\n", curves_sum, max_points);
+		printf("Curves=%d  Max_points=%d\n", curves_sum, max_points);	//// Dokimastika print 
+
 			/****** Initialize ***********/
 		
-
+		centers_curve = malloc(k*sizeof(struct curve));
+		random_selection_curve(curves, curves_sum, k);
+		c=0;
+		for(i=0; i<curves_sum; i++){				// isMedoid, nearest??
+			if (curves[i].isMedoid == 1){
+				centers_curve[c].id = curves[i].id;
+				centers_curve[c].noPoints = curves[i].noPoints;
+				centers_curve[c].points = malloc(curves[i].noPoints*sizeof(struct point));
+				for(j=0; j<centers_curve[c].noPoints; j++){
+					centers_curve[c].points[j] = curves[i].points[j];
+				}
+				c++;
+			}
+		}	
 	}
 	
-	
-
-
 	return 0;
 }
