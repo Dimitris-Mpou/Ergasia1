@@ -1,7 +1,7 @@
 OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o update.o lsh.o lsh_functions.o
 SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c update.c lsh.c lsh_functions.c
 HEADER = structs.h functions.h
-OUT = clusters
+OUT = cluster
 CC = gcc
 FLAG = -c 
 

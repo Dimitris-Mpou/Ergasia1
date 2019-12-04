@@ -16,3 +16,14 @@ struct list_node{
 	int vec_pos;
 	struct list_node *next;
 };
+
+struct curve{
+	int id;
+	int noPoints;
+	struct point *points;
+};
+
+struct point{
+	double x;
+	double y;
+};
