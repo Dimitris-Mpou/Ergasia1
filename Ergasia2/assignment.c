@@ -33,13 +33,11 @@ void Lloyds_assignment(struct vec *vectors, struct vec *centers, int vec_sum, in
 	}
 }
 
-void LSH_assignment(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k_clusters){
-	int i, j, z, k, L, w, quer_sum, m, M, TableSize;
+void LSH_assignment(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k_clusters, int k, int L){
+	int i, j, z, w, quer_sum, m, M, TableSize;
 	double range;
 	struct vec  *queries;
 
-	k = 4;
-	L = 5;
 	w = 4500;
 	m = 5;
 	M = pow(2, 32/k);

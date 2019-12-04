@@ -4,7 +4,7 @@
 
 #include <stdio.h>	//// Gia tin emfanisi twn kentrwn pou allaxan
 
-void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k){
+void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k, int k_lsh, int L){
 	int i, j, z, min_pos, count, changes, flag;
 	double dist, min, min_dist;	
 
@@ -44,7 +44,7 @@ void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct lis
 		}
 
 //		Lloyds_assignment(vectors, centers, vec_sum, coords, k);
-		LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k);
+		LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L);
 
 		count++;
 		printf("In itteration %d: %d centers changed\n", count, changes);	/////
@@ -52,7 +52,7 @@ void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct lis
 }
 
 
-void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k){
+void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k, int k_lsh, int L){
 	int i, j, z, min_pos, count, cluster_size, changes, flag;
 	double min, min_dist;
 	struct vec prev_cent;
@@ -92,7 +92,7 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 		}
 
 //		Lloyds_assignment(vectors, centers, vec_sum, coords, k);
-		LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k);
+		LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L);
 
 		count++;
 		printf("In itteration %d: %d centers changed\n", count, changes);	/////

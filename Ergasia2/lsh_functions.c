@@ -47,19 +47,3 @@ void hash(struct list_node **Hash, int pos, unsigned int g, int i){
 		cur->next->vec_pos=i;
 	}
 }
-
-double min_range(struct vec *centers, int k_clusters, int coords){
-	int i, j;
-	double min_dist;
-
-	min_dist = 1000000.0;
-	for(i=0; i<k_clusters; i++){
-		for(j=0; j<k_clusters; j++){
-			if(i!=j && manhattan_distance(centers[i], centers[j], coords) < min_dist){
-					min_dist = manhattan_distance(centers[i], centers[j], coords);
-			}
-		}
-	}
-	
-	return min_dist/2;
-}

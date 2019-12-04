@@ -27,3 +27,9 @@ struct point{
 	double x;
 	double y;
 };
+
+struct dtw_cell{
+	double value;
+	struct dtw_cell *previous;
+};
+
