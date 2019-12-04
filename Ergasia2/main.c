@@ -28,6 +28,7 @@ int main(int argc, char* argv[]){
 		printf("Give the path to the output file:\n");
 		scanf("%s", output);
 		strcpy(output, "output");
+
 	}
 	*/
 	/******* Read conf file *******/
@@ -46,7 +47,7 @@ int main(int argc, char* argv[]){
 	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
 	//strcpy(input, "Εργασία 2 - Καμπύλες/input_projection6.csv");
 	
-	FILE *fp;
+	FILE *fp;							//Elegxoume an to dataset einai gia vecs h curves
 	fp = fopen(input,"r");
 	ch = fgetc(fp);
 
