@@ -45,7 +45,7 @@ int main(int argc, char* argv[]){
 	
 	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
 	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
-//	strcpy(input, "Εργασία 2 - Καμπύλες/input_projection6.csv");
+	strcpy(input, "Εργασία 2 - Καμπύλες/input_projection6.csv");
 //	strcpy(input, "curves_clustering/input_projection6.csv");
 	
 	FILE *fp;							//Elegxoume an to dataset einai gia vecs h curves
@@ -136,6 +136,9 @@ int main(int argc, char* argv[]){
 			/****** Assignment ***********/
 
 		Lloyds_assignment_curve(curves, centers_curve, curves_sum, k);
+			
+			/****** Update ***********/
+		PAMean_curves(curves, centers_curve, curves_sum, k);
 
 	}
 	

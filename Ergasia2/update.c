@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 #include "structs.h"
 #include "functions.h"
 
@@ -101,5 +102,64 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 		count++;
 		printf("In itteration %d: %d centers changed\n", count, changes);	/////
 	}
+}
 
+void PAMean_curves(struct curve *curves, struct curve *centers_curve, int curves_sum, int k){
+	int i, j, z, lamda, n, random_sequence, counter;
+	struct curve C;
+	
+	for(i=0; i<5; i++){
+		lamda = 0;						//Ypologizoume to lamda
+		n=0;
+		for(j=0; j<curves_sum; j++){
+			if(curves[j].nearest == i){
+				lamda += curves[j].noPoints;
+				n++;
+			}
+		}
+		lamda = lamda/n;
+		printf("Cluster %d\t lamda:%d\n", i, lamda);
+		C.points = malloc(lamda*sizeof(struct point));
+		srand(time(0));						//Vriskoume thn tuxaia upoakolouthia
+		random_sequence = n*(rand() / (RAND_MAX +1.0));
+		counter=0;
+		for(j=0; j<curves_sum; j++){
+			if(curves[j].nearest == i && curves[j].noPoints >= lamda){
+				counter++;
+				if(counter == random_sequence){		//Eimaste sthn tuxaia akolouthia S0
+					for(z=0; z<curves[j].noPoints; z++){
+						printf("(%.20f, %.20f) ", curves[j].points[z].x, curves[j].points[z].y);
+					}
+					printf("\n\n");
+					random_subsequence(curves[j], &C, lamda);
+					for(z=0; z<C.noPoints; z++){
+						printf("(%.20f, %.20f) ", C.points[z].x, C.points[z].y);
+					}
+					printf("\n\n");
+					break;
+				}
+			}
+		}
+		printf("\n");
+		
+	}
+}
+
+void random_subsequence(struct curve a, struct curve *b, int lamda){
+	int i, *random_points;
+
+	random_points = malloc(lamda*sizeof(int));
+	srand(time(0));
+	random_points[0] = 0;
+	for(i=1; i<lamda; i++){
+		do{
+			random_points[i] = a.noPoints*(rand() / (RAND_MAX +1.0));
+		}while(random_points[i] <= random_points[i-1] || random_points[i] > a.noPoints-(lamda-i));
+	}
+
+	b->noPoints = lamda;
+	for(i=0; i<lamda; i++){
+		b->points[i].x = a.points[random_points[i]].x;
+		b->points[i].y = a.points[random_points[i]].y;
+	}
 }

@@ -5,7 +5,7 @@
 double dtw(struct curve a, struct curve b){
 	int i, j;
 	double dist;
-	struct dtw_cell **dtw_table, *min;
+	struct dtw_cell **dtw_table, *min, *cur;
 	
 	dtw_table = malloc(a.noPoints * sizeof(struct dtw_cell *));
 	for(i=0; i<a.noPoints; i++){
@@ -33,6 +33,7 @@ double dtw(struct curve a, struct curve b){
 	}
 
 	dist = dtw_table[a.noPoints-1][b.noPoints-1].value;
+	
 	for(i=0; i<a.noPoints; i++){
 		free(dtw_table[i]);
 	}
@@ -56,3 +57,21 @@ struct dtw_cell *min_neighbour(struct dtw_cell *a, struct dtw_cell *b, struct dt
 		}
 	}
 }
+/*
+void backtracking(struct dtw_cell **dtw_table){
+	
+	traverasl.noPoints = 0;
+	cur = dtw_table[a.noPoints-1][b.noPoints-1];
+	while(cur.previous != NULL){
+		cur = cur->previous;
+		traversal.noPoints++;
+	}
+	printf("traversal.noPoints=%d\n", traversal.noPoints);
+
+	for(i=0; i<a.noPoints; i++){
+		free(dtw_table[i]);
+	}
+	free(dtw_table);
+}*/
+
+

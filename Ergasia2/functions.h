@@ -23,3 +23,5 @@ struct dtw_cell *min_neighbour(struct dtw_cell *, struct dtw_cell *, struct dtw_
 double euclidean(struct point, struct point);
 void random_selection_curve(struct curve *, int, int);
 void Lloyds_assignment_curve(struct curve *, struct curve *, int, int);
+void PAMean_curves(struct curve *, struct curve *, int, int);
+void random_subsequence(struct curve, struct curve *, int);
