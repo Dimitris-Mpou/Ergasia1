@@ -13,6 +13,7 @@ int main(int argc, char* argv[]){
 	struct curve *curves, *centers_curve;
 	struct h_func **h; 
 	struct list_node ***HashTables;
+	struct pair *traversal;
 	
 	/*
 	if(argc==9){					// Pairnoume ta orismata
@@ -45,8 +46,8 @@ int main(int argc, char* argv[]){
 	
 	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
 	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
-	strcpy(input, "Εργασία 2 - Καμπύλες/input_projection6.csv");
-//	strcpy(input, "curves_clustering/input_projection6.csv");
+//	strcpy(input, "Εργασία 2 - Καμπύλες/input_projection6.csv");
+	strcpy(input, "curves_clustering/input_projection6.csv");
 	
 	FILE *fp;							//Elegxoume an to dataset einai gia vecs h curves
 	fp = fopen(input,"r");
@@ -139,6 +140,12 @@ int main(int argc, char* argv[]){
 			
 			/****** Update ***********/
 		PAMean_curves(curves, centers_curve, curves_sum, k);
+
+///////////		Dokimi traversal
+		double dist;
+		dist = dtw(curves[0], curves[41], &traversal, 1);
+		for(i=1; i<traversal[0].one+1; i++)
+			printf("(%d, %d)\n", traversal[i].one, traversal[i].two);
 
 	}
 	

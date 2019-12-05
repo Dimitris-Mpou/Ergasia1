@@ -33,5 +33,12 @@ struct point{
 struct dtw_cell{
 	double value;
 	struct dtw_cell *previous;
+	int x;
+	int y;
+};
+
+struct pair{
+	int one;
+	int two;
 };
 

@@ -18,8 +18,9 @@ void hash(struct list_node **, int, unsigned int, int);
 
 int count_curves(char[256]);
 int save_curves(char[256], struct curve *, int);
-double dtw(struct curve, struct curve);
+double dtw(struct curve, struct curve, struct pair **, char);
 struct dtw_cell *min_neighbour(struct dtw_cell *, struct dtw_cell *, struct dtw_cell *);
+void backtracking(struct dtw_cell **, struct pair **, int, int);
 double euclidean(struct point, struct point);
 void random_selection_curve(struct curve *, int, int);
 void Lloyds_assignment_curve(struct curve *, struct curve *, int, int);
