@@ -76,7 +76,6 @@ void backtracking(struct dtw_cell **dtw_table, struct pair **traversal, int x_bo
 		cur = cur->previous;
 		noPairs++;
 	}
-	printf("traversal pairs are: %d\n", noPairs);	////////////
 	
 	(*traversal) = malloc((noPairs+1)*sizeof(struct pair));
 	(*traversal)[0].one = noPairs;		// Paradoxi wste na epistrefw to noPairs

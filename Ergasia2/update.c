@@ -12,7 +12,7 @@ void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct lis
 	count = 0;
 	changes = 1;
 	while(changes != 0 && count < 100){
-		changes = 0;	//////
+		changes = 0;
 		for(i=0; i<k; i++){					// Update centers
 			min = 10000000.0;
 			for(j=0; j<vec_sum; j++){
@@ -36,11 +36,11 @@ void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct lis
 					break;
 				}
 			}
-			if(flag){		// Anathetoume to neo kentro	// isMedoid???
+			if(flag){		// Anathetoume to neo kentro
 				for(j=0; j<coords; j++){
 					centers[i].coord[j] = vectors[min_pos].coord[j];
 				}
-				changes++;				/////
+				changes++;
 			}
 		}
 
@@ -65,9 +65,9 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 	count = 0;
 	changes = 1;
 	while(changes != 0 && count < 100){
-		changes = 0;							/////
+		changes = 0;
 		for(i=0; i<k; i++){					// Update centers
-			for(j=0; j<coords; j++)			////
+			for(j=0; j<coords; j++)
 				prev_cent.coord[j] = centers[i].coord[j];
 			for(j=0; j<coords; j++)
 				centers[i].coord[j] = 0;
@@ -84,14 +84,14 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 				centers[i].coord[j] = centers[i].coord[j] / cluster_size;
 			
 			flag = 0;
-			for(j=0; j<coords; j++){		///
+			for(j=0; j<coords; j++){
 				if(centers[i].coord[j] != prev_cent.coord[j]){
 					flag = 1;
 					break;
 				}
 			}
 			if(flag)
-				changes++;		////
+				changes++;
 		}
 
 		if(vec_asign == 1)
@@ -104,9 +104,8 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 	}
 }
 
-void PAMean_curves(struct curve *curves, struct curve *centers_curve, int curves_sum, int k){
+void Initialize_C(struct curve *curves, struct curve *centers_curve, struct curve *C, int curves_sum, int k){
 	int i, j, lamda, n, random_sequence, sequence_num, counter, flag;
-	struct curve C;
 	
 	for(i=0; i<k; i++){
 		lamda = 0;						//Ypologizoume to lamda
@@ -119,7 +118,6 @@ void PAMean_curves(struct curve *curves, struct curve *centers_curve, int curves
 		}
 		lamda = lamda/n;
 		printf("Cluster %d\t lamda:%d\n", i, lamda);
-		C.points = malloc(lamda*sizeof(struct point));
 		srand(time(0));						//Vriskoume thn tuxaia upoakolouthia
 		flag = 1;
 		do{
@@ -139,7 +137,7 @@ void PAMean_curves(struct curve *curves, struct curve *centers_curve, int curves
 			}
 		}while(flag);
 
-		random_subsequence(curves[sequence_num], &C, lamda);
+		random_subsequence(curves[sequence_num], &(C[i]), lamda);
 		
 	}
 }
@@ -161,4 +159,69 @@ void random_subsequence(struct curve a, struct curve *b, int lamda){
 		b->points[i].x = a.points[random_points[i]].x;
 		b->points[i].y = a.points[random_points[i]].y;
 	}
+}
+
+void DBA(struct curve *curves, struct curve *C, struct curve *centers_curve, int curves_sum, int k, int max_points){
+	int i, j, z, count, num_pairs, *paired_points;
+	double dist;
+	struct curve *prevC, *newC;
+	struct pair *traversal;
+
+	paired_points = malloc(max_points*sizeof(int));
+	for(i=0; i<max_points; i++)
+		paired_points[i] = 0;
+	prevC = malloc(k*sizeof(struct curve));
+	for(i=0; i<k; i++){
+		prevC[i].points = malloc(max_points*sizeof(struct point));
+		prevC[i].noPoints = C[i].noPoints;
+		for(j=0; j<C[i].noPoints; j++){
+			prevC[i].points[j].x = C[i].points[j].x;
+			prevC[i].points[j].y = C[i].points[j].y;
+		}
+	}
+	newC = malloc(k*sizeof(struct curve));
+	for(i=0; i<k; i++){
+		newC[i].points = malloc(max_points*sizeof(struct point));
+		newC[i].noPoints = C[i].noPoints;
+		for(j=0; j<C[i].noPoints; j++){
+			newC[i].points[j].x = 0.0;
+			newC[i].points[j].y = 0.0;
+		}
+	}
+
+	count = 0;
+	while(count < 100){
+		for(i=0; i<k; i++){
+			for(j=0; j<curves_sum; j++){
+				if(curves[j].nearest == i){
+					dist = dtw(C[i], curves[j], &traversal, 1);
+					num_pairs = traversal[0].one;
+					for(z=1; z<num_pairs+1; z++){
+						newC[i].points[traversal[z].one].x += curves[j].points[traversal[z].two].x;
+						newC[i].points[traversal[z].one].y += curves[j].points[traversal[z].two].y;
+						paired_points[traversal[z].one]++;
+					}
+					free(traversal);
+				}
+			}
+			for(j=0; j<C[i].noPoints; j++){
+				C[i].points[j].x = newC[i].points[j].x / paired_points[j];
+				C[i].points[j].y = newC[i].points[j].y / paired_points[j];
+				newC[i].points[j].x = 0.0;
+				newC[i].points[j].y = 0.0;
+				paired_points[j] = 0;
+			}
+		}
+		count++;
+		for(i=0; i<k; i++){
+			centers_curve[i].noPoints = C[i].noPoints;
+			for(j=0; j<C[i].noPoints; j++){
+				centers_curve[i].points[j].x = C[i].points[j].x;
+				centers_curve[i].points[j].y = C[i].points[j].y;
+			}
+		}
+		Lloyds_assignment_curve(curves, centers_curve, curves_sum, k);
+	}
+	
+
 }

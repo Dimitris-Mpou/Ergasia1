@@ -10,7 +10,7 @@ int main(int argc, char* argv[]){
 	int i, j, z, vec_sum, coords, c, k, L, k_lsh, w, m, M, *m_factors, curves_sum, max_points, grids, lamda;
 	char input[256], conf[256], output[256], ch, vec_init, vec_asign, vec_upd;
 	struct vec *vectors, *centers;
-	struct curve *curves, *centers_curve;
+	struct curve *curves, *centers_curve, *C;
 	struct h_func **h; 
 	struct list_node ***HashTables;
 	struct pair *traversal;
@@ -139,13 +139,18 @@ int main(int argc, char* argv[]){
 		Lloyds_assignment_curve(curves, centers_curve, curves_sum, k);
 			
 			/****** Update ***********/
-		PAMean_curves(curves, centers_curve, curves_sum, k);
+		C = malloc(k*sizeof(struct curve));
+		for(i=0; i<k; i++)
+			C[i].points = malloc(max_points*sizeof(struct point));
+		Initialize_C(curves, centers_curve, C, curves_sum, k);
+		DBA(curves, C, centers_curve, curves_sum, k, max_points);
 
-///////////		Dokimi traversal
-		double dist;
-		dist = dtw(curves[0], curves[41], &traversal, 1);
-		for(i=1; i<traversal[0].one+1; i++)
-			printf("(%d, %d)\n", traversal[i].one, traversal[i].two);
+		for(i=0; i<k; i++){		/////////////////////
+			printf("-> ");
+			for(j=0; j<C[i].noPoints; j++)
+				printf("(%f , %f) ", C[i].points[j].x, C[i].points[j].y);
+			printf("\n\n");
+		}
 
 	}
 	

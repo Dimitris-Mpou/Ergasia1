@@ -24,5 +24,6 @@ void backtracking(struct dtw_cell **, struct pair **, int, int);
 double euclidean(struct point, struct point);
 void random_selection_curve(struct curve *, int, int);
 void Lloyds_assignment_curve(struct curve *, struct curve *, int, int);
-void PAMean_curves(struct curve *, struct curve *, int, int);
+void Initialize_C(struct curve *, struct curve *, struct curve *, int, int);
 void random_subsequence(struct curve, struct curve *, int);
+void DBA(struct curve *, struct curve *, struct curve *, int, int, int);
