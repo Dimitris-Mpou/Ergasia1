@@ -26,4 +26,4 @@ void random_selection_curve(struct curve *, int, int);
 void Lloyds_assignment_curve(struct curve *, struct curve *, int, int);
 void Initialize_C(struct curve *, struct curve *, struct curve *, int, int);
 void random_subsequence(struct curve, struct curve *, int);
-void DBA(struct curve *, struct curve *, struct curve *, int, int, int);
+void DBA(struct curve *, struct curve *, int, int, int);

@@ -143,14 +143,14 @@ int main(int argc, char* argv[]){
 		for(i=0; i<k; i++)
 			C[i].points = malloc(max_points*sizeof(struct point));
 		Initialize_C(curves, centers_curve, C, curves_sum, k);
-		DBA(curves, C, centers_curve, curves_sum, k, max_points);
+		DBA(curves, C, curves_sum, k, max_points);
 
-		for(i=0; i<k; i++){		/////////////////////
+/*		for(i=0; i<k; i++){		/////////////////////
 			printf("-> ");
 			for(j=0; j<C[i].noPoints; j++)
 				printf("(%f , %f) ", C[i].points[j].x, C[i].points[j].y);
 			printf("\n\n");
-		}
+		}*/
 
 	}
 	

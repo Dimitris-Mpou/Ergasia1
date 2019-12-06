@@ -22,6 +22,7 @@ struct curve{
 	int noPoints;
 	char isMedoid;
 	int nearest;
+	int second_nearest;
 	struct point *points;
 };
 

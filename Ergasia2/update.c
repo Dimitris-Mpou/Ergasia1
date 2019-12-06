@@ -161,8 +161,8 @@ void random_subsequence(struct curve a, struct curve *b, int lamda){
 	}
 }
 
-void DBA(struct curve *curves, struct curve *C, struct curve *centers_curve, int curves_sum, int k, int max_points){
-	int i, j, z, count, num_pairs, *paired_points;
+void DBA(struct curve *curves, struct curve *C,  int curves_sum, int k, int max_points){
+	int i, j, z, count, num_pairs, *paired_points, flag, changes, total_points;
 	double dist;
 	struct curve *prevC, *newC;
 	struct pair *traversal;
@@ -174,11 +174,8 @@ void DBA(struct curve *curves, struct curve *C, struct curve *centers_curve, int
 	for(i=0; i<k; i++){
 		prevC[i].points = malloc(max_points*sizeof(struct point));
 		prevC[i].noPoints = C[i].noPoints;
-		for(j=0; j<C[i].noPoints; j++){
-			prevC[i].points[j].x = C[i].points[j].x;
-			prevC[i].points[j].y = C[i].points[j].y;
-		}
 	}
+	
 	newC = malloc(k*sizeof(struct curve));
 	for(i=0; i<k; i++){
 		newC[i].points = malloc(max_points*sizeof(struct point));
@@ -189,8 +186,11 @@ void DBA(struct curve *curves, struct curve *C, struct curve *centers_curve, int
 		}
 	}
 
+	flag = 1;
 	count = 0;
-	while(count < 100){
+	while(count < 100 && flag){
+		changes = 0;
+		total_points = 0;
 		for(i=0; i<k; i++){
 			for(j=0; j<curves_sum; j++){
 				if(curves[j].nearest == i){
@@ -205,22 +205,29 @@ void DBA(struct curve *curves, struct curve *C, struct curve *centers_curve, int
 				}
 			}
 			for(j=0; j<C[i].noPoints; j++){
+				prevC[i].points[j].x = C[i].points[j].x;
+				prevC[i].points[j].y = C[i].points[j].y;
+			}
+			for(j=0; j<C[i].noPoints; j++){
 				C[i].points[j].x = newC[i].points[j].x / paired_points[j];
 				C[i].points[j].y = newC[i].points[j].y / paired_points[j];
 				newC[i].points[j].x = 0.0;
 				newC[i].points[j].y = 0.0;
 				paired_points[j] = 0;
 			}
-		}
-		count++;
-		for(i=0; i<k; i++){
-			centers_curve[i].noPoints = C[i].noPoints;
 			for(j=0; j<C[i].noPoints; j++){
-				centers_curve[i].points[j].x = C[i].points[j].x;
-				centers_curve[i].points[j].y = C[i].points[j].y;
+				if(prevC[i].points[j].x != C[i].points[j].x || prevC[i].points[j].y != C[i].points[j].y){
+					changes++;
+				}
 			}
+			total_points += C[i].noPoints;
 		}
-		Lloyds_assignment_curve(curves, centers_curve, curves_sum, k);
+		Lloyds_assignment_curve(curves, C, curves_sum, k);
+
+		if(changes < total_points/20)	// An allaxoun ligotera apo 5% twn kentrwn
+			flag = 0;
+		count++;
+		printf("In itteration %d: %d points changed\n", count, changes);	/////
 	}
 	
 
