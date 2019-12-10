@@ -3,8 +3,6 @@
 #include "structs.h"
 #include "functions.h"
 
-#include <stdio.h>	//// Gia tin emfanisi twn kentrwn pou allaxan
-
 void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k, int k_lsh, int L, char vec_asign){
 	int i, j, z, min_pos, count, changes, flag;
 	double dist, min, min_dist;	
@@ -50,7 +48,6 @@ void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct lis
 			LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L);
 
 		count++;
-		printf("In itteration %d: %d centers changed\n", count, changes);	/////
 	}
 }
 
@@ -82,7 +79,7 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 			}
 			for(j=0; j<coords; j++)
 				centers[i].coord[j] = centers[i].coord[j] / cluster_size;
-			
+	
 			flag = 0;
 			for(j=0; j<coords; j++){
 				if(centers[i].coord[j] != prev_cent.coord[j]){
@@ -100,7 +97,6 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 			LSH_assignment(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L);
 
 		count++;
-		printf("In itteration %d: %d centers changed\n", count, changes);	/////
 	}
 }
 
@@ -117,7 +113,6 @@ void Initialize_C(struct curve *curves, struct curve *centers_curve, struct curv
 			}
 		}
 		lamda = lamda/n;
-		printf("Cluster %d\t lamda:%d\n", i, lamda);
 		srand(time(0));						//Vriskoume thn tuxaia upoakolouthia
 		flag = 1;
 		do{
@@ -227,7 +222,6 @@ void DBA(struct curve *curves, struct curve *C,  int curves_sum, int k, int max_
 		if(changes < total_points/20)	// An allaxoun ligotera apo 5% twn kentrwn
 			flag = 0;
 		count++;
-		printf("In itteration %d: %d points changed\n", count, changes);	/////
 	}
 	
 

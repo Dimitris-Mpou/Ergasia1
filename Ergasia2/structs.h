@@ -1,5 +1,6 @@
 struct vec{
 	char id[64];
+	//int id;
 	double *coord;
 	char isMedoid;
 	int nearest;

@@ -8,6 +8,8 @@
 
 int main(int argc, char* argv[]){
 	int i, j, z, vec_sum, coords, c, k, L, k_lsh, w, m, M, *m_factors, curves_sum, max_points, grids, lamda;
+	double  *s;
+	clock_t start, stop, time;
 	char input[256], conf[256], output[256], ch, vec_init, vec_asign, vec_upd;
 	struct vec *vectors, *centers;
 	struct curve *curves, *centers_curve, *C;
@@ -15,8 +17,8 @@ int main(int argc, char* argv[]){
 	struct list_node ***HashTables;
 	struct pair *traversal;
 	
-	/*
-	if(argc==9){					// Pairnoume ta orismata
+	
+	if(argc==7){					// Pairnoume ta orismata
 		strcpy(input, argv[2]);
 		strcpy(conf, argv[4]);
 		strcpy(output, argv[6]);
@@ -28,27 +30,11 @@ int main(int argc, char* argv[]){
 		scanf("%s", conf);
 		printf("Give the path to the output file:\n");
 		scanf("%s", output);
-		strcpy(output, "output");
-
 	}
-	*/
+	
 	/******* Read conf file *******/
-	strcpy(conf, "cluster.conf");
 	configuration(conf, &k, &grids, &L, &k_lsh);
-	
-	//// Dokimastika print ////
-	printf("k_clusters: %d\t", k);
-	printf("grids: %d\t", grids);
-	printf("L: %d\t", L);
-	printf("k_lsh: %d\n", k_lsh);
-	//////////////////////////////
-	
-	
-	strcpy(input, "Ex2_Datasets/DataVectors_5_500x100.csv");
-	strcpy(input, "Ex2_Datasets/DataVectors_5_1000x500.csv");
-//	strcpy(input, "Εργασία 2 - Καμπύλες/input_projection6.csv");
-	strcpy(input, "curves_clustering/input_projection6.csv");
-	
+
 	FILE *fp;							//Elegxoume an to dataset einai gia vecs h curves
 	fp = fopen(input,"r");
 	ch = fgetc(fp);
@@ -66,12 +52,11 @@ int main(int argc, char* argv[]){
 		}
 		save_vecs(input, vectors);
 
-		printf("Vectors= %d\tCoordinates = %d\n", vec_sum, coords);
 		vec_init = 1;
 		vec_asign = 2;
 		vec_upd = 2;
 			/****** Initialize ***********/
-
+		start = clock();
 		centers = malloc(k*sizeof(struct vec));
 		for(i=0; i<k; i++)
 			centers[i].coord = malloc(coords*sizeof(double));
@@ -108,6 +93,13 @@ int main(int argc, char* argv[]){
 		else
 			PAMean(vectors, centers, h,  HashTables, m_factors, vec_sum, coords, k, k_lsh, L, vec_asign);
 
+		stop = clock();
+		time = (double) stop - start;
+
+		s = malloc(vec_sum*sizeof(double));
+		vec_silhouette(vectors, vec_sum, coords, s);
+	
+		vec_write_output(output, vectors, centers, vec_sum, k, vec_upd, s, coords, time);
 	}
 	else if(ch == 'c'){
 			/***** Input kampulwn *****/
@@ -115,10 +107,9 @@ int main(int argc, char* argv[]){
 		curves = malloc(curves_sum*sizeof(struct curve));
 		max_points = save_curves(input, curves, curves_sum);					// Metrame to plithos twn suntetagmenwn kathe curve
 		
-		printf("Curves=%d  Max_points=%d\n", curves_sum, max_points);	//// Dokimastika print 
 
 			/****** Initialize ***********/
-		
+		start = clock();
 		centers_curve = malloc(k*sizeof(struct curve));
 		random_selection_curve(curves, curves_sum, k);
 		c=0;
@@ -144,14 +135,11 @@ int main(int argc, char* argv[]){
 			C[i].points = malloc(max_points*sizeof(struct point));
 		Initialize_C(curves, centers_curve, C, curves_sum, k);
 		DBA(curves, C, curves_sum, k, max_points);
-
-/*		for(i=0; i<k; i++){		/////////////////////
-			printf("-> ");
-			for(j=0; j<C[i].noPoints; j++)
-				printf("(%f , %f) ", C[i].points[j].x, C[i].points[j].y);
-			printf("\n\n");
-		}*/
-
+		stop = clock();
+		time = (double) stop - start;
+		s = malloc(curves_sum*sizeof(double));
+		curve_silhouette(curves, curves_sum, coords, s);
+		curve_write_output(output, curves, C, curves_sum, k, s, time);
 	}
 	
 	return 0;

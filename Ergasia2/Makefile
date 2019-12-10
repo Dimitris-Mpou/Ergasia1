@@ -1,6 +1,6 @@
-OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o update.o lsh.o lsh_functions.o dtw.o euclidean.o
-SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c update.c lsh.c lsh_functions.c dtw.c euclidean.c
-HEADER = structs.h functions.h
+OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o update.o lsh.o lsh_functions.o dtw.o euclidean.o silhouette.o write_output.o
+SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c update.c lsh.c lsh_functions.c dtw.c euclidean.c silhouette.c write_output.c
+HEADER = structs.h functions.h 
 OUT = cluster
 CC = gcc
 FLAG = -c 
@@ -37,6 +37,12 @@ dtw.o: dtw.c
 
 euclidean.o: euclidean.c
 	$(CC) $(FLAG) euclidean.c
+
+silhouette.o: silhouette.c
+	$(CC) $(FLAG) silhouette.c
+
+write_output.o: write_output.c
+	$(CC) $(FLAG) write_output.c
 
 clean:
 	rm -f $(OBJS) $(OUT)

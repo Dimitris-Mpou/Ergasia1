@@ -105,6 +105,7 @@ void save_vecs(char path[256], struct vec *vectors){
 				j++;
 			}else{
 				strcpy(vectors[i].id, num);
+				//vectors[i].id=atoi(num);
 				flag=1;
 			}
 		}else{
