@@ -15,14 +15,14 @@ total = 0
 for i in range(23988):
 	for j in range(7):
 		total += abs(actual.iloc[i, j] - result[i, j])
-mae = total/23988
+mae = total/(23988*7)
 print("MAE = ", mae)
 
 total = 0
 for i in range(23988):
 	for j in range(7):
 		total +=(actual.iloc[i, j] - result[i, j])**2
-mse = total/23988
+mse = total/(23988*7)
 print("MSE = ", mse)
 
 total = 0
@@ -30,5 +30,5 @@ for i in range(23988):
 	for j in range(7):
 		if actual.iloc[i, j] != 0:
 			total += abs((actual.iloc[i, j] - result[i, j]) / actual.iloc[i, j])
-mape = 100*total/23988
+mape = 100*total/(23988*7)
 print("MAPE = ", mape, " %")
