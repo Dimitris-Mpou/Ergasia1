@@ -1,5 +1,5 @@
-OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o update.o lsh.o lsh_functions.o dtw.o euclidean.o silhouette.o write_output.o
-SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c update.c lsh.c lsh_functions.c dtw.c euclidean.c silhouette.c write_output.c
+OBJS = main.o input.o manhattan_distance.o initialization.o assignment.o update.o lsh.o lsh_functions.o euclidean.o silhouette.o write_output.o
+SOURCE = main.c input.c manhattan_distance.c initialization.c assignment.c update.c lsh.c lsh_functions.c euclidean.c silhouette.c write_output.c
 HEADER = structs.h functions.h 
 OUT = cluster
 CC = gcc
@@ -31,9 +31,6 @@ lsh.o: lsh.c
 
 lsh_functions.o: lsh_functions.c
 	$(CC) $(FLAG) lsh_functions.c
-
-dtw.o: dtw.c
-	$(CC) $(FLAG) dtw.c
 
 euclidean.o: euclidean.c
 	$(CC) $(FLAG) euclidean.c
