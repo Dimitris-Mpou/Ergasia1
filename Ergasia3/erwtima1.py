@@ -34,6 +34,6 @@ res = pd.DataFrame([['MAE: ', mae,'MAPE: ', mape, '%','MSE: ', mse]])
 act = pd.read_csv('actual.csv', header=None)
 frames = [res, act]
 output = pd.concat(frames)
-output.to_csv('predicted.csv', index=False)
+output.to_csv('predicted.csv', index=False, header=False)
 
 print(output)

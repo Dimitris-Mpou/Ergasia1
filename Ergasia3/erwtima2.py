@@ -17,4 +17,4 @@ df1 = pd.read_csv('actual.csv', usecols=[0] , header=None)
 df2 = pd.DataFrame(layer_output)
 
 out = pd.concat([df1, df2], axis=1, ignore_index=True)
-out.to_csv('new_representation.csv', index=False)
+out.to_csv('new_representation.csv', index=False, header=False)
