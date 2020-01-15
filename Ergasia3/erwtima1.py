@@ -1,8 +1,12 @@
 from keras.models import load_model
+import tensorflow
 import pandas as pd
+import numpy as np
+from tensorflow import keras
+from keras import layers, optimizers, losses, metrics
 
 model = load_model('WindDenseNN.h5')
-model.summary()
+#model.summary()
 
 data = pd.read_csv('nn_representations.csv', usecols = [i for i in range(1,129)], header=None)
 actual = pd.read_csv('actual.csv', usecols = [i for i in range(1,8)], header=None)
@@ -15,6 +19,7 @@ total = 0
 for i in range(23988):
 	for j in range(7):
 		total += abs(actual.iloc[i, j] - result[i, j])
+
 mae = total/(23988*7)
 print("MAE = ", mae)
 
