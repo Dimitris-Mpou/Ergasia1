@@ -35,14 +35,20 @@ int main(int argc, char* argv[]){
 	/******* Read conf file *******/
 
 	//configuration(conf, &k, &grids, &L, &k_lsh);
+	strcpy(input, "nn_representations.csv");
+	strcpy(output, "output.txt");
+
 	k=4;
 	L=4;
 	k_lsh=4;
 	vec_sum = 23988;
-	coords = 128;
-	strcpy(input, "nn_representations.csv");
-	strcpy(output, "output.txt");
-
+	if(strcmp(input, "nn_representations.csv") == 0){
+		coords = 128;
+	}
+	else if(strcmp(input, "new_representation.csv") == 0){
+		coords = 64;
+	}
+	
 	printf("vec_sum=%d  coords=%d\n", vec_sum, coords);
 
 		/***** Input dianusmatwn *****/
@@ -55,18 +61,19 @@ int main(int argc, char* argv[]){
 		vectors[i].isMedoid = 0;
 		vectors[i].nearest = -1;
 	}
-	save_vecs(input, vectors);
-	
-	/*for(i=0; i<1; i++){
+
+	save_vecs(input, vectors, vec_sum, coords);
+	printf("%s\n", vectors[23987].id);
+	for(i=0; i<1; i++){
 		for(j=0; j<coords; j++){
 			printf("%.10f\t", vectors[i].coord[j]);
 		}
 		printf("\n");
-	}*/
+	}
 
 	vec_init = 1;
 	vec_asign = 2;
-	vec_upd = 1;
+	vec_upd = 2;
 		/****** Initialize ***********/
 	start = clock();
 	centers = malloc(k*sizeof(struct vec));

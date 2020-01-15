@@ -44,27 +44,29 @@ void configuration(char path[256], int *k_clusters, int *grids, int *L, int *k_l
 		
 }
 
-void save_vecs(char path[256], struct vec *vectors){
-	int i, j, z, vec_sum, coords;
+void save_vecs(char path[256], struct vec *vectors, int vec_sum, int coords){
+	int i, j, z;
 	char ch, *num;
 	FILE *fp;
-
-	num =malloc(30*sizeof(char));
-	fp = fopen(path,"r");			// Anoigoume to arxeio wste auti ti fora na apothikeusoume ta dianusmata
 	
-	vec_sum = 23988;
-	coords = 128;
+	num = malloc(30*sizeof(char));
+	fp = fopen(path,"r");			// Anoigoume to arxeio wste auti ti fora na apothikeusoume ta dianusmata
+	 
 	z=0;
 	j=0;
 	i=0;
-	//printf("%d\t", i); 
-	
+
 	for(i=0; i<vec_sum; i++){
+		z=0;
 		ch = fgetc(fp);
-		while(ch != ','){			//prospername thn prwth sthlh			
+		while(ch != ','){			//prospername thn prwth sthlh	
+			num[z] = ch;
+			z++;				
 			ch = fgetc(fp);
 		}
-		
+		num[z] = '\0';
+		strcpy(vectors[i].id, num);
+
 		for(j=0; j<coords; j++){
 			z=0;
 			ch =  fgetc(fp);

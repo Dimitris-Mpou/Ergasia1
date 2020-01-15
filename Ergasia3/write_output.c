@@ -29,7 +29,7 @@ void vec_write_output(char path[256], struct vec *vectors, struct vec *centers, 
 
 	if (vec_upd == 1){
 		for(i=0; i<k; i++){
-			fprintf(fp, "CLUSTER-%d {size: %d,  centroid: %d}", i+1, size[i], centers[i].id);
+			fprintf(fp, "CLUSTER-%d {size: %d,  centroid: %s}", i+1, size[i], centers[i].id);
 			fprintf(fp, "\n\n");
 		}
 	}

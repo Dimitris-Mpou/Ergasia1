@@ -45,28 +45,3 @@ void LSH_assignment(struct vec *vectors, struct vec *centers, struct h_func **h,
 
 	lsh_search(vectors, centers, i, h, HashTables, m_factors, vec_sum, coords, M, k, L, w, TableSize, k_clusters);
 }
-
-void Lloyds_assignment_curve(struct curve *curves, struct curve *centers_curve, int curves_sum, int k){
-	int i, j;
-	double min_dist, dist;
-	struct pair **traversal;
-
-	for(i=0; i<curves_sum; i++){
-		min_dist = 10000000.0;		
-		for(j=0; j<k; j++){
-			dist = dtw(curves[i], curves[j], traversal, 0);
-			if(dist  < min_dist ){
-				curves[i].nearest = j;
-				min_dist = dist;
-			}
-		}
-		min_dist = 10000000.0;
-		for(j=0; j<k; j++){
-			dist = dtw(curves[i], curves[j], traversal, 0);
-			if( dist < min_dist && curves[i].nearest != j){
-				curves[i].second_nearest = j;
-				min_dist = dist;
-			}
-		}
-	}
-}

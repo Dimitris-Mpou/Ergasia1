@@ -1,6 +1,6 @@
 void configuration(char[256], int *, int *, int *, int *);
 void count_vecs(char[256], int *, int *);
-void save_vecs(char[256], struct vec *);
+void save_vecs(char[256], struct vec *, int, int);
 void random_selection(struct vec *, int, int);
 double manhattan_distance(struct vec, struct vec, int);
 void k_means_plus_plus(struct vec *, int, int, int);

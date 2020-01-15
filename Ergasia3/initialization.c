@@ -70,16 +70,3 @@ void k_means_plus_plus(struct vec *vectors, int vec_sum, int k, int coords){
 		}
 	}
 }
-
-void random_selection_curve(struct curve *curves, int curves_sum, int k){
-	int i, c;
-
-	srand(time(0));							
-	for(i=0; i<k; i++){
-		do{							//Etsi wste na mh einai hdh medoid
-			c = curves_sum*(rand() / (RAND_MAX +1.0));
-		}
-		while(curves[c].isMedoid == 1);
-		curves[c].isMedoid = 1;
-	}
-}
