@@ -77,8 +77,10 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 					}
 				}
 			}
-			for(j=0; j<coords; j++)
-				centers[i].coord[j] = centers[i].coord[j] / cluster_size;
+			if(cluster_size!=0){
+				for(j=0; j<coords; j++)
+					centers[i].coord[j] = centers[i].coord[j] / cluster_size;
+			}
 	
 			flag = 0;
 			for(j=0; j<coords; j++){

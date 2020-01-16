@@ -10,7 +10,7 @@ void vec_write_output(char path[256], struct vec *vectors, struct vec *centers, 
 	fp = fopen(path, "w");
 	
 	size = malloc(k*sizeof(int));
-	s_cluster = malloc(k*sizeof(int));
+	s_cluster = malloc(k*sizeof(double));
 	s_total = 0; 
 
 	for(i=0; i<k; i++){
@@ -20,8 +20,8 @@ void vec_write_output(char path[256], struct vec *vectors, struct vec *centers, 
 			if(vectors[j].nearest == i){
 				size[i]++;
 				s_cluster[i] += s[j];
+				s_total += s[j];
 			}
-			s_total += s[j];
 		}
 		s_cluster[i] = s_cluster[i] / size[i];
 	}
