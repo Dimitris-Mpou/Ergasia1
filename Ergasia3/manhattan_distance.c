@@ -7,7 +7,12 @@ double manhattan_distance(struct vec a, struct vec b, int coords){
 
 	distance= 0.0;
 	for(i=0; i<coords; i++){
-		distance += abs(a.coord[i]-b.coord[i]);
+		if(a.coord[i] > b.coord[i]){
+			distance = a.coord[i]-b.coord[i];
+		}
+		else{
+			distance = b.coord[i]-a.coord[i];
+		}	
 	}
 
 	return distance;

@@ -36,4 +36,3 @@ void vec_silhouette(struct vec *vectors, int vec_sum, int coords, double *s){
 		}
 	}
 }
-

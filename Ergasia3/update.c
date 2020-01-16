@@ -2,6 +2,7 @@
 #include <time.h>
 #include "structs.h"
 #include "functions.h"
+#include <string.h>
 
 void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k, int k_lsh, int L, char vec_asign){
 	int i, j, z, min_pos, count, changes, flag;
@@ -37,7 +38,9 @@ void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct lis
 			if(flag){		// Anathetoume to neo kentro
 				for(j=0; j<coords; j++){
 					centers[i].coord[j] = vectors[min_pos].coord[j];
+					
 				}
+				strcpy(centers[i].id, vectors[min_pos].id);
 				changes++;
 			}
 		}
@@ -77,9 +80,13 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 					}
 				}
 			}
-			for(j=0; j<coords; j++)
-				centers[i].coord[j] = centers[i].coord[j] / cluster_size;
-	
+
+			if(cluster_size != 0){
+				for(j=0; j<coords; j++){
+					centers[i].coord[j] = centers[i].coord[j] / cluster_size;
+				}
+			}
+
 			flag = 0;
 			for(j=0; j<coords; j++){
 				if(centers[i].coord[j] != prev_cent.coord[j]){

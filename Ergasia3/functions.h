@@ -29,5 +29,5 @@ void random_subsequence(struct curve, struct curve *, int);
 void DBA(struct curve *, struct curve *, int, int, int);
 void vec_silhouette(struct vec *, int, int, double *);
 void curve_silhouette(struct curve *, int, int, double *);
-void vec_write_output(char[256], struct vec *, struct vec *, int, int, int, double *, int, double);
+void vec_write_output(char[256], struct vec *, struct vec *, int, int, int, double *, int, time_t);
 void curve_write_output(char [256], struct curve *, struct curve *, int, int, double *, double);
