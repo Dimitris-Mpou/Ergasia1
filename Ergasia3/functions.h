@@ -1,4 +1,4 @@
-void configuration(char[256], int *, int *, int *, int *);
+void configuration(char[256], int *, int *, int *);
 void count_vecs(char[256], int *, int *);
 void save_vecs(char[256], struct vec *, int, int);
 void random_selection(struct vec *, int, int);
@@ -15,19 +15,6 @@ int modulo_calc(int, int, int);
 void factors(int, int, int, int *);
 unsigned int concat(struct h_func *, int);
 void hash(struct list_node **, int, unsigned int, int);
-
-int count_curves(char[256]);
-int save_curves(char[256], struct curve *, int);
-double dtw(struct curve, struct curve, struct pair **, char);
-struct dtw_cell *min_neighbour(struct dtw_cell *, struct dtw_cell *, struct dtw_cell *);
-void backtracking(struct dtw_cell **, struct pair **, int, int);
-double euclidean(struct point, struct point);
-void random_selection_curve(struct curve *, int, int);
-void Lloyds_assignment_curve(struct curve *, struct curve *, int, int);
-void Initialize_C(struct curve *, struct curve *, struct curve *, int, int);
-void random_subsequence(struct curve, struct curve *, int);
-void DBA(struct curve *, struct curve *, int, int, int);
 void vec_silhouette(struct vec *, int, int, double *);
-void curve_silhouette(struct curve *, int, int, double *);
 void vec_write_output(char[256], struct vec *, struct vec *, int, int, int, double *, int, time_t);
-void curve_write_output(char [256], struct curve *, struct curve *, int, int, double *, double);
+

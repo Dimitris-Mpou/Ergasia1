@@ -1,8 +1,8 @@
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include "structs.h"
 #include "functions.h"
-#include <string.h>
 
 void PAM(struct vec *vectors, struct vec *centers, struct h_func **h, struct list_node ***HashTables, int *m_factors, int vec_sum, int coords, int k, int k_lsh, int L, char vec_asign){
 	int i, j, z, min_pos, count, changes, flag;
@@ -60,7 +60,7 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 	double min, min_dist;
 	struct vec prev_cent;
 
-	prev_cent.coord = malloc(coords*sizeof(int));
+	prev_cent.coord = malloc(coords*sizeof(double));
 
 	count = 0;
 	changes = 1;
@@ -81,12 +81,11 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 				}
 			}
 
-			if(cluster_size != 0){
-				for(j=0; j<coords; j++){
+			if(cluster_size!=0){
+				for(j=0; j<coords; j++)
 					centers[i].coord[j] = centers[i].coord[j] / cluster_size;
-				}
 			}
-
+	
 			flag = 0;
 			for(j=0; j<coords; j++){
 				if(centers[i].coord[j] != prev_cent.coord[j]){

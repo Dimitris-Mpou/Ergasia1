@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "structs.h"
 #include "functions.h"
@@ -15,6 +14,7 @@ void vec_silhouette(struct vec *vectors, int vec_sum, int coords, double *s){
 		b_counter = 0;
 		a[i] = 0;
 		b[i] = 0;
+
 		for(j=0; j<vec_sum; j++){
 			if(vectors[i].nearest == vectors[j].nearest){
 				a[i] += manhattan_distance(vectors[i], vectors[j], coords);
@@ -25,7 +25,7 @@ void vec_silhouette(struct vec *vectors, int vec_sum, int coords, double *s){
 				b_counter++;
 			}
 		}
-
+		
 		a[i] = a[i]/a_counter;
 		b[i] = b[i]/b_counter;
 		if(a[i] >= b[i]){

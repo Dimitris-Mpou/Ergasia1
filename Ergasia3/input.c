@@ -3,7 +3,7 @@
 #include <string.h>
 #include "structs.h"
 
-void configuration(char path[256], int *k_clusters, int *grids, int *L, int *k_lsh){
+void configuration(char path[256], int *k_clusters, int *L, int *k_lsh){
 	char ch, *num;
 	int line, z;
 	FILE *fp;
@@ -20,7 +20,7 @@ void configuration(char path[256], int *k_clusters, int *grids, int *L, int *k_l
 			ch = fgetc(fp); 		//Diavazei to keno
 			ch = fgetc(fp); 
 			z=0;
-			while(ch != '\n'){		//Apothikeuoume to id tou kathe curve
+			while(ch != '\n'){		
 				num[z] = ch;
 				z++;
 				ch = fgetc(fp);
@@ -30,12 +30,18 @@ void configuration(char path[256], int *k_clusters, int *grids, int *L, int *k_l
 				(*k_clusters) = atoi(num);
 			}
 			else if(line == 2){	
-				(*grids) = atoi(num);
-			}
-			else if(line == 3){	
 				(*L) = atoi(num);
 			}
+			else if(line == 3){	
+				(*k_lsh) = atoi(num);
+			}
 			else if(line == 4){	
+				(*k_lsh) = atoi(num);
+			}
+			else if(line == 5){	
+				(*k_lsh) = atoi(num);
+			}
+			else if(line == 6){	
 				(*k_lsh) = atoi(num);
 			}
 			line++;

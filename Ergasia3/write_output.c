@@ -10,7 +10,7 @@ void vec_write_output(char path[256], struct vec *vectors, struct vec *centers, 
 	fp = fopen(path, "w");
 	
 	size = malloc(k*sizeof(int));
-	s_cluster = malloc(k*sizeof(int));
+	s_cluster = malloc(k*sizeof(double));
 	s_total = 0; 
 
 	for(i=0; i<k; i++){
@@ -44,7 +44,7 @@ void vec_write_output(char path[256], struct vec *vectors, struct vec *centers, 
 		}
 	}
 	
-	fprintf(fp, "clustering_time: %ld\n\n", time);
+	fprintf(fp, "clustering_time: %ld sec\n\n", time);
 	fprintf(fp, "Silhouette: [");
 	for(i=0; i<k; i++){
 		fprintf(fp, "%f, ", s_cluster[i]);

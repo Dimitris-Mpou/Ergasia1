@@ -4,8 +4,6 @@
 #include "structs.h"
 #include "functions.h"
 
-#include <stdio.h>		//////
-
 void lsh_init(int *w, int *m, int *M, struct h_func ***h, struct list_node ****HashTables, int **m_factors, int vec_sum, int coords, int k_lsh, int L){
 	int i, j, z;
 
