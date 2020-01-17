@@ -1,3 +1,12 @@
+from __future__ import absolute_import, division, print_function, unicode_literals	# Apofugeugoume warnings (pou lunontai me downgrade tou numpy)
+from warnings import simplefilter
+simplefilter(action='ignore', category=FutureWarning)
+
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+from tensorflow.python.util import deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
+
 from keras.models import load_model
 import tensorflow
 import pandas as pd
@@ -39,5 +48,3 @@ act = pd.read_csv('actual.csv', header=None)
 frames = [res, act]
 output = pd.concat(frames)
 output.to_csv('predicted.csv', index=False, header=False)
-
-print(output)
