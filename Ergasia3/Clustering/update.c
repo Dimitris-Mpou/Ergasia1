@@ -57,7 +57,7 @@ void PAMean(struct vec *vectors, struct vec *centers, struct h_func **h, struct 
 	double min, min_dist;
 	struct vec prev_cent;
 
-	prev_cent.coord = malloc(coords*sizeof(int));
+	prev_cent.coord = malloc(coords*sizeof(double));
 
 	count = 0;
 	changes = 1;
